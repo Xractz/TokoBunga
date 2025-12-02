@@ -71,7 +71,7 @@ img {
   gap: 1.75rem;
   margin: 0;
   padding: 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .menu a {
@@ -86,45 +86,50 @@ img {
 
 .auth-buttons {
   display: flex;
+  align-items: center;
   gap: 0.75rem;
 }
 
-/* ========= BUTTON ========= */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.45rem 1.2rem;
-  border-radius: var(--radius-full);
-  font-size: 0.85rem;
+.icon-btn {
+  background: none;
   border: none;
   cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 50%;
+  transition: 0.2s ease;
+}
+
+.icon-btn i {
+  font-size: 1.2rem;
+  color: var(--text-main);
+}
+
+/* Hover effect */
+.icon-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ========= BUTTON ========= */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.hero-buttons a {
+  padding: 0.75rem 1.75rem;
+  background: white;
+  color: var(--text-main);
   text-decoration: none;
-  font-family: inherit;
-}
-
-.btn-ghost {
-  background-color: transparent;
-  border: 1px solid var(--border-soft);
-  color: var(--text-main);
-}
-
-.btn-primary {
-  background-color: var(--accent);
-  color: #fff;
+  border-radius: 40px;
   font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-soft);
+  transition: 0.25s;
 }
 
-.btn-primary:hover {
-  background-color: var(--accent-dark);
-}
-
-.btn-secondary {
-  background-color: #ffffff;
-  color: var(--text-main);
-  font-weight: 600;
-  padding-inline: 1.6rem;
+.hero-buttons a:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
 /* ========= HERO ========= */
@@ -142,9 +147,10 @@ img {
 
 /* background gambar hero */
 .hero-image {
-  background-image: url("../images/BGHome.jpg");
+  background-image: url("../images/toko.jpg");
   background-size: cover;
   background-position: center;
+  opacity: 0.9;
   height: 320px;
 }
 
@@ -155,10 +161,10 @@ img {
   padding: 3rem;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* tengah vertikal */
-  align-items: center; /* tengah horizontal */
-  text-align: center; /* teks benar-benar center */
-  max-width: 100%; /* biar nggak mepet kiri */
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  max-width: 100%;
   color: #ffffff;
 }
 
@@ -177,7 +183,8 @@ img {
 /* ========= FEATURES ========= */
 
 .features {
-  margin-top: 2rem;
+  padding-top: 1rem;
+  background-color: #ffffff;
 }
 
 .section-title {
@@ -193,25 +200,40 @@ img {
   margin: 0 auto 2rem;
   font-size: 0.95rem;
   color: var(--text-muted);
+  opacity: 0.6;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 180px);
+  gap: 1rem;
+  justify-content: center;
+  justify-items: center;
 }
 
 .feature-card {
-  background-color: var(--bg-card);
-  border-radius: var(--radius-lg);
-  padding: 1.4rem 1.5rem;
-  text-align: left;
-  box-shadow: var(--shadow-soft);
+  width: 180px;
+  height: 120px;
+  background-color: #f4eee6; /* mirip soft beige */
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  transition: 0.3s ease;
+  margin-bottom: 2rem;
 }
 
-.feature-card h3 {
-  margin: 0 0 0.4rem;
-  font-size: 1rem;
+.features .collection {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.feature-card i {
+  font-size: 2.5rem;
+  color: var(--accent-dark);
+  margin-bottom: 0.6rem;
 }
 
 .feature-card p {
@@ -228,7 +250,7 @@ img {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.75rem;
   margin-top: 2rem;
 }
@@ -240,12 +262,29 @@ img {
   box-shadow: var(--shadow-soft);
   text-align: center;
   padding-bottom: 1rem;
+  position: relative;
+}
+
+.product-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: #e9cbc3;
+  color: white;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  font-family: "Playfair Display", serif;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
 }
 
 .product-card img {
   width: 100%;
-  height: 350px;
+  height: 250px;
   object-fit: cover;
+  display: block;
 }
 
 .product-card h4 {
@@ -257,6 +296,111 @@ img {
   margin: 0;
   font-size: 0.9rem;
   color: var(--text-muted);
+}
+
+.product-fav {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+}
+
+.product-fav i {
+  font-size: 1.1rem;
+  color: #e9a9b8;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-fav:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.view-all-wrapper {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.view-all-btn {
+  display: inline-block;
+  background-color: #748b75;
+  color: #ffffff;
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  padding: 0.75rem 2.5rem;
+  border-radius: 15px;
+  text-decoration: none;
+  transition: 0.25s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.view-all-btn:hover {
+  background-color: #6a7f6c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.why {
+  padding: 3rem 0;
+}
+
+.why .container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* BOX BESAR */
+.why-box {
+  background-color: #dcc7a6; /* krem lembut */
+  padding: 2rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+/* GRID DI DALAM BOX */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.why-item h3 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.why-item p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* BULATAN ICON (kayak di contoh) */
+.why-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #f4ece1; /* warna bulatan */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 1rem;
+}
+
+.why-icon i {
+  font-size: 2rem;
+  color: #d7ae7b; /* contoh warna ikon */
 }
 
 /* ========= FOOTER ========= */
@@ -338,6 +482,416 @@ img {
 
   .hero-text {
     padding: 2rem;
+  }
+}
+
+/* Registrasi */
+/* ===========================
+   AUTH / REGISTER PAGE
+   =========================== */
+
+/* background halaman */
+.auth-body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Playfair", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background-color: #f7efe6; /* cream soft */
+}
+
+/* wrapper utama, card di tengah */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* ⬅️ ini penting */
+  align-items: center; /* center horizontal */
+  justify-content: center; /* center vertical (card + text sebagai satu grup) */
+  padding: 2rem 1rem;
+  gap: 0.8rem; /* jarak antara card & teks bawah */
+}
+
+/* CARD */
+.auth-card {
+  width: 100%;
+  max-width: 430px;
+  background-color: #ffffff;
+  border-radius: 26px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  padding: 2.5rem 2.75rem 2.25rem;
+  text-align: center;
+  position: relative;
+}
+
+/* LOGO BULAT DI ATAS */
+.auth-logo {
+  margin-bottom: 1.25rem;
+}
+
+.auth-logo-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #f9e3e6; /* blush pink */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.auth-logo-circle i {
+  font-size: 1.5rem;
+  color: #c78993;
+}
+
+/* TITLE & SUBTITLE */
+.auth-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  margin: 0.25rem 0 0.2rem;
+  color: #483029;
+}
+
+.auth-subtitle {
+  margin: 0 0 1.75rem;
+  font-size: 0.9rem;
+  color: #8b7a6c;
+}
+
+/* FORM */
+.auth-form {
+  text-align: left;
+}
+
+/* FORM GROUP */
+.form-group {
+  margin-bottom: 1.1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.88rem;
+  color: #5c4638;
+}
+
+/* INPUT GROUP (icon + input) */
+.input-group {
+  display: flex;
+  align-items: center;
+  background-color: #f7efe0;
+  border-radius: 999px;
+  padding: 0.1rem 0.75rem;
+  border: 1px solid transparent;
+  transition: 0.2s ease;
+}
+
+.input-group:focus-within {
+  border-color: #e9cbc3;
+  box-shadow: 0 0 0 2px rgba(233, 203, 195, 0.4);
+}
+
+.input-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #b09a8a;
+  margin-right: 0.4rem;
+}
+
+.input-group input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.6rem 0.3rem;
+  font-size: 0.9rem;
+  color: #4b352c;
+  outline: none;
+}
+
+.input-group input::placeholder {
+  color: #b6a799;
+}
+
+/* CHECKBOX */
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin: 0.6rem 0 1.3rem;
+  font-size: 0.82rem;
+  color: #7b6a5c;
+}
+
+.form-check input[type="checkbox"] {
+  margin-top: 0.15rem;
+  accent-color: #e9cbc3;
+}
+
+.form-check a {
+  color: #d49aa5;
+  text-decoration: none;
+}
+
+.form-check a:hover {
+  text-decoration: underline;
+}
+
+/* BUTTON PRIMARY (Create Account) */
+.btn-auth-primary {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  background-color: #e9cbc3; /* blush pink */
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-family: "Playfair Display", serif;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  transition: 0.2s ease;
+  margin-bottom: 1.3rem;
+}
+
+.btn-auth-primary:hover {
+  background-color: #e1b9b4;
+  transform: translateY(-1px);
+}
+
+/* DIVIDER "or continue with" */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: #b09a8a;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #efe3d8;
+}
+
+.auth-divider span {
+  padding: 0 0.75rem;
+}
+
+/* BUTTON SOSIAL */
+.btn-auth-secondary {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid #e7dbcf;
+  background-color: #ffffff;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  margin-bottom: 0.7rem;
+  color: #5d4a3d;
+  transition: 0.2s ease;
+}
+
+.btn-auth-secondary i {
+  font-size: 1rem;
+}
+
+.btn-auth-secondary:hover {
+  background-color: #faf4ed;
+}
+
+/* FOOTER LINK DI DALAM CARD */
+.auth-footer-text {
+  margin-top: 0.8rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #8c7a6e;
+}
+
+.auth-footer-text a {
+  color: #d49aa5;
+  text-decoration: none;
+}
+
+.auth-footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* CATATAN TERMS KECIL DI BAWAH CARD */
+.auth-terms-note {
+  margin-top: 1rem; /* jarak dari card */
+  font-size: 0.75rem;
+  color: #b0a194;
+  text-align: center;
+
+  max-width: 430px; /* mengikuti lebar card */
+  margin-left: auto;
+  margin-right: auto;
+
+  padding-bottom: 1rem; /* beri sedikit ruang bawah */
+}
+
+.auth-terms-note a {
+  color: #c6939f;
+  text-decoration: none;
+}
+
+.auth-terms-note a:hover {
+  text-decoration: underline;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #bdaaaa;
+}
+
+.toggle-password:hover {
+  color: #8b7f7f;
+}
+
+/* login */
+
+/* ROW REMEMBER + FORGOT */
+.auth-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #7b6a5c;
+  margin-bottom: 1.2rem;
+}
+
+/* Remember me di kiri */
+.remember-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.remember-check input[type="checkbox"] {
+  accent-color: #e9cbc3;
+}
+
+/* Forgot Password di kanan */
+.forgot-link {
+  font-size: 0.82rem;
+  color: #d49aa5;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* wrapper khusus password */
+.password-wrapper {
+  position: relative;
+}
+
+/* icon mata */
+.toggle-password {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #bdaaaa;
+}
+
+.toggle-password:hover {
+  color: #8b7f7f;
+}
+
+/* ==========================
+   FORGOT PASSWORD PAGE
+   ========================== */
+
+/* Subtitle khusus forgot password */
+.forgot-description {
+  font-size: 0.9rem;
+  color: #8b7a6c;
+  margin: 0 0 1.8rem;
+  text-align: center;
+  line-height: 1.45;
+}
+
+/* Email input (reuse input-group, sudah ada) */
+
+/* Tombol kirim */
+.btn-auth-reset {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  background-color: #e9cbc3;
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-family: "Playfair Display", serif;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  transition: 0.2s ease;
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.btn-auth-reset:hover {
+  background-color: #e1b9b4;
+  transform: translateY(-1px);
+}
+
+/* Link kembali ke login */
+.auth-footer-text a {
+  color: #d49aa5;
+  text-decoration: none;
+}
+
+.auth-footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* Catatan kecil bawah */
+.auth-terms-note {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #b0a194;
+  text-align: center;
+  max-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 1rem;
+}
+
+.auth-terms-note a {
+  color: #c6939f;
+  text-decoration: none;
+}
+
+.auth-terms-note a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 2rem 1.5rem 1.8rem;
+    border-radius: 22px;
   }
 }
 
