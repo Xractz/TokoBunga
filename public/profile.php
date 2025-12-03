@@ -68,7 +68,7 @@
                   <span>Informasi Pribadi</span>
                 </a>
 
-                <a href="logout.php" class="profile-menu-item">
+                <a href="/api/auth/logout.php" class="profile-menu-item">
                   <i class="bi bi-box-arrow-right"></i>
                   <span>Keluar</span>
                 </a>
@@ -182,5 +182,83 @@
         </div>
       </section>
     </main>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-grid">
+            <!-- Brand + text + sosmed -->
+            <div class="footer-brand">
+              <div class="footer-logo">
+                <span class="footer-logo-icon">
+                  <i class="bi bi-flower1"></i>
+                </span>
+                <span class="footer-logo-text">Bloomify</span>
+              </div>
+              <p>
+                Bringing beauty and joy through exquisite floral arrangements,
+                crafted with love and delivered with care.
+              </p>
+
+              <div class="footer-social">
+                <a href="#" aria-label="Instagram">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" aria-label="Pinterest">
+                  <i class="bi bi-pinterest"></i>
+                </a>
+                <a href="#" aria-label="Facebook">
+                  <i class="bi bi-facebook"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Shop -->
+            <div class="footer-column">
+              <h4>Shop</h4>
+              <ul>
+                <li><a href="#">All Flowers</a></li>
+                <li><a href="#">Bouquets</a></li>
+                <li><a href="#">Arrangements</a></li>
+                <li><a href="#">Occasions</a></li>
+                <li><a href="#">Gift Sets</a></li>
+              </ul>
+            </div>
+
+            <!-- Customer Care -->
+            <div class="footer-column">
+              <h4>Customer Care</h4>
+              <ul>
+                <li><a href="#">My Account</a></li>
+                <li><a href="#">Track Order</a></li>
+                <li><a href="#">Delivery Info</a></li>
+                <li><a href="#">Care Guide</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </div>
+
+            <!-- Stay Connected -->
+            <div class="footer-column footer-newsletter">
+              <h4>Stay Connected</h4>
+              <p>
+                Subscribe to get special offers, free giveaways, and floral
+                inspiration.
+              </p>
+            </div>
+          </div>
+
+          <hr class="footer-divider" />
+
+          <div class="footer-bottom">
+            <p>© 2025 Bloomify. All rights reserved.</p>
+            <div class="footer-bottom-links">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+              <a href="#">Returns</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

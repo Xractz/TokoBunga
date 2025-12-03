@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: /admin/dashboard.html');
+    } else {
+        header('Location: /index.html');
+    }
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -20,8 +32,7 @@
     />
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <title>Regitrasi</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
   <body class="auth-body">
     <main class="auth-page">
@@ -40,7 +51,7 @@
         </p>
 
         <!-- form -->
-        <form class="auth-form" action="#" method="post">
+        <form class="auth-form" id="registerForm">
           <!-- Full name -->
           <div class="form-group">
             <label for="fullName">Full Name</label>
@@ -51,8 +62,25 @@
               <input
                 type="text"
                 id="fullName"
-                name="fullName"
+                name="name"
                 placeholder="Enter your full name"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Username -->
+          <div class="form-group">
+            <label for="username">Username</label>
+            <div class="input-group">
+              <span class="input-icon">
+                <i class="bi bi-at"></i>
+              </span>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
                 required
               />
             </div>
@@ -70,6 +98,23 @@
                 id="email"
                 name="email"
                 placeholder="Enter your email"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <div class="input-group">
+              <span class="input-icon">
+                <i class="bi bi-telephone"></i>
+              </span>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Enter your phone number"
                 required
               />
             </div>
@@ -117,22 +162,13 @@
             </div>
           </div>
 
-          <!-- Terms -->
-          <div class="form-check">
-            <input type="checkbox" id="terms" name="terms" required />
-            <label for="terms">
-              I agree to the <a href="#">Terms of Service</a> and
-              <a href="#">Privacy Policy</a>
-            </label>
-          </div>
-
           <!-- submit -->
           <button type="submit" class="btn-auth-primary">Create Account</button>
 
           <!-- footer link -->
           <p class="auth-footer-text">
             Already have an account?
-            <a href="login.html">Sign In</a>
+            <a href="./login.php">Sign In</a>
           </p>
         </form>
       </div>
@@ -144,6 +180,7 @@
     </main>
 
     <!-- JS (optional) -->
-    <script src="assets/js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/auth/register.js"></script>
   </body>
 </html>
