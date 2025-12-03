@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: /admin/dashboard.html');
+    } else {
+        header('Location: /index.html');
+    }
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -21,7 +33,6 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <title>Regitrasi</title>
   </head>
   <body class="auth-body">
     <main class="auth-page">
@@ -157,7 +168,7 @@
           <!-- footer link -->
           <p class="auth-footer-text">
             Already have an account?
-            <a href="./login.html">Sign In</a>
+            <a href="./login.php">Sign In</a>
           </p>
         </form>
       </div>

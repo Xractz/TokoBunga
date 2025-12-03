@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: /admin/dashboard.html');
+    } else {
+        header('Location: /index.html');
+    }
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -88,8 +100,7 @@
           <!-- Link ke register -->
           <p class="auth-footer-text">
             Don't have an account?
-            <a href="./register.html">Create Account</a>
-            <!-- ganti ke register.html kalau nama file-mu itu -->
+            <a href="./register.php">Create Account</a>
           </p>
         </form>
       </div>
