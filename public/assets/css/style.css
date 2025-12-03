@@ -111,6 +111,37 @@ img {
   gap: 0.75rem;
 }
 
+/* ===== CART BADGE DI HEADER ===== */
+.icon-btn {
+  position: relative; /* penting untuk posisi badge */
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #e9cbc3; /* warna pink lembut */
+  color: white;
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.cart-badge.hidden {
+  display: none;
+}
+
+.icon-btn {
+  position: relative; /* penting supaya badge bisa muncul di pojok */
+}
+
 .icon-btn {
   background: none;
   border: none;
@@ -185,7 +216,7 @@ img {
 }
 
 /* class .open dipakai dari JS */
-
+/* TEST SAJA */
 .mobile-menu.open {
   display: block;
 }
@@ -1542,7 +1573,7 @@ img {
     display: none;
   } */
 
-  /* .hero-image {
+  .hero-image {
     height: 260px;
   }
 
@@ -1586,6 +1617,982 @@ img {
   .auth-card {
     padding: 2rem 1.5rem 1.8rem;
     border-radius: 22px;
+  }
+}
+
+/* =====================================
+   CATALOG PAGE
+
+.catalog-main {
+  padding: 2.5rem 0 3.5rem;
+}
+
+/* judul & deskripsi atas (tengah) */
+.catalog-hero {
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+.catalog-hero-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.8;
+  margin-bottom: 0.35rem;
+}
+
+.catalog-hero h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  margin: 0 0 0.45rem;
+  color: var(--text-main);
+}
+
+.catalog-hero-text {
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* layout utama: sidebar kiri, konten kanan */
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 1.8rem;
+  align-items: flex-start;
+}
+
+/* ===== SIDEBAR FILTER ===== */
+
+.catalog-sidebar-card {
+  background-color: var(--bg-card);
+  border-radius: 20px;
+  box-shadow: var(--shadow-soft);
+  padding: 1.2rem 1.3rem 1.4rem;
+  border: 1px solid var(--border-soft);
+}
+
+.catalog-sidebar-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem;
+  margin: 0 0 0.8rem;
+}
+
+.catalog-sidebar-section + .catalog-sidebar-section {
+  margin-top: 1rem;
+}
+
+.catalog-sidebar-label {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+/* input search di sidebar */
+.catalog-sidebar-search input {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-soft);
+  font-size: 0.9rem;
+  outline: none;
+  background-color: #f7efe6;
+}
+
+.catalog-sidebar-search input:focus {
+  border-color: #e9cbc3;
+  box-shadow: 0 0 0 2px rgba(233, 203, 195, 0.4);
+}
+
+/* list checkbox / radio */
+.catalog-sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.catalog-sidebar-list li + li {
+  margin-top: 0.25rem;
+}
+
+.catalog-sidebar-list label {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.catalog-sidebar-list input[type="checkbox"],
+.catalog-sidebar-list input[type="radio"] {
+  accent-color: #e9cbc3;
+}
+
+/* tombol apply */
+.catalog-sidebar-apply {
+  margin-top: 1.2rem;
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0.6rem 0.9rem;
+  background-color: #e9cbc3;
+  color: #ffffff;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 9px 18px rgba(0, 0, 0, 0.16);
+  transition: 0.2s ease;
+}
+
+.catalog-sidebar-apply:hover {
+  background-color: #e1b9b4;
+  transform: translateY(-1px);
+}
+
+/* ===== KONTEN KANAN (GRID PRODUK) ===== */
+
+.catalog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* bar atas: info + sort */
+.catalog-topbar {
+  padding: 0.7rem 0.9rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.catalog-topbar-info {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.catalog-topbar-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.catalog-topbar-sort label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+}
+
+.catalog-topbar-sort select {
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  padding: 0.4rem 0.9rem;
+  font-size: 0.88rem;
+  background-color: #ffffff;
+  outline: none;
+}
+
+/* grid 3 kolom, pakai card yang mirip .product-card */
+.catalog-grid {
+  margin-top: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.catalog-card {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* gambar */
+.catalog-card-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/2.3;
+}
+
+.catalog-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.03);
+  transition: 0.25s ease;
+}
+
+.catalog-card:hover .catalog-card-image img {
+  transform: scale(1.08);
+}
+
+/* badge & heart di atas gambar */
+.catalog-card-badge {
+  position: absolute;
+  left: 0.9rem;
+  top: 0.9rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background-color: #e9cbc3;
+  color: #ffffff;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+.catalog-card-heart {
+  position: absolute;
+  right: 0.9rem;
+  top: 0.9rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+}
+
+.catalog-card-heart i {
+  font-size: 1rem;
+  color: #e2a9b5;
+}
+
+/* isi card */
+.catalog-card-body {
+  padding: 0.65rem 0.85rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.catalog-card-title {
+  font-family: "Playfair Display", serif;
+  font-size: 0.9rem;
+}
+
+.catalog-card-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* bagian bawah: harga + tombol */
+.catalog-card-footer {
+  margin-top: 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.catalog-card-price {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #b7685d;
+}
+
+.catalog-card-link {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background-color: #ffffff;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: 0.2s ease;
+}
+
+.catalog-card-link:hover {
+  background-color: #f7efe0;
+}
+
+/* RESPONSIVE CATALOG */
+
+@media (max-width: 900px) {
+  .catalog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-sidebar-card {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+/* =====================================
+   PRODUCT DETAIL PAGE
+
+.product-detail-main {
+  padding: 2.5rem 0 3.5rem;
+}
+
+.product-detail-header {
+  margin-bottom: 1.5rem;
+}
+
+/* breadcrumb kecil di atas judul */
+.breadcrumb {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.breadcrumb a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  margin: 0 0.25rem;
+}
+
+/* judul + info singkat di bawah breadcrumb (opsional) */
+.product-detail-header h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.9rem;
+  margin: 0 0 0.25rem;
+  color: var(--text-main);
+}
+
+.product-detail-tagline {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* layout 2 kolom: gambar kiri, info kanan */
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* kiri: gambar & thumbnail */
+.product-detail-media {
+  background-color: #f7efe0;
+  border-radius: 24px;
+  padding: 1.1rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.product-detail-image-main {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.product-detail-image-main img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+/* optional thumbnail strip */
+.product-detail-thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+
+.product-detail-thumb {
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s ease;
+}
+
+.product-detail-thumb img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+}
+
+.product-detail-thumb:hover {
+  border-color: #e9cbc3;
+}
+
+/* kanan: info produk */
+.product-detail-info {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 1.6rem 1.7rem 1.4rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-soft);
+}
+
+.product-detail-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.product-detail-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
+  margin: 0.2rem 0 0.35rem;
+}
+
+.product-detail-short {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+
+/* price + badge */
+.product-detail-price-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.product-detail-price {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #b7685d;
+}
+
+.product-detail-badge {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  background-color: #f3b5c4;
+  color: #fff;
+}
+
+/* list meta (stok, kategori, pengiriman) */
+.product-detail-meta {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.product-detail-meta li + li {
+  margin-top: 0.25rem;
+}
+
+/* opsi (size, warna) */
+.product-detail-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 1.1rem;
+}
+
+.product-detail-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.product-detail-options-row label {
+  font-size: 0.88rem;
+  color: var(--text-main);
+}
+
+.product-detail-options-row select {
+  min-width: 160px;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  padding: 0.45rem 0.8rem;
+  font-size: 0.88rem;
+  background-color: #f7efe0;
+}
+
+/* qty + tombol */
+.product-detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.product-detail-qty {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background-color: #f7efe0;
+  overflow: hidden;
+}
+
+.product-detail-qty button {
+  border: none;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+.product-detail-qty input {
+  width: 40px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+/* tombol utama */
+.product-detail-btn-primary {
+  border: none;
+  border-radius: 999px;
+  padding: 0.65rem 1.6rem;
+  background-color: #e9cbc3;
+  color: #ffffff;
+  font-size: 0.96rem;
+  font-family: "Playfair Display", serif;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+  transition: 0.2s ease;
+}
+
+.product-detail-btn-primary:hover {
+  background-color: #e1b9b4;
+  transform: translateY(-1px);
+}
+
+/* tombol sekunder */
+.product-detail-btn-secondary {
+  margin-top: 0.3rem;
+  border: none;
+  background: none;
+  font-size: 0.85rem;
+  color: #d49aa5;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* deskripsi panjang dan info perawatan */
+.product-detail-description {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  margin-top: 0.8rem;
+}
+
+.product-detail-description h3 {
+  font-size: 0.95rem;
+  margin: 0.6rem 0 0.2rem;
+  font-weight: 600;
+}
+
+.product-detail-description p {
+  margin: 0 0 0.4rem;
+  color: var(--text-muted);
+}
+
+/* bagian rekomendasi di bawah detail */
+.detail-recommend {
+  margin-top: 2.4rem;
+}
+
+.detail-recommend-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.detail-recommend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+/* card kecil rekomendasi – pakai gaya mirip product-card */
+.detail-recommend-card {
+  background-color: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.detail-recommend-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.detail-recommend-body {
+  padding: 0.6rem 0.75rem 0.8rem;
+}
+
+.detail-recommend-body h4 {
+  font-family: "Playfair Display", serif;
+  font-size: 0.92rem;
+  margin: 0 0 0.18rem;
+}
+
+.detail-recommend-body p {
+  margin: 0 0 0.2rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.detail-recommend-body span {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #b7685d;
+}
+
+/* RESPONSIVE DETAIL */
+
+@media (max-width: 900px) {
+  .product-detail-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .product-detail-info {
+    padding: 1.3rem 1.2rem;
+  }
+
+  .detail-recommend-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-recommend-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-recommend-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease;
+}
+
+.detail-recommend-card:hover {
+  transform: translateY(-4px);
+}
+
+/* =======================
+   CART LAYOUT
+.cart-main {
+  padding: 2.5rem 0 3rem;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.1fr);
+  gap: 2rem;
+}
+
+.cart-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.1rem;
+  margin: 0 0 0.2rem;
+}
+
+.cart-subtitle {
+  margin: 0 0 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* daftar card */
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* card item */
+.cart-item-card {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1.5fr) minmax(0, 1.1fr);
+  gap: 1.5rem;
+  align-items: center;
+  background-color: #d5b687;
+  border-radius: 26px;
+  padding: 1.2rem 1.4rem;
+}
+
+.cart-item-image img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.cart-item-info {
+  color: #3c2a1f;
+}
+
+.cart-item-type {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  margin: 0 0 0.25rem;
+  opacity: 0.8;
+}
+
+.cart-item-name {
+  margin: 0 0 0.4rem;
+  font-family: "Playfair Display", serif;
+  font-size: 1.05rem;
+}
+
+/* kanan: qty + harga + remove */
+.cart-item-qty-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+/* =======================
+   QTY CONTROL
+.cart-item-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.8rem;
+  padding: 0.35rem 1.6rem;
+  border-radius: 999px;
+  background-color: #f6eddd;
+}
+
+.cart-qty-minus,
+.cart-qty-plus {
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cart-item-qty input {
+  width: 26px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+/* harga */
+.cart-item-price {
+  text-align: right;
+}
+
+.cart-item-price-main {
+  display: block;
+  font-weight: 600;
+}
+
+.cart-item-price-note {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* remove */
+.cart-item-remove {
+  margin-top: 0.2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: #3f2b20;
+}
+
+.cart-item-remove i {
+  font-size: 1rem;
+}
+
+/* =======================
+   SUMMARY
+.cart-summary {
+  background-color: #d5b687;
+  border-radius: 26px;
+  padding: 1.8rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.cart-summary-title {
+  margin: 0 0 0.6rem;
+  font-family: "Playfair Display", serif;
+  font-size: 1.35rem;
+}
+
+.cart-summary-row,
+.cart-summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.cart-summary-total {
+  font-weight: 600;
+}
+
+.cart-summary-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  margin: 0.7rem 0;
+}
+
+.cart-summary-btn-primary,
+.cart-summary-btn-secondary {
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.cart-summary-btn-primary {
+  background-color: #e9cbc3;
+  color: #fff;
+  border: none;
+}
+
+.cart-summary-btn-secondary {
+  background: transparent;
+}
+
+.cart-summary-promo {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.cart-summary-promo-input {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.cart-summary-promo-input input {
+  flex: 1;
+  border-radius: 999px;
+  border: none;
+  padding: 0.45rem 0.9rem;
+}
+
+.cart-summary-promo-input button {
+  border-radius: 999px;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+}
+
+/* responsive singkat */
+@media (max-width: 900px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-item-card {
+    grid-template-columns: 100px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+  }
+
+  .cart-item-qty-price {
+    align-items: flex-start;
+  }
+}
+
+/* =========================
+   CART PAGE - ORDER SUMMARY
+
+.summary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.checkout-btn,
+.continue-btn {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  font-family: "Playfair", serif;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* tombol utama: pink */
+.checkout-btn {
+  background-color: #e9cbc3;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.checkout-btn:hover {
+  background-color: #e1b4b0;
+  transform: translateY(-1px);
+}
+
+/* tombol sekunder: outline / krem */
+.continue-btn {
+  background-color: transparent;
+  color: #4a3528;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.continue-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
   } */
   .profile-form-grid {
     grid-template-columns: 1fr;
