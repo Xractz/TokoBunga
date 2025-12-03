@@ -11,6 +11,7 @@ $email    = trim($_POST['email'] ?? '');
 $password = trim($_POST['password'] ?? '');
 
 if ($name === "" || $email === "" || $password === "") {
+  http_response_code(400);
   echo json_encode(["success" => false, "message" => "Semua field wajib diisi"]);
   exit;
 }
@@ -21,6 +22,7 @@ mysqli_stmt_execute($stmt);
 mysqli_stmt_store_result($stmt);
 
 if (mysqli_stmt_num_rows($stmt) > 0) {
+  http_response_code(409);
   echo json_encode(["success" => false, "message" => "Email sudah terdaftar"]);
   exit;
 }
@@ -38,12 +40,14 @@ mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $hashedPassword, $token);
 $success = mysqli_stmt_execute($stmt);
 
 if (!$success) {
+  http_response_code(500);
   echo json_encode(["success" => false, "message" => "Gagal mendaftar"]);
   exit;
 }
 
 $send = sendActivationEmail($email, $token);
 
+http_response_code(201);
 echo json_encode([
   "success" => true,
   "message" => "Registrasi berhasil! Periksa email Anda untuk aktivasi akun."
