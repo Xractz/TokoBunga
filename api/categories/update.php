@@ -31,7 +31,7 @@ if (!$old) {
 
 $name        = trim($_POST['name'] ?? $old['name']);
 $description = trim($_POST['description'] ?? $old['description']);
-$is_active   = isset($_POST['is_active']) ? 1 : $old['is_active'];
+$is_active   = intval($_POST['is_active'] ?? $old['is_active']);
 
 if ($name === "") {
   echo json_encode(["success" => false, "message" => "Nama kategori tidak boleh kosong."]);
