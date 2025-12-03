@@ -35,5 +35,5 @@ if ($token !== '') {
 session_start();
 $_SESSION['activation_status'] = $status;
 
-header("Location: ../../aktivasi.php");
+header("Location: ../../public/auth/aktivasi.php");
 exit;
