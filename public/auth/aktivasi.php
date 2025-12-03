@@ -24,7 +24,7 @@ unset($_SESSION['activation_status']);
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
   <!-- Main CSS -->
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
 
   <title>Aktivasi Akun - Bloomify</title>
 </head>

@@ -15,16 +15,19 @@ $result = mysqli_stmt_get_result($stmt);
 $user = mysqli_fetch_assoc($result);
 
 if (!$user) {
+  http_response_code(404);
   echo json_encode(["success" => false, "message" => "Email tidak ditemukan"]);
   exit;
 }
 
 if ($user['is_active'] == 0) {
+  http_response_code(403);
   echo json_encode(["success" => false, "message" => "Akun belum diaktivasi"]);
   exit;
 }
 
 if (!password_verify($password, $user['password'])) {
+  http_response_code(401);
   echo json_encode(["success" => false, "message" => "Password salah"]);
   exit;
 }
@@ -33,4 +36,9 @@ session_start();
 $_SESSION['user_id'] = $user['id'];
 $_SESSION['role'] = $user['role'];
 
-echo json_encode(["success" => true, "message" => "Login berhasil"]);
+http_response_code(200);
+echo json_encode([
+  "success" => true, 
+  "message" => "Login berhasil",
+  "role" => $user['role']
+]);

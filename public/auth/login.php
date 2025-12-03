@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: /admin/dashboard.html');
+    } else {
+        header('Location: /index.html');
+    }
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -20,7 +32,7 @@
     />
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
   <body class="auth-body">
     <main class="auth-page">
@@ -38,7 +50,7 @@
         <p class="auth-subtitle">Sign in to your Bloomify account</p>
 
         <!-- form login -->
-        <form class="auth-form" action="#" method="post">
+        <form class="auth-form" id="loginForm">
           <!-- Email -->
           <div class="form-group">
             <label for="email">Email Address</label>
@@ -79,11 +91,7 @@
 
           <!-- Remember + Forgot -->
           <div class="auth-row">
-            <label class="remember-check">
-              <input type="checkbox" name="remember" />
-              <span>Remember me</span>
-            </label>
-            <a href="forgot.html" class="forgot-link">Forgot Password?</a>
+            <a href="./forgot-password.html" class="forgot-link">Forgot Password?</a>
           </div>
 
           <!-- Tombol Sign In -->
@@ -92,19 +100,13 @@
           <!-- Link ke register -->
           <p class="auth-footer-text">
             Don't have an account?
-            <a href="registrasi.html">Create Account</a>
-            <!-- ganti ke register.html kalau nama file-mu itu -->
+            <a href="./register.php">Create Account</a>
           </p>
         </form>
       </div>
-
-      <!-- TEXT DI BAWAH CARD -->
-      <p class="auth-terms-note">
-        By signing in, you agree to our
-        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-      </p>
     </main>
 
-    <script src="assets/js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/auth/login.js"></script>
   </body>
 </html>
