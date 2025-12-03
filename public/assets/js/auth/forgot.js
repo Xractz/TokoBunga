@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         forgotForm.reset();
 
         setTimeout(() => {
-          window.location.href = "/public/auth/login.html";
+          window.location.href = "/public/auth/login.php";
         }, 3000);
       } else {
         let errorMessage = data.message || "Gagal mengirim link reset. Silakan coba lagi.";

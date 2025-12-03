@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         resetForm.reset();
 
         setTimeout(() => {
-          window.location.href = "/public/auth/login.html";
+          window.location.href = "/public/auth/login.php";
         }, 3000);
       } else {
         let errorMessage = data.message || "Failed to reset password. Please try again.";

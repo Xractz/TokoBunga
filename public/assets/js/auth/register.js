@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         registerForm.reset();
 
         setTimeout(() => {
-          window.location.href = "/public/auth/login.html";
+          window.location.href = "/public/auth/login.php";
         }, 3000);
       } else {
         let errorMessage = data.message || "Registrasi gagal. Silakan coba lagi.";
