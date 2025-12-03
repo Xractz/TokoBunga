@@ -15,7 +15,6 @@ if ($name === "" || $email === "" || $password === "") {
   exit;
 }
 
-// Cek apakah email sudah terdaftar
 $stmt = mysqli_prepare($conn, "SELECT id FROM users WHERE email = ?");
 mysqli_stmt_bind_param($stmt, "s", $email);
 mysqli_stmt_execute($stmt);
@@ -26,13 +25,10 @@ if (mysqli_stmt_num_rows($stmt) > 0) {
   exit;
 }
 
-// Hash password
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-// Generate token aktivasi
 $token = bin2hex(random_bytes(32));
 
-// Insert user ke database
 $stmt = mysqli_prepare(
   $conn,
   "INSERT INTO users (username, email, password, activation_token, is_active) 
