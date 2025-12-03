@@ -1622,6 +1622,7 @@ img {
 
 /* =====================================
    CATALOG PAGE
+===================================== */
 
 .catalog-main {
   padding: 2.5rem 0 3.5rem;
@@ -1954,6 +1955,7 @@ img {
 }
 /* =====================================
    PRODUCT DETAIL PAGE
+===================================== */
 
 .product-detail-main {
   padding: 2.5rem 0 3.5rem;
@@ -2320,6 +2322,7 @@ img {
 
 /* =======================
    CART LAYOUT
+======================= */
 .cart-main {
   padding: 2.5rem 0 3rem;
 }
@@ -2395,6 +2398,7 @@ img {
 
 /* =======================
    QTY CONTROL
+======================= */
 .cart-item-qty {
   display: inline-flex;
   align-items: center;
@@ -2457,6 +2461,7 @@ img {
 
 /* =======================
    SUMMARY
+======================= */
 .cart-summary {
   background-color: #d5b687;
   border-radius: 26px;
@@ -2550,9 +2555,6 @@ img {
   }
 }
 
-/* =========================
-   CART PAGE - ORDER SUMMARY
-
 .summary-actions {
   display: flex;
   flex-direction: column;
@@ -2594,11 +2596,11 @@ img {
 .continue-btn:hover {
   background-color: rgba(255, 255, 255, 0.15);
   } */
-  .profile-form-grid {
-    grid-template-columns: 1fr;
-  }
 
-  .profile-main-card {
-    padding: 1.4rem 1.2rem 1.6rem;
-  }
+.profile-form-grid {
+  grid-template-columns: 1fr;
+}
+
+.profile-main-card {
+  padding: 1.4rem 1.2rem 1.6rem;
 }

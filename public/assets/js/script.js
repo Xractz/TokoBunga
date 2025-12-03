@@ -299,8 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // pertama kali halaman cart dibuka
   buildCartCards();
 });
-/* ================================
-   ALERT MESSAGE HELPERS (GLOBAL)
+
 function showError(message, formId = null) {
   const existingAlert = document.querySelector(".alert-message");
   if (existingAlert) {
