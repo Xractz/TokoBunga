@@ -1,0 +1,361 @@
+/* ========= GLOBAL ========= */
+:root {
+  --bg-page: #fdf3ea;
+  --bg-card: #ffffff;
+  --accent: #f3b5c4;
+  --accent-dark: #e08aa4;
+  --text-main: #44332b;
+  --text-muted: #7a6a61;
+  --border-soft: #f2dfcf;
+  --radius-lg: 18px;
+  --radius-full: 999px;
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.06);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Playfair", serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ========= NAVBAR ========= */
+
+.header {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-soft);
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+}
+
+.logo {
+  font-family: "Playfair Display SC", serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: 1.1rem;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--text-muted);
+}
+
+.menu a.active,
+.menu a:hover {
+  color: var(--text-main);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* ========= BUTTON ========= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1.2rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.btn-ghost {
+  background-color: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-dark);
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: var(--text-main);
+  font-weight: 600;
+  padding-inline: 1.6rem;
+}
+
+/* ========= HERO ========= */
+
+.hero {
+  margin-top: 2rem;
+}
+
+.hero-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+/* background gambar hero */
+.hero-image {
+  background-image: url("../images/BGHome.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 320px;
+}
+
+/* teks di atas gambar */
+.hero-text {
+  position: absolute;
+  inset: 0;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* tengah vertikal */
+  align-items: center; /* tengah horizontal */
+  text-align: center; /* teks benar-benar center */
+  max-width: 100%; /* biar nggak mepet kiri */
+  color: #ffffff;
+}
+
+.hero-text h1 {
+  font-family: "Playfair Display SC", serif;
+  font-size: 2.25rem;
+  line-height: 1.15;
+  margin: 0 0 0.75rem;
+}
+
+.hero-text p {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+}
+
+/* ========= FEATURES ========= */
+
+.features {
+  margin-top: 2rem;
+}
+
+.section-title {
+  text-align: center;
+  font-family: "Playfair Display SC", serif;
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.section-subtitle {
+  text-align: center;
+  max-width: 540px;
+  margin: 0 auto 2rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.feature-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.5rem;
+  text-align: left;
+  box-shadow: var(--shadow-soft);
+}
+
+.feature-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+}
+
+.feature-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ========= COLLECTION ========= */
+
+.collection {
+  padding: 1rem 0 4rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+  margin-top: 2rem;
+}
+
+.product-card {
+  background-color: var(--bg-card);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+.product-card img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.product-card h4 {
+  margin: 0.8rem 0 0.2rem;
+  font-size: 0.98rem;
+}
+
+.product-card .price {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ========= FOOTER ========= */
+
+.footer {
+  background-color: #fce9d9;
+  padding: 2.5rem 0 1rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.footer-brand p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 280px;
+}
+
+.footer-column h4 {
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+}
+
+.footer-column ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-column li + li {
+  margin-top: 0.3rem;
+}
+
+.footer-column a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.footer-column a:hover {
+  color: var(--text-main);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ========= RESPONSIVE ========= */
+
+@media (max-width: 900px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .menu {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .auth-buttons {
+    order: 2;
+  }
+
+  .features-grid,
+  .products-grid,
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-text {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .features-grid,
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-image {
+    height: 260px;
+  }
+
+  .hero-text h1 {
+    font-size: 1.7rem;
+  }
+}
