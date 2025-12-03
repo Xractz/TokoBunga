@@ -958,6 +958,496 @@ img {
 }
 
 /* =====================================
+   ADMIN DASHBOARD
+===================================== */
+
+.admin-layout {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Konten kiri */
+.admin-content {
+  flex: 1;
+}
+
+/* Judul & subjudul */
+.admin-content h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  margin-bottom: 0.2rem;
+}
+
+.admin-content p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Card section utama */
+.admin-section {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.5rem 1.6rem 1.75rem;
+  margin-top: 1.5rem;
+}
+
+.admin-section h2 {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  font-size: 1.25rem;
+  font-family: "Playfair Display", serif;
+}
+
+.admin-section > p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Header bar di tiap section (judul + tombol kanan) */
+.section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.section-header-row h2 {
+  margin-bottom: 0;
+}
+
+/* Tombol utama admin (pakai style mirip view-all-btn) */
+.btn-primary {
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  background-color: var(--accent-dark);
+  color: #ffffff;
+  font-family: "Playfair Display", serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+  transition: 0.2s ease;
+}
+
+.btn-primary i {
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background-color: #cf6a8a;
+  transform: translateY(-1px);
+}
+
+/* Tombol icon kecil di tabel */
+.btn-icon {
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.15s ease;
+}
+
+.btn-icon i {
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+.btn-icon:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.btn-icon.btn-danger i {
+  color: #d46b6b;
+}
+
+/* TABEl ADMIN */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-top: 0.5rem;
+}
+
+.admin-table thead th {
+  text-align: left;
+  padding: 0.7rem 0.75rem;
+  background-color: #f7efe0;
+  color: var(--text-main);
+  font-weight: 600;
+  border-bottom: 1px solid #f1e2d0;
+}
+
+.admin-table tbody td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #f4e5d6;
+  color: var(--text-main);
+}
+
+.admin-table tbody tr:nth-child(even) {
+  background-color: #fdf7f0;
+}
+
+.admin-table tbody tr:hover {
+  background-color: #f8efe4;
+}
+
+/* Kolom aksi di kanan */
+.table-actions {
+  white-space: nowrap;
+}
+
+/* Badge status */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge-active {
+  background-color: rgba(116, 139, 117, 0.18);
+  color: #526653;
+}
+
+.badge-inactive {
+  background-color: rgba(212, 107, 107, 0.18);
+  color: #9a3b3b;
+}
+
+/* Box detail transaksi */
+.detail-box {
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-lg);
+  background-color: #fff7ee;
+  border: 1px dashed #f0d3b3;
+}
+
+.detail-box h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* SIDEBAR KANAN */
+.admin-sidebar {
+  width: 260px;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.25rem 1.25rem 1.4rem;
+  align-self: flex-start;
+}
+
+.sidebar-title {
+  margin-top: 0;
+  margin-bottom: 0.85rem;
+  font-size: 1rem;
+  font-family: "Playfair Display", serif;
+}
+
+/* Tombol menu sidebar */
+.sidebar-link {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+  transition: 0.15s ease;
+}
+
+.sidebar-link i {
+  font-size: 1.1rem;
+}
+
+.sidebar-link:hover {
+  background-color: #f7efe0;
+  color: var(--text-main);
+}
+
+.sidebar-link.active {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+/* =====================================
+   USER PROFILE PAGE
+===================================== */
+
+.profile-page {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.profile-header h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  margin: 0 0 0.3rem;
+}
+
+.profile-header p {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Layout: kiri (card) + kanan (form) */
+.profile-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* Kartu profil kiri */
+.profile-card {
+  width: 280px;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.5rem 1.6rem;
+}
+
+.profile-avatar-wrapper {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f3b5c4, #f7d7c3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.6rem;
+  overflow: hidden;
+}
+
+.profile-avatar span {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-avatar-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  background-color: #f7efe0;
+  font-size: 0.8rem;
+  color: var(--text-main);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.profile-avatar-btn i {
+  font-size: 0.95rem;
+}
+
+.profile-avatar-btn:hover {
+  background-color: #f1e3cf;
+}
+
+.profile-info {
+  text-align: center;
+  margin-top: 0.2rem;
+}
+
+.profile-info h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-family: "Playfair Display", serif;
+}
+
+.profile-username {
+  margin: 0.15rem 0 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.profile-email,
+.profile-phone {
+  margin: 0.1rem 0;
+  font-size: 0.86rem;
+  color: var(--text-main);
+}
+
+.profile-email i,
+.profile-phone i {
+  margin-right: 0.3rem;
+}
+
+.profile-note {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.profile-note p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Kartu form kanan */
+.profile-form-card {
+  flex: 1;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.6rem 1.8rem 1.9rem;
+}
+
+.profile-form-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-family: "Playfair Display", serif;
+}
+
+.profile-form {
+  margin-top: 0.5rem;
+}
+
+/* Grid 2 kolom untuk input di atas */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.form-row-single {
+  grid-template-columns: 1fr;
+}
+
+/* Reuse form-group & input-group dari auth */
+.profile-form .form-group label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.88rem;
+  color: #5c4638;
+}
+
+/* Override dikit untuk textarea */
+.input-group-textarea {
+  align-items: flex-start;
+  padding-top: 0.45rem;
+}
+
+.input-group-textarea textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.1rem 0.3rem 0.6rem;
+  font-size: 0.9rem;
+  color: #4b352c;
+  outline: none;
+  resize: vertical;
+  min-height: 70px;
+}
+
+/* File input */
+.file-input-group input[type="file"] {
+  border: none;
+  background: transparent;
+  padding: 0.45rem 0.3rem;
+  font-size: 0.85rem;
+  color: #4b352c;
+}
+
+.input-hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Tombol aksi */
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.2rem;
+}
+
+.btn-profile-save {
+  border: none;
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  background-color: var(--accent-dark);
+  color: #ffffff;
+  font-family: "Playfair Display", serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  transition: 0.2s ease;
+}
+
+.btn-profile-save i {
+  font-size: 1rem;
+}
+
+.btn-profile-save:hover {
+  background-color: #cf6a8a;
+  transform: translateY(-1px);
+}
+
+.btn-profile-reset {
+  border-radius: 999px;
+  padding: 0.55rem 1.2rem;
+  border: 1px solid #e0cfc1;
+  background-color: #f7efe0;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-profile-reset i {
+  font-size: 0.95rem;
+}
+
+.btn-profile-reset:hover {
+  background-color: #f1e3cf;
+}
+
+/* =====================================
    RESPONSIVE
 ===================================== */
 
@@ -994,6 +1484,21 @@ img {
 
   .hero-text {
     padding: 2rem;
+  }
+
+  .admin-layout {
+    flex-direction: column-reverse;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+  }
+  .profile-layout {
+    flex-direction: column;
+  }
+
+  .profile-card {
+    width: 100%;
   }
 }
 
@@ -1049,4 +1554,11 @@ img {
     padding: 2rem 1.5rem 1.8rem;
     border-radius: 22px;
   } */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-form-card {
+    padding: 1.4rem 1.2rem 1.6rem;
+  }
 }
