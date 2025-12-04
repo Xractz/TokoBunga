@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../api/middleware/is_guest.php';
 require_once __DIR__ . '/../../api/helpers/flash.php';
 $error = flash('error');
+$success = flash('success');
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -51,6 +52,13 @@ $error = flash('error');
             <button class="alert-close" onclick="this.parentElement.remove()">
               <i class="bi bi-x"></i>
             </button>
+          </div>
+        <?php endif; ?>
+
+        <?php if ($success): ?>
+          <div class="alert-message alert-success">
+            <i class="bi bi-check-circle"></i>
+            <span><?php echo htmlspecialchars($success); ?></span>
           </div>
         <?php endif; ?>
         
@@ -108,23 +116,6 @@ $error = flash('error');
 
   <script src="../assets/js/script.js"></script>
   <script src="../assets/js/auth/login.js"></script>
-  
-  <script>
-    // Auto-remove alert after 5 seconds
-    document.addEventListener('DOMContentLoaded', function() {
-      const alerts = document.querySelectorAll('.alert-message');
-      alerts.forEach(function(alert) {
-        setTimeout(function() {
-          if (alert.parentElement) {
-            alert.style.opacity = '0';
-            setTimeout(function() {
-              alert.remove();
-            }, 300);
-          }
-        }, 5000);
-      });
-    });
-  </script>
 </body>
 
 </html>
