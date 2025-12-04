@@ -1,14 +1,5 @@
 <?php
-session_start();
-
-if (isset($_SESSION['user_id'])) {
-    if ($_SESSION['role'] === 'admin') {
-        header('Location: /admin/dashboard.html');
-    } else {
-        header('Location: /index.html');
-    }
-    exit;
-}
+require_once __DIR__ . '/../../api/middleware/is_guest.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
