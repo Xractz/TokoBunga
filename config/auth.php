@@ -92,12 +92,17 @@ if (!function_exists('requireCustomer')) {
 
 if (!function_exists('isApiRequest')) {
     function isApiRequest() {
-        // Check if request is API based on path or accept header
-        $path = $_SERVER['REQUEST_URI'] ?? '';
         $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
+        if (strpos($accept, 'application/json') !== false) {
+            return true;
+        }
         
-        return strpos($path, '/api/') !== false || 
-               strpos($accept, 'application/json') !== false;
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            return true;
+        }
+        
+        return false;
     }
 }
 
