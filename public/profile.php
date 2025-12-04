@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../api/middleware/is_login.php';
+require_once __DIR__ . '/../api/helpers/flash.php';
 
 // Get user data from session
 $userId = getUserId();
@@ -7,6 +8,10 @@ $userName = $_SESSION['name'] ?? 'User';
 $userEmail = $_SESSION['email'] ?? '';
 $userPhone = $_SESSION['phone'] ?? '';
 $userRole = $_SESSION['role'] ?? 'customer';
+
+// Get flash messages
+$error = flash('error');
+$success = flash('success');
 ?>
 
 <!DOCTYPE html>
@@ -95,6 +100,23 @@ $userRole = $_SESSION['role'] ?? 'customer';
                 Perbarui data akunmu untuk pengalaman belanja yang lebih nyaman.
               </p>
             </div>
+
+            <?php if ($error): ?>
+              <div class="alert-message alert-error">
+                <i class="bi bi-exclamation-circle"></i>
+                <span><?php echo htmlspecialchars($error); ?></span>
+                <button class="alert-close" onclick="this.remove()">
+                  <i class="bi bi-x"></i>
+                </button>
+              </div>
+            <?php endif; ?>
+
+            <?php if ($success): ?>
+              <div class="alert-message alert-success">
+                <i class="bi bi-check-circle"></i>
+                <span><?php echo htmlspecialchars($success); ?></span>
+              </div>
+            <?php endif; ?>
 
             <form action="#" method="post" class="profile-form">
               <div class="profile-form-grid">
@@ -272,5 +294,22 @@ $userRole = $_SESSION['role'] ?? 'customer';
         </div>
       </div>
     </footer>
+
+    <script>
+      // Auto-remove alert after 5 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert-message');
+        alerts.forEach(function(alert) {
+          setTimeout(function() {
+            if (alert.parentElement) {
+              alert.style.opacity = '0';
+              setTimeout(function() {
+                alert.remove();
+              }, 300);
+            }
+          }, 5000);
+        });
+      });
+    </script>
   </body>
 </html>

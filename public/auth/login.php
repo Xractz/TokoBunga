@@ -44,6 +44,16 @@ $error = flash('error');
 
       <!-- form login -->
       <form class="auth-form" id="loginForm">
+        <?php if ($error): ?>
+          <div class="alert-message alert-error">
+            <i class="bi bi-exclamation-circle"></i>
+            <span><?php echo htmlspecialchars($error); ?></span>
+            <button class="alert-close" onclick="this.parentElement.remove()">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
+        <?php endif; ?>
+        
         <!-- Email -->
         <div class="form-group">
           <label for="email">Email Address</label>
@@ -96,16 +106,25 @@ $error = flash('error');
     </div>
   </main>
 
-  <?php if ($error): ?>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        showError("<?= htmlspecialchars($error) ?>", "loginForm");
-      });
-    </script>
-  <?php endif; ?>
-
   <script src="../assets/js/script.js"></script>
   <script src="../assets/js/auth/login.js"></script>
+  
+  <script>
+    // Auto-remove alert after 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+      const alerts = document.querySelectorAll('.alert-message');
+      alerts.forEach(function(alert) {
+        setTimeout(function() {
+          if (alert.parentElement) {
+            alert.style.opacity = '0';
+            setTimeout(function() {
+              alert.remove();
+            }, 300);
+          }
+        }, 5000);
+      });
+    });
+  </script>
 </body>
 
 </html>

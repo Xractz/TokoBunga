@@ -1,8 +1,13 @@
 <?php
 require_once __DIR__ . '/../../api/middleware/is_admin.php';
+require_once __DIR__ . '/../../api/helpers/flash.php';
 
 // Get admin data
 $adminName = $_SESSION['name'] ?? 'Admin';
+
+// Get flash messages
+$error = flash('error');
+$success = flash('success');
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -68,6 +73,22 @@ $adminName = $_SESSION['name'] ?? 'Admin';
             Kelola produk, kategori, transaksi, dan pelanggan untuk toko bunga
             Bloomify.
           </p>
+
+          <?php if ($error): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <i class="bi bi-exclamation-circle"></i>
+              <?php echo htmlspecialchars($error); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
+
+          <?php if ($success): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <i class="bi bi-check-circle"></i>
+              <?php echo htmlspecialchars($success); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
 
           <!-- ============== SECTION: PRODUK ============== -->
           <div class="admin-section" id="section-produk">

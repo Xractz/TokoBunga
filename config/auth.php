@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../api/helpers/flash.php';
+
 if (!function_exists('startSession')) {
     function startSession() {
         if (session_status() === PHP_SESSION_NONE) {
@@ -43,11 +45,12 @@ if (!function_exists('getRole')) {
 }
 
 if (!function_exists('requireLogin')) {
-    function requireLogin($redirectUrl = '/auth/login.php') {
+    function requireLogin($redirectUrl = '/auth/login.php', $message = 'Silakan login terlebih dahulu untuk mengakses halaman ini.') {
         if (!isLoggedIn()) {
             if (isApiRequest()) {
                 respondJson(401, false, 'Unauthorized. Please login first.');
             } else {
+                flash('error', $message);
                 header("Location: $redirectUrl");
                 exit;
             }
@@ -56,13 +59,14 @@ if (!function_exists('requireLogin')) {
 }
 
 if (!function_exists('requireAdmin')) {
-    function requireAdmin($redirectUrl = '/auth/login.php') {
+    function requireAdmin($redirectUrl = '/auth/login.php', $message = 'Akses ditolak. Halaman ini hanya untuk admin.') {
         requireLogin($redirectUrl);
         
         if (!isAdmin()) {
             if (isApiRequest()) {
                 respondJson(403, false, 'Access denied. Admin only.');
             } else {
+                flash('error', $message);
                 header("Location: $redirectUrl");
                 exit;
             }
@@ -71,13 +75,14 @@ if (!function_exists('requireAdmin')) {
 }
 
 if (!function_exists('requireCustomer')) {
-    function requireCustomer($redirectUrl = '/auth/login.php') {
+    function requireCustomer($redirectUrl = '/auth/login.php', $message = 'Akses ditolak. Halaman ini hanya untuk customer.') {
         requireLogin($redirectUrl);
         
         if (!isCustomer()) {
             if (isApiRequest()) {
                 respondJson(403, false, 'Access denied. Customer only.');
             } else {
+                flash('error', $message);
                 header("Location: $redirectUrl");
                 exit;
             }
