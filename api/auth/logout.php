@@ -1,17 +1,20 @@
 <?php
-session_start();
+require_once __DIR__ . '/../../config/auth.php';
 
-header('Content-Type: application/json');
+startSession();
 
+// Clear session
 session_unset();
 session_destroy();
 
+// Clear session cookie
 if (isset($_COOKIE[session_name()])) {
     setcookie(session_name(), '', time() - 3600, '/');
 }
 
-http_response_code(200);
-echo json_encode([
-    'success' => true,
-    'message' => 'Logout berhasil'
-]);
+if (isApiRequest()) {
+    respondJson(200, true, 'Logout berhasil');
+} else {
+    header('Location: /auth/login.php');
+    exit;
+}
