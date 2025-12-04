@@ -3,18 +3,20 @@ require_once __DIR__ . '/../../config/auth.php';
 
 startSession();
 
-// Clear session
-session_unset();
+$sessionId = session_id();
+
+$_SESSION = [];
+
 session_destroy();
 
-// Clear session cookie
-if (isset($_COOKIE[session_name()])) {
-    setcookie(session_name(), '', time() - 3600, '/');
-}
+session_id($sessionId);
+session_start();
+
+$_SESSION['flash']['success'] = 'Logout berhasil! Sampai jumpa lagi.';
 
 if (isApiRequest()) {
     respondJson(200, true, 'Logout berhasil');
-} else {
-    header('Location: /auth/login.php');
-    exit;
 }
+
+header('Location: /auth/login.php');
+exit;
