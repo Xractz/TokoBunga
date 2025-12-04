@@ -1,3 +1,14 @@
+<?php
+require_once __DIR__ . '/../api/middleware/is_login.php';
+
+// Get user data from session
+$userId = getUserId();
+$userName = $_SESSION['name'] ?? 'User';
+$userEmail = $_SESSION['email'] ?? '';
+$userPhone = $_SESSION['phone'] ?? '';
+$userRole = $_SESSION['role'] ?? 'customer';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -58,8 +69,8 @@
                 <div class="profile-avatar">
                   <img src="assets/images/profile.jpg" alt="Foto profil" />
                 </div>
-                <p class="profile-name">Anonim User</p>
-                <p class="profile-role">Customer</p>
+                <p class="profile-name"><?php echo htmlspecialchars($userName); ?></p>
+                <p class="profile-role"><?php echo ucfirst(htmlspecialchars($userRole)); ?></p>
               </div>
 
               <nav class="profile-menu">
@@ -98,7 +109,7 @@
                       type="text"
                       id="username"
                       name="username"
-                      value="anonim123"
+                      value="<?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?>"
                       placeholder="Username"
                     />
                   </div>
@@ -115,7 +126,7 @@
                       type="email"
                       id="email"
                       name="email"
-                      value="email@example.com"
+                      value="<?php echo htmlspecialchars($userEmail); ?>"
                       placeholder="Email"
                     />
                   </div>
@@ -132,6 +143,7 @@
                       type="text"
                       id="phone"
                       name="phone"
+                      value="<?php echo htmlspecialchars($userPhone); ?>"
                       placeholder="08xx-xxxx-xxxx"
                     />
                   </div>
