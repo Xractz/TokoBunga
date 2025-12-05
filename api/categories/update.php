@@ -1,17 +1,20 @@
 <?php
 header("Content-Type: application/json");
 
-require_once "../../config/db.php";
-require_once "../middleware/is_admin.php";
-require_once "../helpers/slug.php";
+require_once __DIR__ . "/../../config/db.php";
+require_once __DIR__ . "/../middleware/is_admin.php";
+require_once __DIR__ . "/../helpers/slug.php";
 
 global $conn;
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondJson(405, false, 'Method not allowed. Use POST.');
+}
 
 $id = intval($_POST['id'] ?? 0);
 
 if ($id <= 0) {
-  echo json_encode(["success" => false, "message" => "ID kategori tidak valid."]);
-  exit;
+  respondJson(400, false, 'ID kategori tidak valid.');
 }
 
 $stmt = mysqli_prepare(
@@ -25,8 +28,7 @@ $old = mysqli_fetch_assoc($result);
 mysqli_stmt_close($stmt);
 
 if (!$old) {
-  echo json_encode(["success" => false, "message" => "Kategori tidak ditemukan."]);
-  exit;
+  respondJson(404, false, 'Kategori tidak ditemukan.');
 }
 
 $name        = trim($_POST['name'] ?? $old['name']);
@@ -34,8 +36,7 @@ $description = trim($_POST['description'] ?? $old['description']);
 $is_active   = intval($_POST['is_active'] ?? $old['is_active']);
 
 if ($name === "") {
-  echo json_encode(["success" => false, "message" => "Nama kategori tidak boleh kosong."]);
-  exit;
+  respondJson(400, false, 'Nama kategori tidak boleh kosong.');
 }
 
 $slug = createSlug($name);
@@ -50,8 +51,7 @@ mysqli_stmt_store_result($stmt2);
 
 if (mysqli_stmt_num_rows($stmt2) > 0) {
   mysqli_stmt_close($stmt2);
-  echo json_encode(["success" => false, "message" => "Slug kategori sudah digunakan kategori lain."]);
-  exit;
+  respondJson(409, false, 'Slug kategori sudah digunakan kategori lain.');
 }
 mysqli_stmt_close($stmt2);
 
@@ -64,13 +64,10 @@ $success = mysqli_stmt_execute($stmt3);
 mysqli_stmt_close($stmt3);
 
 if (!$success) {
-  echo json_encode(["success" => false, "message" => "Gagal memperbarui kategori."]);
-  exit;
+  respondJson(500, false, 'Gagal memperbarui kategori: ' . mysqli_error($conn));
 }
 
-echo json_encode([
-  "success" => true,
-  "message" => "Kategori berhasil diperbarui.",
-  "category_id" => $id,
-  "slug" => $slug
+respondJson(200, true, 'Kategori berhasil diperbarui.', [
+  'category_id' => $id,
+  'slug' => $slug
 ]);

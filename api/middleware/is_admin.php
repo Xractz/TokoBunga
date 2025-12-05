@@ -1,18 +1,4 @@
 <?php
-session_start();
+require_once __DIR__ . '/../../config/auth.php';
 
-if (!isset($_SESSION['user_id'])) {
-  echo json_encode([
-    "success" => false,
-    "message" => "Unauthorized: Please login."
-  ]);
-  exit;
-}
-
-if ($_SESSION['role'] !== 'admin') {
-  echo json_encode([
-    "success" => false,
-    "message" => "Access denied: Admin only."
-  ]);
-  exit;
-}
+requireAdmin();

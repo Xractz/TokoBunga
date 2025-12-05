@@ -2,19 +2,15 @@
 header("Content-Type: application/json");
 
 require_once __DIR__ . "/../../config/db.php";
+require_once __DIR__ . "/../../config/auth.php";
 require_once __DIR__ . "/../middleware/is_customer.php";
 
 global $conn;
 
-$user_id = intval($_POST['user_id']);
+$user_id = intval($_SESSION['user_id'] ?? 0);
 
 if ($user_id <= 0) {
-  http_response_code(401);
-  echo json_encode([
-    "success" => false,
-    "message" => "Anda harus login untuk melihat keranjang."
-  ]);
-  exit;
+  respondJson(401, false, 'Anda harus login untuk melihat keranjang.');
 }
 
 $stmt = mysqli_prepare(
@@ -26,12 +22,7 @@ $stmt = mysqli_prepare(
 );
 
 if (!$stmt) {
-  http_response_code(500);
-  echo json_encode([
-    "success" => false,
-    "message" => "Gagal mempersiapkan query keranjang."
-  ]);
-  exit;
+  respondJson(500, false, 'Gagal mempersiapkan query keranjang: ' . mysqli_error($conn));
 }
 
 mysqli_stmt_bind_param($stmt, "i", $user_id);
@@ -42,19 +33,7 @@ $items = mysqli_fetch_all($result, MYSQLI_ASSOC);
 mysqli_stmt_close($stmt);
 
 if (empty($items)) {
-  http_response_code(404);
-  echo json_encode([
-    "success" => false,
-    "message" => "Keranjang Anda masih kosong.",
-    "data"    => []
-  ]);
-  exit;
+  respondJson(200, true, 'Keranjang Anda masih kosong.', []);
 }
 
-http_response_code(200);
-echo json_encode([
-  "success" => true,
-  "user_id" => $user_id,
-  "data"    => $items
-]);
-exit;
+respondJson(200, true, 'Daftar keranjang berhasil diambil.', $items);

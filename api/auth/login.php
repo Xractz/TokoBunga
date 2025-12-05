@@ -34,7 +34,12 @@ if (!password_verify($password, $user['password'])) {
 
 session_start();
 $_SESSION['user_id'] = $user['id'];
+$_SESSION['username'] = $user['username'];
+$_SESSION['name'] = $user['name'];
+$_SESSION['email'] = $user['email'];
+$_SESSION['phone'] = $user['phone'];
 $_SESSION['role'] = $user['role'];
+$_SESSION['is_active'] = $user['is_active'];
 
 http_response_code(200);
 echo json_encode([

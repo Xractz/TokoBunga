@@ -16,31 +16,18 @@ mysqli_stmt_execute($stmtProduct);
 $resultProduct = mysqli_stmt_get_result($stmtProduct);
 $product = mysqli_fetch_assoc($resultProduct);
 
+mysqli_stmt_close($stmtProduct);
+
 if (!$product) {
-  http_response_code(404);
-  echo json_encode([
-    "success" => false,
-    "message" => "Produk tidak ditemukan atau tidak aktif."
-  ]);
-  exit;
+  respondJson(404, false, 'Produk tidak ditemukan atau tidak aktif.');
 }
 
 if ($product_id <= 0) {
-  http_response_code(400);
-  echo json_encode([
-    "success" => false,
-    "message" => "Produk tidak valid."
-  ]);
-  exit;
+  respondJson(400, false, 'Produk tidak valid.');
 }
 
 if ($quantity <= 0) {
-  http_response_code(400);
-  echo json_encode([
-    "success" => false,
-    "message" => "Jumlah produk minimal 1."
-  ]);
-  exit;
+  respondJson(400, false, 'Jumlah produk minimal 1.');
 }
 
 $stmtCheck = mysqli_prepare(
@@ -62,23 +49,16 @@ if ($cartItem) {
   mysqli_stmt_bind_param($stmtUpdate, "ii", $quantity, $cartItem['id']);
   $success = mysqli_stmt_execute($stmtUpdate);
 
+  mysqli_stmt_close($stmtUpdate);
+  
   if (!$success) {
-    http_response_code(500);
-    echo json_encode([
-      "success" => false,
-      "message" => "Gagal memperbarui keranjang."
-    ]);
-    exit;
+    respondJson(500, false, 'Gagal memperbarui keranjang: ' . mysqli_error($conn));
   }
 
-  http_response_code(200);
-  echo json_encode([
-    "success"      => true,
-    "message"      => "Keranjang berhasil diperbarui.",
-    "cart_item_id" => $cartItem['id'],
-    "quantity"     => $quantity
+  respondJson(200, true, 'Keranjang berhasil diperbarui.', [
+    'cart_item_id' => $cartItem['id'],
+    'quantity' => $quantity
   ]);
-  exit;
 }
 
 $stmtInsert = mysqli_prepare(
@@ -89,22 +69,15 @@ $stmtInsert = mysqli_prepare(
 mysqli_stmt_bind_param($stmtInsert, "iii", $user_id, $product_id, $quantity);
 $success = mysqli_stmt_execute($stmtInsert);
 
+mysqli_stmt_close($stmtInsert);
+
 if (!$success) {
-  http_response_code(500);
-  echo json_encode([
-    "success" => false,
-    "message" => "Gagal menambahkan ke keranjang."
-  ]);
-  exit;
+  respondJson(500, false, 'Gagal menambahkan ke keranjang: ' . mysqli_error($conn));
 }
 
 $cart_item_id = mysqli_insert_id($conn);
 
-http_response_code(201);
-echo json_encode([
-  "success"      => true,
-  "message"      => "Produk berhasil ditambahkan ke keranjang.",
-  "cart_item_id" => $cart_item_id,
-  "quantity"     => $quantity
+respondJson(201, true, 'Produk berhasil ditambahkan ke keranjang.', [
+  'cart_item_id' => $cart_item_id,
+  'quantity' => $quantity
 ]);
-exit;

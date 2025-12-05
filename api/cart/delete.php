@@ -2,20 +2,20 @@
 header("Content-Type: application/json");
 
 require_once __DIR__ . "/../../config/db.php";
+require_once __DIR__ . "/../../config/auth.php";
 require_once __DIR__ . "/../middleware/is_customer.php";
 
 global $conn;
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondJson(405, false, 'Method not allowed. Use POST.');
+}
 
 $id = intval($_POST['id'] ?? 0);
 $user_id = intval($_SESSION['user_id'] ?? 0);
 
 if ($id <= 0) {
-  http_response_code(400); 
-  echo json_encode([
-    "success" => false,
-    "message" => "ID item keranjang tidak valid."
-  ]);
-  exit;
+  respondJson(400, false, 'ID item keranjang tidak valid.');
 }
 
 $stmt = mysqli_prepare(
@@ -29,12 +29,7 @@ $cartItem = mysqli_fetch_assoc($result);
 mysqli_stmt_close($stmt);
 
 if (!$cartItem) {
-  http_response_code(404); 
-  echo json_encode([
-    "success" => false,
-    "message" => "Item keranjang tidak ditemukan."
-  ]);
-  exit;
+  respondJson(404, false, 'Item keranjang tidak ditemukan.');
 }
 
 $stmt2 = mysqli_prepare($conn, "DELETE FROM cart_items WHERE id = ? AND user_id = ?");
@@ -43,18 +38,7 @@ $success = mysqli_stmt_execute($stmt2);
 mysqli_stmt_close($stmt2);
 
 if (!$success) {
-  http_response_code(500); 
-  echo json_encode([
-    "success" => false,
-    "message" => "Gagal menghapus item dari keranjang."
-  ]);
-  exit;
+  respondJson(500, false, 'Gagal menghapus item dari keranjang: ' . mysqli_error($conn));
 }
 
-http_response_code(200); 
-echo json_encode([
-  "success" => true,
-  "message" => "Item keranjang berhasil dihapus.",
-  "cart_item_id" => $id
-]);
-exit;
+respondJson(200, true, 'Item keranjang berhasil dihapus.', ['cart_item_id' => $id]);

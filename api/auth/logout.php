@@ -1,17 +1,22 @@
 <?php
-session_start();
+require_once __DIR__ . '/../../config/auth.php';
 
-header('Content-Type: application/json');
+startSession();
 
-session_unset();
+$sessionId = session_id();
+
+$_SESSION = [];
+
 session_destroy();
 
-if (isset($_COOKIE[session_name()])) {
-    setcookie(session_name(), '', time() - 3600, '/');
+session_id($sessionId);
+session_start();
+
+$_SESSION['flash']['success'] = 'Logout berhasil! Sampai jumpa lagi.';
+
+if (isApiRequest()) {
+    respondJson(200, true, 'Logout berhasil');
 }
 
-http_response_code(200);
-echo json_encode([
-    'success' => true,
-    'message' => 'Logout berhasil'
-]);
+header('Location: /auth/login.php');
+exit;

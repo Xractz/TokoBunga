@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../config/auth.php';
 
 global $conn;
 
@@ -15,27 +16,17 @@ if ($id > 0) {
 
   $product = mysqli_fetch_assoc($result);
 
+  mysqli_stmt_close($stmt);
+  
   if (!$product) {
-    echo json_encode([
-      "success" => false,
-      "message" => "Produk tidak ditemukan."
-    ]);
-    exit;
+    respondJson(404, false, 'Produk tidak ditemukan.');
   }
 
-  echo json_encode([
-    "success" => true,
-    "data" => $product
-  ]);
-  exit;
+  respondJson(200, true, 'Produk ditemukan.', $product);
 }
 
 $sql = "SELECT * FROM products ORDER BY id DESC";
 $result = mysqli_query($conn, $sql);
 $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-echo json_encode([
-  "success" => true,
-  "data" => $products
-]);
-exit;
+respondJson(200, true, 'Daftar produk berhasil diambil.', $products);

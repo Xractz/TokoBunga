@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../config/auth.php';
 
 global $conn;
 
@@ -17,26 +18,14 @@ if ($id > 0) {
   $category = mysqli_fetch_assoc($result);
 
   if (!$category) {
-    echo json_encode([
-      "success" => false,
-      "message" => "Kategori tidak ditemukan."
-    ]);
-    exit;
+    respondJson(404, false, 'Kategori tidak ditemukan.');
   }
 
-  echo json_encode([
-    "success" => true,
-    "data" => $category
-  ]);
-  exit;
+  respondJson(200, true, 'Kategori ditemukan.', $category);
 }
 
 $sql = "SELECT * FROM product_categories ORDER BY id DESC";
 $result = mysqli_query($conn, $sql);
 $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-echo json_encode([
-  "success" => true,
-  "data" => $categories
-]);
-exit;
+respondJson(200, true, 'Daftar kategori berhasil diambil.', $categories);

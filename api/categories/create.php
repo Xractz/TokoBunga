@@ -1,21 +1,22 @@
 <?php
 header("Content-Type: application/json");
 
-require_once "../../config/db.php";
-require_once "../middleware/is_admin.php";
-require_once "../helpers/slug.php";
+require_once __DIR__ . "/../../config/db.php";
+require_once __DIR__ . "/../middleware/is_admin.php";
+require_once __DIR__ . "/../helpers/slug.php";
 
 global $conn;
+
+// Validate request method
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondJson(405, false, 'Method not allowed. Use POST.');
+}
 
 $name        = trim($_POST['name'] ?? '');
 $description = trim($_POST['description'] ?? '');
 
 if ($name === "") {
-  echo json_encode([
-    "success" => false,
-    "message" => "Nama kategori wajib diisi."
-  ]);
-  exit;
+  respondJson(400, false, 'Nama kategori wajib diisi.');
 }
 
 $slug = createSlug($name);
@@ -26,11 +27,8 @@ mysqli_stmt_execute($stmt);
 mysqli_stmt_store_result($stmt);
 
 if (mysqli_stmt_num_rows($stmt) > 0) {
-  echo json_encode([
-    "success" => false,
-    "message" => "Slug kategori sudah ada. Gunakan nama lain."
-  ]);
-  exit;
+  mysqli_stmt_close($stmt);
+  respondJson(409, false, 'Slug kategori sudah ada. Gunakan nama lain.');
 }
 
 $stmt = mysqli_prepare(
@@ -43,16 +41,15 @@ mysqli_stmt_bind_param($stmt, "sss", $name, $slug, $description);
 $success = mysqli_stmt_execute($stmt);
 
 if (!$success) {
-  echo json_encode([
-    "success" => false,
-    "message" => "Gagal menambahkan kategori."
-  ]);
-  exit;
+  mysqli_stmt_close($stmt);
+  respondJson(500, false, 'Gagal menambahkan kategori: ' . mysqli_error($conn));
 }
 
-echo json_encode([
-  "success" => true,
-  "message" => "Kategori berhasil ditambahkan.",
-  "category_id" => mysqli_insert_id($conn),
-  "slug" => $slug
+$categoryId = mysqli_insert_id($conn);
+mysqli_stmt_close($stmt);
+
+respondJson(201, true, 'Kategori berhasil ditambahkan.', [
+  'category_id' => $categoryId,
+  'slug' => $slug,
+  'name' => $name
 ]);
