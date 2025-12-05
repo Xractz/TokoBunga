@@ -4,38 +4,24 @@ header("Content-Type: application/json");
 require_once __DIR__ . "/../../config/db.php";
 require_once __DIR__ . "/../middleware/is_customer.php";
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 global $conn;
 
-$user_id = intval($_SESSION['user_id'] ?? 0);
-
-if ($user_id <= 0) {
-    http_response_code(401);
-    echo json_encode([
-        "success" => false,
-        "message" => "Anda harus login untuk melihat detail pesanan."
-    ]);
-    exit;
+if ($_SERVER['REQUEST_METHOD'] !== 'GET' && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondJson(405, false, "Method not allowed. Gunakan GET atau POST.");
 }
+
+$user_id = intval($_SESSION['user_id'] ?? 0);
 
 $order_id = 0;
 
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
     $order_id = intval($_GET['id'] ?? ($_GET['order_id'] ?? 0));
-} else { 
+} else {
     $order_id = intval($_POST['id'] ?? ($_POST['order_id'] ?? 0));
 }
 
 if ($order_id <= 0) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "ID pesanan tidak valid."
-    ]);
-    exit;
+    respondJson(400, false, "ID pesanan tidak valid.");
 }
 
 $sql = "SELECT 
@@ -65,33 +51,19 @@ $sql = "SELECT
 $stmt = mysqli_prepare($conn, $sql);
 
 if (!$stmt) {
-    http_response_code(500);
-    echo json_encode([
-        "success" => false,
-        "message" => "Query gagal dipersiapkan."
-    ]);
-    exit;
+    respondJson(500, false, "Query gagal dipersiapkan.");
 }
 
 mysqli_stmt_bind_param($stmt, "ii", $order_id, $user_id);
 mysqli_stmt_execute($stmt);
 
 $result = mysqli_stmt_get_result($stmt);
-$order = mysqli_fetch_assoc($result);
+$order  = mysqli_fetch_assoc($result);
 
 mysqli_stmt_close($stmt);
 
 if (!$order) {
-    http_response_code(404);
-    echo json_encode([
-        "success" => false,
-        "message" => "Pesanan tidak ditemukan."
-    ]);
-    exit;
+    respondJson(404, false, "Pesanan tidak ditemukan.");
 }
 
-http_response_code(200);
-echo json_encode([
-    "success" => true,
-    "data" => $order
-]);
+respondJson(200, true, "Detail pesanan berhasil diambil.", $order);

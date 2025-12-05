@@ -4,31 +4,13 @@ header("Content-Type: application/json");
 require_once __DIR__ . "/../../config/db.php";
 require_once __DIR__ . "/../middleware/is_customer.php";
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 global $conn;
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-    http_response_code(405);
-    echo json_encode([
-        "success" => false,
-        "message" => "Method not allowed. Gunakan GET."
-    ]);
-    exit;
+    respondJson(405, false, "Method not allowed. Gunakan GET.");
 }
 
 $user_id = intval($_SESSION['user_id'] ?? 0);
-
-if ($user_id <= 0) {
-    http_response_code(401);
-    echo json_encode([
-        "success" => false,
-        "message" => "Anda harus login untuk melihat pesanan."
-    ]);
-    exit;
-}
 
 $sql = "SELECT 
             id,
@@ -57,12 +39,7 @@ $sql = "SELECT
 $stmt = mysqli_prepare($conn, $sql);
 
 if (!$stmt) {
-    http_response_code(500);
-    echo json_encode([
-        "success" => false,
-        "message" => "Query gagal dipersiapkan."
-    ]);
-    exit;
+    respondJson(500, false, "Query gagal dipersiapkan.");
 }
 
 mysqli_stmt_bind_param($stmt, "i", $user_id);
@@ -73,21 +50,14 @@ $orders = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 mysqli_stmt_close($stmt);
 
-
 if (empty($orders)) {
-    http_response_code(200);
-    echo json_encode([
-        "success" => true,
-        "count"   => 0,
-        "message" => "Belum ada pesanan untuk akun ini.",
-        "data"    => []
+    respondJson(200, true, "Belum ada pesanan untuk akun ini.", [
+        "count" => 0,
+        "data"  => []
     ]);
-    exit;
 }
 
-http_response_code(200);
-echo json_encode([
-    "success" => true,
-    "count"   => count($orders),
-    "data"    => $orders
+respondJson(200, true, "Daftar pesanan berhasil diambil.", [
+    "count" => count($orders),
+    "data"  => $orders
 ]);
