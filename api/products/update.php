@@ -1,17 +1,20 @@
 <?php
 header("Content-Type: application/json");
 
-require_once "../../config/db.php";
-require_once "../middleware/is_admin.php";
-require_once "../helpers/slug.php";
+require_once __DIR__ . "/../../config/db.php";
+require_once __DIR__ . "/../middleware/is_admin.php";
+require_once __DIR__ . "/../helpers/slug.php";
 
 global $conn;
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondJson(405, false, 'Method not allowed. Use POST.');
+}
 
 $id = intval($_POST['id'] ?? 0);
 
 if ($id <= 0) {
-  echo json_encode(["success" => false, "message" => "ID produk tidak valid."]);
-  exit;
+  respondJson(400, false, 'ID produk tidak valid.');
 }
 
 $stmt = mysqli_prepare(
@@ -28,8 +31,7 @@ $old = mysqli_fetch_assoc($result);
 mysqli_stmt_close($stmt);
 
 if (!$old) {
-  echo json_encode(["success" => false, "message" => "Produk tidak ditemukan."]);
-  exit;
+  respondJson(404, false, 'Produk tidak ditemukan.');
 }
 
 $category_id = intval($_POST['category_id'] ?? $old['category_id']);
@@ -41,23 +43,19 @@ $image       = trim($_POST['image'] ?? $old['image']);
 $is_active   = intval($_POST['is_active'] ?? $old['is_active']);
 
 if ($name === "") {
-  echo json_encode(["success" => false, "message" => "Nama produk tidak boleh kosong."]);
-  exit;
+  respondJson(400, false, 'Nama produk tidak boleh kosong.');
 }
 
 if ($category_id <= 0) {
-  echo json_encode(["success" => false, "message" => "Kategori produk tidak valid."]);
-  exit;
+  respondJson(400, false, 'Kategori produk tidak valid.');
 }
 
 if ($price < 0) {
-  echo json_encode(["success" => false, "message" => "Harga produk tidak boleh negatif."]);
-  exit;
+  respondJson(400, false, 'Harga produk tidak boleh negatif.');
 }
 
 if ($stock < 0) {
-  echo json_encode(["success" => false, "message" => "Stok produk tidak boleh negatif."]);
-  exit;
+  respondJson(400, false, 'Stok produk tidak boleh negatif.');
 }
 
 $slug = createSlug($name);
@@ -72,8 +70,7 @@ mysqli_stmt_store_result($stmt2);
 
 if (mysqli_stmt_num_rows($stmt2) > 0) {
   mysqli_stmt_close($stmt2);
-  echo json_encode(["success" => false, "message" => "Slug produk sudah digunakan produk lain."]);
-  exit;
+  respondJson(409, false, 'Slug produk sudah digunakan produk lain.');
 }
 mysqli_stmt_close($stmt2);
 
@@ -101,13 +98,10 @@ $success = mysqli_stmt_execute($stmt3);
 mysqli_stmt_close($stmt3);
 
 if (!$success) {
-  echo json_encode(["success" => false, "message" => "Gagal memperbarui produk."]);
-  exit;
+  respondJson(500, false, 'Gagal memperbarui produk: ' . mysqli_error($conn));
 }
 
-echo json_encode([
-  "success" => true,
-  "message" => "Produk berhasil diperbarui.",
-  "product_id" => $id,
-  "slug" => $slug
+respondJson(200, true, 'Produk berhasil diperbarui.', [
+  'product_id' => $id,
+  'slug' => $slug
 ]);

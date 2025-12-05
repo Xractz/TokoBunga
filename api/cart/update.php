@@ -2,30 +2,25 @@
 header("Content-Type: application/json");
 
 require_once __DIR__ . "/../../config/db.php";
+require_once __DIR__ . "/../../config/auth.php";
 require_once __DIR__ . "/../middleware/is_customer.php";
 
 global $conn;
 
-$user_id  = intval($_POST['user_id'] ?? 0);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondJson(405, false, 'Method not allowed. Use POST.');
+}
+
+$user_id  = intval($_SESSION['user_id'] ?? 0);
 $id       = intval($_POST['id'] ?? 0);
 $quantity = intval($_POST['quantity'] ?? 0);
 
 if ($user_id <= 0) {
-  http_response_code(401); 
-  echo json_encode([
-    "success" => false,
-    "message" => "Anda harus login untuk mengubah keranjang."
-  ]);
-  exit;
+  respondJson(401, false, 'Anda harus login untuk mengubah keranjang.');
 }
 
 if ($id <= 0) {
-  http_response_code(400); 
-  echo json_encode([
-    "success" => false,
-    "message" => "ID item keranjang tidak valid."
-  ]);
-  exit;
+  respondJson(400, false, 'ID item keranjang tidak valid.');
 }
 
 $stmt = mysqli_prepare(
@@ -37,12 +32,7 @@ $stmt = mysqli_prepare(
 );
 
 if (!$stmt) {
-  http_response_code(500);
-  echo json_encode([
-    "success" => false,
-    "message" => "Gagal mempersiapkan query."
-  ]);
-  exit;
+  respondJson(500, false, 'Gagal mempersiapkan query: ' . mysqli_error($conn));
 }
 
 mysqli_stmt_bind_param($stmt, "ii", $id, $user_id);
@@ -52,21 +42,11 @@ $cartItem = mysqli_fetch_assoc($result);
 mysqli_stmt_close($stmt);
 
 if (!$cartItem) {
-  http_response_code(404); 
-  echo json_encode([
-    "success" => false,
-    "message" => "Item keranjang tidak ditemukan."
-  ]);
-  exit;
+  respondJson(404, false, 'Item keranjang tidak ditemukan.');
 }
 
 if ($quantity <= 0) {
-  http_response_code(400); 
-  echo json_encode([
-    "success" => false,
-    "message" => "Jumlah produk minimal 1."
-  ]);
-  exit;
+  respondJson(400, false, 'Jumlah produk minimal 1.');
 }
 
 $stmt2 = mysqli_prepare(
@@ -77,12 +57,7 @@ $stmt2 = mysqli_prepare(
 );
 
 if (!$stmt2) {
-  http_response_code(500);
-  echo json_encode([
-    "success" => false,
-    "message" => "Gagal mempersiapkan query update."
-  ]);
-  exit;
+  respondJson(500, false, 'Gagal mempersiapkan query update: ' . mysqli_error($conn));
 }
 
 mysqli_stmt_bind_param($stmt2, "iii", $quantity, $id, $user_id);
@@ -90,19 +65,10 @@ $success = mysqli_stmt_execute($stmt2);
 mysqli_stmt_close($stmt2);
 
 if (!$success) {
-  http_response_code(500);
-  echo json_encode([
-    "success" => false,
-    "message" => "Gagal mengubah jumlah item di keranjang."
-  ]);
-  exit;
+  respondJson(500, false, 'Gagal mengubah jumlah item di keranjang: ' . mysqli_error($conn));
 }
 
-http_response_code(200);
-echo json_encode([
-  "success"      => true,
-  "message"      => "Item keranjang berhasil diperbarui.",
-  "cart_item_id" => $id,
-  "quantity"     => $quantity
+respondJson(200, true, 'Item keranjang berhasil diperbarui.', [
+  'cart_item_id' => $id,
+  'quantity' => $quantity
 ]);
-exit;
