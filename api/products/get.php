@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../config/auth.php';
 global $conn;
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$slug = $_GET['slug'] ?? '';
 
 if ($id > 0) {
   $stmt = mysqli_prepare($conn, "SELECT * FROM products WHERE id = ?");
@@ -24,6 +25,23 @@ if ($id > 0) {
 
   respondJson(200, true, 'Produk ditemukan.', $product);
 }
+
+if (!empty($slug)) {
+    $stmt = mysqli_prepare($conn, "SELECT * FROM products WHERE slug = ?");
+    mysqli_stmt_bind_param($stmt, "s", $slug);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+  
+    $product = mysqli_fetch_assoc($result);
+  
+    mysqli_stmt_close($stmt);
+    
+    if (!$product) {
+      respondJson(404, false, 'Produk tidak ditemukan.');
+    }
+  
+    respondJson(200, true, 'Produk ditemukan.', $product);
+  }
 
 $search = $_GET['search'] ?? '';
 $minPrice = isset($_GET['min_price']) ? intval($_GET['min_price']) : 0;
