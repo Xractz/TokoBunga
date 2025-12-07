@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../config/auth.php';
+requireCustomer();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -115,15 +119,14 @@
 
           <!-- KANAN: info produk -->
           <div class="product-detail-info">
-            <span class="product-detail-label">Fresh bouquet</span>
-            <h2 class="product-detail-title">Garden Rose Bouquet</h2>
-            <p class="product-detail-short">
-              Kombinasi mawar merah klasik dengan sentuhan greenery lembut,
-              dibungkus dengan kertas premium berwarna nude dan pita satin.
+            <span class="product-detail-label" id="detail-category">Fresh bouquet</span>
+            <h2 class="product-detail-title" id="detail-name">Loading...</h2>
+            <p class="product-detail-short" id="detail-description">
+              ...
             </p>
 
             <div class="product-detail-price-row">
-              <span class="product-detail-price">Rp 450.000</span>
+              <span class="product-detail-price" id="detail-price">Rp 0</span>
               <span class="product-detail-badge">Best seller</span>
             </div>
 
@@ -131,7 +134,7 @@
               <li>• Estimasi tinggi rangkaian: ± 45–50 cm</li>
               <li>• Termasuk kartu ucapan gratis</li>
               <li>• Same day delivery untuk area kota</li>
-              <li>• Stok: Tersedia</li>
+              <li>• Stok: <span id="detail-stock">Tersedia</span></li>
             </ul>
 
             <!-- opsi -->
@@ -329,6 +332,63 @@
         if (val < 1) val = 1;
         input.value = val;
       }
+
+      // Fetch Product Details by Slug
+      document.addEventListener("DOMContentLoaded", async function() {
+        const params = new URLSearchParams(window.location.search);
+        const slug = params.get("slug");
+
+        if (!slug) {
+            alert("Produk tidak ditemukan (no slug).");
+            window.location.href = "katalog.html";
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/products/get.php?slug=${slug}`);
+            const result = await response.json();
+
+            if (result.success && result.data) {
+                const p = result.data;
+                
+                // Update Text Content
+                document.getElementById("detail-name").textContent = p.name;
+                document.getElementById("detail-description").textContent = p.description;
+                document.getElementById("detail-category").textContent = p.label || 'Fresh Flower'; // fallback
+                document.getElementById("detail-stock").textContent = p.stock > 0 ? "Tersedia" : "Habis";
+                
+                // Update Price
+                 const priceFormatted = new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 0,
+                }).format(p.price);
+                document.getElementById("detail-price").textContent = priceFormatted;
+
+                // Update Images
+                const mainImg = document.querySelector(".product-detail-image-main img");
+                if (mainImg) {
+                    mainImg.src = p.image ? `assets/images/${p.image}` : 'assets/images/gardenmix.jpg';
+                    mainImg.alt = p.name;
+                    mainImg.onerror = function() { this.src = 'assets/images/gardenmix.jpg'; };
+                }
+
+                // Update Breadcrumb
+                const bcName = document.querySelector(".breadcrumb span:last-child");
+                if(bcName) bcName.textContent = p.name;
+                
+                // Update Page Title
+                document.title = `${p.name} – Bloomify`;
+
+            } else {
+                alert("Produk tidak ditemukan.");
+                window.location.href = "katalog.html";
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Terjadi kesalahan.");
+        }
+      });
     </script>
   </body>
 </html>
