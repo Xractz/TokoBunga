@@ -24,8 +24,27 @@ if ($id > 0) {
   respondJson(200, true, 'Kategori ditemukan.', $category);
 }
 
-$sql = "SELECT * FROM product_categories ORDER BY id DESC";
-$result = mysqli_query($conn, $sql);
+$status = $_GET['status'] ?? 1; 
+
+if ($status === 'all') {
+    $sql = "SELECT * FROM product_categories ORDER BY id DESC";
+    $params = [];
+    $types = "";
+} else {
+    $status = intval($status);
+    $sql = "SELECT * FROM product_categories WHERE is_active = ? ORDER BY id DESC";
+    $params = [$status];
+    $types = "i";
+}
+
+$stmt = mysqli_prepare($conn, $sql);
+if (!empty($params)) {
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+}
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+mysqli_stmt_close($stmt);
 
 respondJson(200, true, 'Daftar kategori berhasil diambil.', $categories);
