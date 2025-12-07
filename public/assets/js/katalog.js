@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (searchInput) {
         searchInput.addEventListener("keypress", function (e) {
             if (e.key === "Enter") {
-            applyFilters();
+                applyFilters();
             }
         });
     }
@@ -99,7 +99,6 @@ async function fetchProducts(params = null) {
     try {
         const response = await fetch(url);
         const result = await response.json();
-        console.log(url);
 
         if (result.success && Array.isArray(result.data)) {
             renderProducts(result.data, grid);
@@ -177,7 +176,7 @@ function renderProducts(products, container) {
         <p class="catalog-card-meta">${product.description || ''}</p>
         <div class="catalog-card-footer">
           <span class="catalog-card-price">${priceDisplay}</span>
-          <a href="detail_produk.html?id=${product.id}" class="catalog-card-link">View</a>
+          <a href="detail_produk.php?slug=${product.slug}" class="catalog-card-link">View</a>
         </div>
       </div>
     `;
