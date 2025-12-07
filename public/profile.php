@@ -49,7 +49,7 @@ $success = flash('success');
           </div>
 
           <ul class="menu">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.php">Home</a></li>
             <li><a href="katalog.php">Katalog Bunga</a></li>
             <li><a href="about.html">Tentang Kami</a></li>
           </ul>

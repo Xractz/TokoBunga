@@ -35,7 +35,7 @@
 
         <!-- Menu utama (desktop) -->
         <ul class="menu">
-          <li><a href="index.html">Home</a></li>
+          <li><a href="index.php">Home</a></li>
           <li><a href="katalog.php" class="active">Katalog Bunga</a></li>
           <li><a href="tentang.html">Tentang Kami</a></li>
         </ul>

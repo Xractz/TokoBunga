@@ -126,7 +126,7 @@ if (!function_exists('respondJson')) {
 }
 
 if (!function_exists('guestOnly')) {
-    function guestOnly($redirectUrl = '/index.html') {
+    function guestOnly($redirectUrl = '/index.php') {
         if (isLoggedIn()) {
             $role = getRole();
             if ($role === 'admin') {
