@@ -41,7 +41,7 @@ requireCustomer();
           <!-- Menu utama (desktop) -->
           <ul class="menu">
             <li><a href="index.html">Home</a></li>
-            <li><a href="katalog.html" class="active">Katalog Bunga</a></li>
+            <li><a href="katalog.php" class="active">Katalog Bunga</a></li>
             <li><a href="tentang.html">Tentang Kami</a></li>
           </ul>
 
@@ -82,7 +82,7 @@ requireCustomer();
           <p class="breadcrumb">
             <a href="index.html">Home</a>
             <span>/</span>
-            <a href="katalog.html">Katalog Bunga</a>
+            <a href="katalog.php">Katalog Bunga</a>
             <span>/</span>
             <span>Garden Rose Bouquet</span>
           </p>
