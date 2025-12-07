@@ -112,20 +112,36 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function updateCartCountDisplay() {
-  const count = parseInt(localStorage.getItem("cartCount") || "0");
-  const badge = document.getElementById("cartCount");
 
-  if (badge) {
-    if (count > 0) {
-      badge.textContent = count;
-      badge.classList.remove("hidden");
-    } else {
-      badge.classList.add("hidden");
+// ==============================
+// API CONSUMPTION
+// ==============================
+async function fetchCartCountFromApi() {
+  try {
+    const response = await fetch('/api/cart/list.php', {
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+
+    // Jika user belum login (401), biarkan pakai localStorage atau set 0. 
+    // Di sini kita biarkan saja (guest mode tetap jalan via localStorage).
+    if (!response.ok) return;
+
+    const result = await response.json();
+
+    if (result.success && Array.isArray(result.data)) {
+      // Hitung total quantity dari semua item di database
+      const totalQty = result.data.reduce((sum, item) => sum + parseInt(item.quantity), 0);
+
+      // Update localStorage & UI agar sinkron dengan database
+      setCartCount(totalQty);
     }
+  } catch (error) {
+    console.warn("Gagal mengambil data keranjang dari API:", error);
   }
 }
-updateCartCountDisplay();
 
 // ==============================
 // CART PAGE LOGIC (BASED ON cartCount)
