@@ -1,3 +1,4 @@
+<?php require_once '../config/auth.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +34,7 @@
 
         <!-- Menu utama (desktop) -->
         <ul class="menu">
-          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="index.php" class="active">Home</a></li>
           <li><a href="katalog.php">Katalog Bunga</a></li>
           <li><a href="tentang.html">Tentang Kami</a></li>
         </ul>
@@ -56,11 +57,14 @@
       </nav>
 
       <!-- MENU AUTH + NAV MOBILE (muncul saat hamburger diklik) -->
-      <div class="mobile-menu" id="mobileMenu">
-        <a href="auth/login.php">Login</a>
-        <a href="auth/register.php">Register</a>
-        <a href="profile.php">Profile</a>
-        <!-- <a href="logout.php">Logout</a> -->
+     <div class="mobile-menu" id="mobileMenu">
+        <?php if (isLoggedIn()): ?>
+           <a href="profile.php">Profile</a>
+           <a href="/api/auth/logout.php">Logout</a>
+        <?php else: ?>
+           <a href="auth/login.php">Login</a>
+           <a href="auth/register.php">Register</a>
+        <?php endif; ?>
       </div>
 
       <!-- HERO -->
@@ -74,8 +78,7 @@
               occasion.
             </p>
             <div class="hero-buttons">
-              <a href="#" class="btn-primary">Pesan Sekarang</a>
-              <a href="#" class="btn-secondary">Lihat Katalog</a>
+              <a href="/katalog.php" class="btn-secondary">Lihat Katalog</a>
             </div>
           </div>
         </div>
