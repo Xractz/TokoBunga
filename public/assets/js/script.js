@@ -112,20 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function updateCartCountDisplay() {
-  const count = parseInt(localStorage.getItem("cartCount") || "0");
-  const badge = document.getElementById("cartCount");
-
-  if (badge) {
-    if (count > 0) {
-      badge.textContent = count;
-      badge.classList.remove("hidden");
-    } else {
-      badge.classList.add("hidden");
-    }
-  }
-}
-updateCartCountDisplay();
 
 // ==============================
 // API CONSUMPTION
