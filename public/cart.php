@@ -108,7 +108,7 @@ requireCustomer();
               Proceed to Checkout
             </button>
 
-            <button class="continue-btn" type="button" onclick="window.location.href='katalog.html'">
+            <button class="continue-btn" type="button" onclick="window.location.href='katalog.php'">
               Continue Shopping
             </button>
           </div>
