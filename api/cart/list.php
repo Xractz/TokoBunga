@@ -15,10 +15,12 @@ if ($user_id <= 0) {
 
 $stmt = mysqli_prepare(
   $conn,
-  "SELECT id, user_id, product_id, quantity, created_at, updated_at
-   FROM cart_items
-   WHERE user_id = ?
-   ORDER BY created_at DESC"
+  "SELECT ci.id, ci.user_id, ci.product_id, ci.quantity, ci.created_at, ci.updated_at,
+          p.name, p.price, p.image, p.slug
+   FROM cart_items ci
+   JOIN products p ON ci.product_id = p.id
+   WHERE ci.user_id = ?
+   ORDER BY ci.created_at DESC"
 );
 
 if (!$stmt) {
