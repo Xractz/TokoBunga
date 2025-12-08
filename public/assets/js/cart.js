@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const card = document.createElement("article");
       card.className = "cart-item-card";
+      card.style.cursor = "pointer";
+
       card.innerHTML = `
                 <div class="cart-item-image">
                     <img src="assets/images/${
@@ -55,9 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 <div class="cart-item-info">
                     <p class="cart-item-type">BOUQUET</p>
-                    <h2 class="cart-item-name"><a href="detail_produk.php?slug=${
-                      item.slug
-                    }">${item.name}</a></h2>
+                    <h2 class="cart-item-name">${item.name}</h2>
                 </div>
 
                 <div class="cart-item-qty-price">
@@ -87,6 +87,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     </button>
                 </div>
             `;
+
+      card.addEventListener("click", (e) => {
+        if (e.target.closest("button") || e.target.closest("input")) {
+          return;
+        }
+        window.location.href = `detail_produk.php?slug=${item.slug}`;
+      });
+
       itemsContainer.appendChild(card);
     });
 
