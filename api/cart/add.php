@@ -32,7 +32,7 @@ if ($quantity <= 0) {
 
 $stmtCheck = mysqli_prepare(
   $conn,
-  "SELECT id FROM cart_items WHERE user_id = ? AND product_id = ? LIMIT 1"
+  "SELECT id, quantity FROM cart_items WHERE user_id = ? AND product_id = ? LIMIT 1"
 );
 mysqli_stmt_bind_param($stmtCheck, "ii", $user_id, $product_id);
 mysqli_stmt_execute($stmtCheck);
@@ -40,13 +40,15 @@ $resultCheck = mysqli_stmt_get_result($stmtCheck);
 $cartItem = mysqli_fetch_assoc($resultCheck);
 
 if ($cartItem) {
+  $new_quantity = $cartItem['quantity'] + $quantity;
+  
   $stmtUpdate = mysqli_prepare(
     $conn,
     "UPDATE cart_items 
      SET quantity = ?, updated_at = NOW()
      WHERE id = ?"
   );
-  mysqli_stmt_bind_param($stmtUpdate, "ii", $quantity, $cartItem['id']);
+  mysqli_stmt_bind_param($stmtUpdate, "ii", $new_quantity, $cartItem['id']);
   $success = mysqli_stmt_execute($stmtUpdate);
 
   mysqli_stmt_close($stmtUpdate);

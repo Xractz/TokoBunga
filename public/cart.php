@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../config/auth.php';
+requireCustomer();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,7 +42,7 @@
         </ul>
 
         <div class="auth-buttons">
-          <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.html'">
+          <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.php'">
             <i class="bi bi-bag"></i>
 
             <!-- Badge pink kecil -->
@@ -51,8 +56,13 @@
       </nav>
 
       <div class="mobile-menu" id="mobileMenu">
-        <a href="login.html">Login</a>
-        <a href="register.html">Register</a>
+        <?php if (isLoggedIn()): ?>
+           <a href="profile.php">Profile</a>
+           <a href="/api/auth/logout.php">Logout</a>
+        <?php else: ?>
+           <a href="auth/login.php">Login</a>
+           <a href="auth/register.php">Register</a>
+        <?php endif; ?>
       </div>
     </div>
   </header>
@@ -104,18 +114,9 @@
               Proceed to Checkout
             </button>
 
-            <button class="continue-btn" type="button" onclick="window.location.href='katalog.html'">
+            <button class="continue-btn" type="button" onclick="window.location.href='katalog.php'">
               Continue Shopping
             </button>
-          </div>
-
-          <!-- Promo code -->
-          <div class="cart-summary-promo">
-            <label for="promoCode">Have a promo code?</label>
-            <div class="cart-summary-promo-input">
-              <input type="text" id="promoCode" placeholder="Enter code" autocomplete="off" />
-              <button type="button">Apply</button>
-            </div>
           </div>
         </aside>
       </div>
@@ -198,16 +199,7 @@
 
   <!-- JS -->
   <script src="assets/js/script.js"></script>
-  <script>
-    // ambil total cart dari localStorage
-    const totalItems = parseInt(localStorage.getItem("cartCount") || "0");
-
-    // tampilkan di judul
-    const itemText = document.getElementById("cartItemCount");
-    if (itemText) {
-      itemText.textContent = totalItems;
-    }
-  </script>
+  <script src="assets/js/cart_actions.js"></script>
+  <script src="assets/js/cart.js"></script>
 </body>
-
 </html>

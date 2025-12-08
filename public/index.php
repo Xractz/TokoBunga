@@ -42,7 +42,7 @@
         <!-- Tombol kanan -->
         <div class="auth-buttons">
           <!-- Keranjang -->
-          <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.html'">
+          <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.php'">
             <i class="bi bi-bag"></i>
 
             <!-- Badge pink kecil -->
@@ -122,113 +122,10 @@
         <h2 class="section-title">Koleksi Terlaris</h2>
 
         <div class="products-grid">
-          <!-- 1 -->
-          <article class="product-card">
-            <div class="product-image">
-              <button class="product-fav" aria-label="Tambah ke favorit">
-                <i class="bi bi-heart"></i>
-              </button>
-              <span class="product-badge">Best Seller</span>
-              <img src="assets/images/gardenmix.jpg" alt="Garden Rose Bouquet" />
-            </div>
-            <h3 class="product-title">Garden Rose Bouquet</h3>
-            <p class="price">Rp 450.000</p>
-          </article>
-
-          <!-- 2 -->
-          <article class="product-card">
-            <div class="product-image">
-              <button class="product-fav" aria-label="Tambah ke favorit">
-                <i class="bi bi-heart"></i>
-              </button>
-              <span class="product-badge">Seasonal</span>
-              <img src="assets/images/sunrise.jpg" alt="Spring Tulips" />
-            </div>
-            <h3 class="product-title">Spring Tulips</h3>
-            <p class="price">Rp 510.000</p>
-          </article>
-
-          <!-- 3 -->
-          <article class="product-card">
-            <div class="product-image">
-              <button class="product-fav" aria-label="Tambah ke favorit">
-                <i class="bi bi-heart"></i>
-              </button>
-              <span class="product-badge">Premium</span>
-              <img src="assets/images/liliy.jpg" alt="Peony Dream" />
-            </div>
-            <h3 class="product-title">Peony Dream</h3>
-            <p class="price">Rp 480.000</p>
-          </article>
-
-          <!-- 4 -->
-          <article class="product-card">
-            <div class="product-image">
-              <button class="product-fav" aria-label="Tambah ke favorit">
-                <i class="bi bi-heart"></i>
-              </button>
-              <span class="product-badge">Classic</span>
-              <img src="assets/images/Tulip.jpg" alt="White Elegance" />
-            </div>
-            <h3 class="product-title">White Elegance</h3>
-            <p class="price">Rp 420.000</p>
-          </article>
-
-          <!-- 5 -->
-          <article class="product-card">
-            <div class="product-image">
-              <button class="product-fav" aria-label="Tambah ke favorit">
-                <i class="bi bi-heart"></i>
-              </button>
-              <span class="product-badge">Wedding</span>
-              <img src="assets/images/gardenmix.jpg" alt="Wedding Bliss" />
-            </div>
-            <h3 class="product-title">Wedding Bliss</h3>
-            <p class="price">Rp 530.000</p>
-          </article>
-
-          <!-- 6 -->
-          <article class="product-card">
-            <div class="product-image">
-              <button class="product-fav" aria-label="Tambah ke favorit">
-                <i class="bi bi-heart"></i>
-              </button>
-              <span class="product-badge">Cheerful</span>
-              <img src="assets/images/sunflowers.jpg" alt="Sunny Days" />
-            </div>
-            <h3 class="product-title">Sunny Days</h3>
-            <p class="price">Rp 480.000</p>
-          </article>
-
-          <!-- 7 -->
-          <article class="product-card">
-            <div class="product-image">
-              <button class="product-fav" aria-label="Tambah ke favorit">
-                <i class="bi bi-heart"></i>
-              </button>
-              <span class="product-badge">Relaxing</span>
-              <img src="assets/images/sunflowers.jpg" alt="Lavender Fields" />
-            </div>
-            <h3 class="product-title">Lavender Fields</h3>
-            <p class="price">Rp 480.000</p>
-          </article>
-
-          <!-- 8 -->
-          <article class="product-card">
-            <div class="product-image">
-              <button class="product-fav" aria-label="Tambah ke favorit">
-                <i class="bi bi-heart"></i>
-              </button>
-              <span class="product-badge">Classic</span>
-              <img src="assets/images/sunflowers.jpg" alt="Rose Garden" />
-            </div>
-            <h3 class="product-title">Rose Garden</h3>
-            <p class="price">Rp 480.000</p>
-          </article>
         </div>
 
         <div class="view-all-wrapper">
-          <a href="katalog.html" class="view-all-btn">View All Product</a>
+          <a href="katalog.php" class="view-all-btn">View All Product</a>
         </div>
       </div>
     </section>
@@ -355,6 +252,7 @@
 
   <!-- JS -->
   <script src="assets/js/script.js"></script>
+  <script src="assets/js/home.js"></script>
 </body>
 
 </html>
