@@ -42,7 +42,7 @@
         <!-- Tombol kanan -->
         <div class="auth-buttons">
           <!-- Keranjang -->
-          <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.html'">
+          <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.php'">
             <i class="bi bi-bag"></i>
 
             <!-- Badge pink kecil -->
