@@ -45,10 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const card = document.createElement("article");
       card.className = "cart-item-card";
-      card.style.cursor = "pointer";
 
       card.innerHTML = `
-                <div class="cart-item-image">
+                <div class="cart-item-image" style="cursor: pointer;">
                     <img src="assets/images/${
                       item.image || "gardenmix.jpg"
                     }" alt="${item.name}" 
@@ -57,10 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 <div class="cart-item-info">
                     <p class="cart-item-type">BOUQUET</p>
-                    <h2 class="cart-item-name">${item.name}</h2>
-                </div>
+                    <h2 class="cart-item-name" style="cursor: pointer;">${
+                      item.name
+                    }</h2>
 
-                <div class="cart-item-qty-price">
                     <div class="cart-item-qty">
                         <button type="button" class="cart-qty-minus" data-id="${
                           item.id
@@ -70,7 +69,9 @@ document.addEventListener("DOMContentLoaded", function () {
                           item.id
                         }" data-qty="${qty}">+</button>
                     </div>
+                </div>
 
+                <div class="cart-item-qty-price">
                     <div class="cart-item-price">
                         <span class="cart-item-price-main">
                             ${formatRupiah(lineTotal)}
@@ -79,20 +80,16 @@ document.addEventListener("DOMContentLoaded", function () {
                             ${formatRupiah(price)} / bouquet
                         </span>
                     </div>
-
-                    <button type="button" class="cart-item-remove" data-id="${
-                      item.id
-                    }">
-                        <i class="bi bi-trash3"></i>
-                    </button>
                 </div>
             `;
 
       card.addEventListener("click", (e) => {
-        if (e.target.closest("button") || e.target.closest("input")) {
-          return;
+        if (
+          e.target.closest(".cart-item-image") ||
+          e.target.closest(".cart-item-name")
+        ) {
+          window.location.href = `detail_produk.php?slug=${item.slug}`;
         }
-        window.location.href = `detail_produk.php?slug=${item.slug}`;
       });
 
       itemsContainer.appendChild(card);
@@ -138,14 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  /**
-   * Setup Event Listeners for Cart Buttons
-   */
   function setupCartEvents() {
-    // Implement logic for + and - using addToCart (since add updates/inserts)
-    // For remove, we might need a separate API or delete endpoint,
-    // but for now let's focus on logic.
-
     document.querySelectorAll(".cart-qty-plus").forEach((btn) => {
       btn.addEventListener("click", () => {
         const pid = btn.dataset.id;
@@ -161,31 +151,22 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentQty > 1) {
           handleUpdate(pid, currentQty - 1);
         } else {
-          // Qty is 1, so delete
           handleDelete(pid);
         }
-      });
-    });
-
-    document.querySelectorAll(".cart-item-remove").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const pid = btn.dataset.id;
-        handleDelete(pid);
       });
     });
   }
 
   async function handleUpdate(cartId, quantity) {
-    if (quantity < 1) return; // double check
-    await updateCartItem(cartId, quantity); // from cart_actions.js
-    loadCart(); // Reload UI
+    if (quantity < 1) return;
+    await updateCartItem(cartId, quantity);
+    loadCart();
   }
 
   async function handleDelete(cartId) {
-    const success = await deleteCartItem(cartId); // from cart_actions.js
+    const success = await deleteCartItem(cartId);
     if (success) loadCart();
   }
 
-  // Initial Load
   loadCart();
 });

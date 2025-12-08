@@ -2334,19 +2334,28 @@ img {
 /* card item */
 .cart-item-card {
   display: grid;
-  grid-template-columns: 120px minmax(0, 1.5fr) minmax(0, 1.1fr);
+  grid-template-columns: 80px minmax(0, 1.5fr) minmax(0, 1fr);
   gap: 1.5rem;
   align-items: center;
   background-color: #d5b687;
-  border-radius: 26px;
-  padding: 1.2rem 1.4rem;
+  border-radius: 20px;
+  padding: 1rem 1.4rem;
+  box-shadow: 0 4px 12px rgba(183, 104, 93, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cart-item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(183, 104, 93, 0.25);
 }
 
 .cart-item-image img {
   width: 100%;
-  height: 110px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .cart-item-info {
@@ -2367,12 +2376,13 @@ img {
   font-size: 1.05rem;
 }
 
-/* kanan: qty + harga + remove */
+/* kanan: qty + harga */
 .cart-item-qty-price {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.5rem;
 }
 
 /* =======================
@@ -2381,10 +2391,11 @@ img {
 .cart-item-qty {
   display: inline-flex;
   align-items: center;
-  gap: 1.8rem;
-  padding: 0.35rem 1.6rem;
+  gap: 0.8rem;
+  padding: 0.4rem 1rem;
   border-radius: 999px;
-  background-color: #f6eddd;
+  background-color: rgba(246, 237, 221, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .cart-qty-minus,
@@ -2412,7 +2423,11 @@ img {
 
 .cart-item-price-main {
   display: block;
-  font-weight: 600;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #3c2a1f;
+  letter-spacing: -0.02em;
 }
 
 .cart-item-price-note {
@@ -2530,7 +2545,12 @@ img {
   }
 
   .cart-item-qty-price {
-    align-items: flex-start;
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
 }
 
@@ -2574,8 +2594,7 @@ img {
 
 .continue-btn:hover {
   background-color: rgba(255, 255, 255, 0.15);
-  } */
-
+}
 .profile-form-grid {
   grid-template-columns: 1fr;
 }
