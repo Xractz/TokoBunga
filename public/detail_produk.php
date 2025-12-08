@@ -187,40 +187,9 @@ requireCustomer();
           </div>
         </section>
 
-        <!-- rekomendasi di bawah -->
         <section class="detail-recommend">
           <h2 class="detail-recommend-title">You may also like</h2>
-
           <div class="detail-recommend-grid">
-            <!-- Card 1 -->
-            <a href="detail_produk.html" class="detail-recommend-card">
-              <img src="assets/images/sunrise.jpg" alt="Soft Pastel Bouquet" />
-              <div class="detail-recommend-body">
-                <h4>Soft Pastel Bouquet</h4>
-                <p>Pastel mix • Gentle look</p>
-                <span>Rp 510.000</span>
-              </div>
-            </a>
-
-            <!-- Card 2 -->
-            <a href="detail_produk.html" class="detail-recommend-card">
-              <img src="assets/images/liliy.jpg" alt="Peony Dream" />
-              <div class="detail-recommend-body">
-                <h4>Peony Dream</h4>
-                <p>Gift box • Blush tones</p>
-                <span>Rp 480.000</span>
-              </div>
-            </a>
-
-            <!-- Card 3 -->
-            <a href="detail_produk.html" class="detail-recommend-card">
-              <img src="assets/images/sunflowers.jpg" alt="Sunny Days" />
-              <div class="detail-recommend-body">
-                <h4>Sunny Days</h4>
-                <p>Bright & cheerful</p>
-                <span>Rp 480.000</span>
-              </div>
-            </a>
           </div>
         </section>
       </div>

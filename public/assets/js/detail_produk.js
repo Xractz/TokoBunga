@@ -53,6 +53,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (elBreadcrumb) elBreadcrumb.textContent = p.name;
 
       document.title = `${p.name} – Bloomify`;
+
+      // Mencari rekomendasi berdasarkan kategori
+      if (p.category_id) {
+        loadRecommendations(p.category_id, p.id);
+      } else {
+        // Jika tidak ada kategori, mungkin clear the recommendation section
+        document.querySelector(".detail-recommend").style.display = "none";
+      }
     } else {
       alert("Produk tidak ditemukan.");
       window.location.href = "katalog.php";
@@ -60,6 +68,56 @@ document.addEventListener("DOMContentLoaded", async function () {
   } catch (error) {
     console.error("Fetch error:", error);
     alert("Gagal memuat detail produk.");
+  }
+
+  async function loadRecommendations(categoryId, currentId) {
+    try {
+      const response = await fetch(
+        `/api/products/get.php?category=${categoryId}`
+      );
+      const result = await response.json();
+
+      if (result.success && Array.isArray(result.data)) {
+        const recommendations = result.data
+          .filter((item) => item.id !== currentId)
+          .slice(0, 3); // mengambil top 3
+
+        const container = document.querySelector(".detail-recommend-grid");
+        if (!container) return;
+
+        if (recommendations.length === 0) {
+          document.querySelector(".detail-recommend").style.display = "none";
+          return;
+        }
+
+        container.innerHTML = "";
+
+        recommendations.forEach((item) => {
+          const card = document.createElement("a");
+          card.href = `detail_produk.php?slug=${item.slug}`;
+          card.className = "detail-recommend-card";
+
+          const imgPath = item.image
+            ? `assets/images/${item.image}`
+            : "assets/images/gardenmix.jpg";
+
+          card.innerHTML = `
+            <img src="${imgPath}" alt="${
+            item.name
+          }" onerror="this.src='assets/images/gardenmix.jpg'"/>
+            <div class="detail-recommend-body">
+              <h4>${item.name}</h4>
+              <p>${item.label || "Fresh Flower"}</p>
+              <span>${formatRupiah(item.price)}</span>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+      }
+    } catch (err) {
+      console.error("Error loading recommendations:", err);
+    }
   }
 
   if (btnAddToCart) {
