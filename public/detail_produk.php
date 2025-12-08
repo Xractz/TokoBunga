@@ -99,7 +99,7 @@ requireCustomer();
 
         <!-- dua kolom: gambar kiri, info kanan -->
         <section class="product-detail-layout">
-          <!-- KIRI: gambar utama + thumbnail -->
+          <!-- KIRI: gambar utama -->
           <div class="product-detail-media">
             <div class="product-detail-image-main">
               <img

@@ -96,12 +96,20 @@ if (!function_exists('isApiRequest')) {
         if (strpos($accept, 'application/json') !== false) {
             return true;
         }
-        
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
             return true;
         }
-        
+
+        // Treat requests to API endpoints as API calls even when the Accept header
+        // is the default "*/*" (e.g., from fetch() without custom headers).
+        // Use the path only so deployments in subdirectories still match.
+        $requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '';
+        if (preg_match('#/(api)(/|$)#', $requestPath)) {
+            return true;
+        }
+
         return false;
     }
 }
