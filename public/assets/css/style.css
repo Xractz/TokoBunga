@@ -1856,27 +1856,6 @@ img {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
 }
 
-.catalog-card-heart {
-  position: absolute;
-  right: 0.9rem;
-  top: 0.9rem;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-  background-color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
-  cursor: pointer;
-}
-
-.catalog-card-heart i {
-  font-size: 1rem;
-  color: #e2a9b5;
-}
-
 /* isi card */
 .catalog-card-body {
   padding: 0.65rem 0.85rem 0.8rem;

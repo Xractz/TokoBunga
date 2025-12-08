@@ -167,9 +167,6 @@ function renderProducts(products, container) {
       <div class="catalog-card-image">
         <img src="${imageSrc}" alt="${product.name}" onerror="this.src='assets/images/gardenmix.jpg'">
         ${product.label ? `<span class="catalog-card-badge">${product.label}</span>` : ''}
-        <button class="catalog-card-heart" aria-label="Tambah ke favorit">
-          <i class="bi bi-heart"></i>
-        </button>
       </div>
       <div class="catalog-card-body">
         <h3 class="catalog-card-title">${product.name}</h3>
