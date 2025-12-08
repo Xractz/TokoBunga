@@ -50,7 +50,7 @@ requireCustomer();
             <button
               class="icon-btn"
               aria-label="Cart"
-              onclick="window.location.href='cart.html'"
+              onclick="window.location.href='cart.php'"
             >
               <i class="bi bi-bag"></i>
 
@@ -67,9 +67,13 @@ requireCustomer();
 
         <!-- MENU AUTH (MUNCUL SAAT HAMBURGER DIKLIK) -->
         <div class="mobile-menu" id="mobileMenu">
-          <a href="login.html">Login</a>
-          <a href="register.html">Register</a>
-          <!-- <a href="logout.php">Logout</a> -->
+          <?php if (isLoggedIn()): ?>
+            <a href="profile.php">Profile</a>
+            <a href="/api/auth/logout.php">Logout</a>
+          <?php else: ?>
+            <a href="auth/login.php">Login</a>
+            <a href="auth/register.php">Register</a>
+          <?php endif; ?>
         </div>
       </div>
     </header>
@@ -102,18 +106,6 @@ requireCustomer();
                 src="assets/images/gardenmix.jpg"
                 alt="Garden Rose Bouquet"
               />
-            </div>
-
-            <div class="product-detail-thumbs">
-              <div class="product-detail-thumb">
-                <img src="assets/images/gardenmix.jpg" alt="Detail buket 1" />
-              </div>
-              <div class="product-detail-thumb">
-                <img src="assets/images/sunrise.jpg" alt="Detail buket 2" />
-              </div>
-              <div class="product-detail-thumb">
-                <img src="assets/images/liliy.jpg" alt="Detail buket 3" />
-              </div>
             </div>
           </div>
 
@@ -184,14 +176,6 @@ requireCustomer();
             </div>
 
             <div class="product-detail-description">
-              <h3>Description</h3>
-              <p>
-                Garden Rose Bouquet dibuat menggunakan mawar merah impor yang
-                dipilih satu per satu untuk memastikan setiap tangkai dalam
-                kondisi terbaik. Rangkaian ini cocok untuk menyampaikan rasa
-                sayang, ucapan selamat, maupun apresiasi yang hangat.
-              </p>
-
               <h3>Flower care</h3>
               <p>
                 Simpan buket di ruangan sejuk, jauhkan dari sinar matahari
@@ -323,72 +307,8 @@ requireCustomer();
 
     <!-- JS (PAKE PUNYA KAMU) -->
     <script src="assets/js/script.js"></script>
-    <script>
-      // kecil saja untuk plus/minus jumlah
-      function changeQty(delta) {
-        const input = document.getElementById("qtyInput");
-        let val = parseInt(input.value || "1", 10);
-        val += delta;
-        if (val < 1) val = 1;
-        input.value = val;
-      }
-
-      // Fetch Product Details by Slug
-      document.addEventListener("DOMContentLoaded", async function() {
-        const params = new URLSearchParams(window.location.search);
-        const slug = params.get("slug");
-
-        if (!slug) {
-            alert("Produk tidak ditemukan (no slug).");
-            window.location.href = "katalog.html";
-            return;
-        }
-
-        try {
-            const response = await fetch(`/api/products/get.php?slug=${slug}`);
-            const result = await response.json();
-
-            if (result.success && result.data) {
-                const p = result.data;
-                
-                // Update Text Content
-                document.getElementById("detail-name").textContent = p.name;
-                document.getElementById("detail-description").textContent = p.description;
-                document.getElementById("detail-category").textContent = p.label || 'Fresh Flower'; // fallback
-                document.getElementById("detail-stock").textContent = p.stock > 0 ? "Tersedia" : "Habis";
-                
-                // Update Price
-                 const priceFormatted = new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 0,
-                }).format(p.price);
-                document.getElementById("detail-price").textContent = priceFormatted;
-
-                // Update Images
-                const mainImg = document.querySelector(".product-detail-image-main img");
-                if (mainImg) {
-                    mainImg.src = p.image ? `assets/images/${p.image}` : 'assets/images/gardenmix.jpg';
-                    mainImg.alt = p.name;
-                    mainImg.onerror = function() { this.src = 'assets/images/gardenmix.jpg'; };
-                }
-
-                // Update Breadcrumb
-                const bcName = document.querySelector(".breadcrumb span:last-child");
-                if(bcName) bcName.textContent = p.name;
-                
-                // Update Page Title
-                document.title = `${p.name} – Bloomify`;
-
-            } else {
-                alert("Produk tidak ditemukan.");
-                window.location.href = "katalog.html";
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Terjadi kesalahan.");
-        }
-      });
-    </script>
+    <!-- Custom JS for this page -->
+    <script src="assets/js/cart_actions.js"></script>
+    <script src="assets/js/detail_produk.js"></script>
   </body>
 </html>
