@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../config/auth.php';
 requireCustomer();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,8 +56,13 @@ requireCustomer();
       </nav>
 
       <div class="mobile-menu" id="mobileMenu">
-        <a href="login.html">Login</a>
-        <a href="register.html">Register</a>
+        <?php if (isLoggedIn()): ?>
+           <a href="profile.php">Profile</a>
+           <a href="/api/auth/logout.php">Logout</a>
+        <?php else: ?>
+           <a href="auth/login.php">Login</a>
+           <a href="auth/register.php">Register</a>
+        <?php endif; ?>
       </div>
     </div>
   </header>
