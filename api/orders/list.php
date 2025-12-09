@@ -1,63 +1,57 @@
 <?php
 header("Content-Type: application/json");
 
+require_once __DIR__ . "/../../config/auth.php";
 require_once __DIR__ . "/../../config/db.php";
-require_once __DIR__ . "/../middleware/is_customer.php";
+
+requireCustomer();
 
 global $conn;
+$userId = $_SESSION['user_id'];
 
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-    respondJson(405, false, "Method not allowed. Gunakan GET.");
+// Pagination parameters
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$limit = isset($_GET['limit']) ? max(1, min(100, intval($_GET['limit']))) : 10;
+$offset = ($page - 1) * $limit;
+
+// Get total count
+$countQuery = "SELECT COUNT(*) as total FROM orders WHERE user_id = ?";
+$countStmt = mysqli_prepare($conn, $countQuery);
+if (!$countStmt) {
+    respondJson(500, false, "Database error");
 }
+mysqli_stmt_bind_param($countStmt, "i", $userId);
+mysqli_stmt_execute($countStmt);
+$countResult = mysqli_stmt_get_result($countStmt);
+$totalCount = mysqli_fetch_assoc($countResult)['total'];
+mysqli_stmt_close($countStmt);
 
-$user_id = intval($_SESSION['user_id'] ?? 0);
+$totalPages = ceil($totalCount / $limit);
 
-$sql = "SELECT 
-            id,
-            user_id,
-            order_code,
-            status,
-            payment_status,
-            payment_method,
-            recipient_name,
-            recipient_phone,
-            shipping_address,
-            delivery_date,
-            delivery_time,
-            card_message,
-            subtotal,
-            shipping_cost,
-            grand_total,
-            latitude,
-            longitude,
-            created_at,
-            updated_at
-        FROM orders
-        WHERE user_id = ?
-        ORDER BY created_at DESC";
-
-$stmt = mysqli_prepare($conn, $sql);
+// Get paginated orders
+$query = "SELECT id, order_code, created_at, status, payment_status, grand_total FROM orders WHERE user_id = ? ORDER BY created_at DESC LIMIT ? OFFSET ?";
+$stmt = mysqli_prepare($conn, $query);
 
 if (!$stmt) {
-    respondJson(500, false, "Query gagal dipersiapkan.");
+    respondJson(500, false, "Database error");
 }
 
-mysqli_stmt_bind_param($stmt, "i", $user_id);
+mysqli_stmt_bind_param($stmt, "iii", $userId, $limit, $offset);
 mysqli_stmt_execute($stmt);
-
 $result = mysqli_stmt_get_result($stmt);
-$orders = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+$orders = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $orders[] = $row;
+}
 mysqli_stmt_close($stmt);
 
-if (empty($orders)) {
-    respondJson(200, true, "Belum ada pesanan untuk akun ini.", [
-        "count" => 0,
-        "data"  => []
-    ]);
-}
-
-respondJson(200, true, "Daftar pesanan berhasil diambil.", [
-    "count" => count($orders),
-    "data"  => $orders
+respondJson(200, true, "Orders retrieved", [
+    'items' => $orders,
+    'pagination' => [
+        'current_page' => $page,
+        'total_pages' => $totalPages,
+        'total_count' => $totalCount,
+        'per_page' => $limit
+    ]
 ]);

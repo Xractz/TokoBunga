@@ -60,6 +60,7 @@
      <div class="mobile-menu" id="mobileMenu">
         <?php if (isLoggedIn()): ?>
            <a href="profile.php">Profile</a>
+           <a href="orders-history.php">Riwayat Pesanan</a>
            <a href="/api/auth/logout.php">Logout</a>
         <?php else: ?>
            <a href="auth/login.php">Login</a>
