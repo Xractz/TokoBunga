@@ -152,17 +152,8 @@ require_once __DIR__ . '/../config/db.php';
         <script src="assets/js/script.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", async function() {
-                try {
-                    const response = await fetch('/api/cart/clear.php', { method: 'POST' });
-                    const result = await response.json();
-                    if(result.success) {
-                      updateCartBadge();
-                    }
-                } catch (e) {
-                    console.error("Gagal clear cart", e);
-                }
+                updateCartBadge();
 
-                // Polling for Payment Status
                 const orderCode = "<?php echo $orderCode; ?>";
                 const isPaidInitial = <?php echo $isPaid ? 'true' : 'false'; ?>;
                 

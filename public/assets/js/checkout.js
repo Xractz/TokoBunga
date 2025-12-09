@@ -354,6 +354,15 @@ async function submitOrder() {
       const orderCode = result.data.order_code;
       const amount = parseInt(result.data.grand_total);
 
+      try {
+        await fetch("/api/cart/clear.php", { method: "POST" });
+        if (typeof updateCartBadge === "function") {
+          updateCartBadge();
+        }
+      } catch (err) {
+        console.warn("Failed to clear cart silently", err);
+      }
+
       const redirectUrl = `${APP_URL}/payment_success.php?order_code=${orderCode}`;
       const pakasirUrl = `${PAKASIR_API_URL}/pay/${PAKASIR_SLUG}/${amount}?order_id=${orderCode}&qris_only=1&redirect=${encodeURIComponent(
         redirectUrl
