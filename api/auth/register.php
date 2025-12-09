@@ -18,6 +18,12 @@ if ($name === "" || $username === "" || $email === "" || $phone === "" || $passw
   exit;
 }
 
+if (strlen($password) < 6) {
+  http_response_code(400);
+  echo json_encode(["success" => false, "message" => "Password minimal 6 karakter"]);
+  exit;
+}
+
 // Check if email already exists
 $stmt = mysqli_prepare($conn, "SELECT id FROM users WHERE email = ?");
 mysqli_stmt_bind_param($stmt, "s", $email);

@@ -72,16 +72,21 @@ $success = flash('success');
             <div class="profile-sidebar-card">
               <div class="profile-avatar-wrapper">
                 <div class="profile-avatar">
-                  <img src="assets/images/profile.jpg" alt="Foto profil" />
+                  <img src="assets/images/profiles/default.png" alt="Foto profil" />
                 </div>
                 <p class="profile-name"><?php echo htmlspecialchars($userName); ?></p>
                 <p class="profile-role"><?php echo ucfirst(htmlspecialchars($userRole)); ?></p>
               </div>
 
               <nav class="profile-menu">
-                <a href="#" class="profile-menu-item active">
+                <a href="#" class="profile-menu-item active" data-tab="profile">
                   <i class="bi bi-person-fill"></i>
                   <span>Informasi Pribadi</span>
+                </a>
+
+                <a href="#" class="profile-menu-item" data-tab="password">
+                  <i class="bi bi-key-fill"></i>
+                  <span>Ganti Password</span>
                 </a>
 
                 <a href="/api/auth/logout.php" class="profile-menu-item">
@@ -101,117 +106,135 @@ $success = flash('success');
               </p>
             </div>
 
-            <?php if ($error): ?>
-              <div class="alert-message alert-error">
-                <i class="bi bi-exclamation-circle"></i>
-                <span><?php echo htmlspecialchars($error); ?></span>
-                <button class="alert-close" onclick="this.remove()">
-                  <i class="bi bi-x"></i>
-                </button>
-              </div>
-            <?php endif; ?>
 
-            <?php if ($success): ?>
-              <div class="alert-message alert-success">
-                <i class="bi bi-check-circle"></i>
-                <span><?php echo htmlspecialchars($success); ?></span>
-              </div>
-            <?php endif; ?>
+            <!-- TAB: PROFILE -->
+            <div id="tab-profile" class="profile-tab-content">
+                <form action="#" method="post" class="profile-form">
+                <input type="hidden" id="userId" value="<?php echo $userId; ?>" />
 
-            <form action="#" method="post" class="profile-form">
-              <div class="profile-form-grid">
-                <!-- Username -->
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="bi bi-person"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="username"
-                      name="username"
-                      value="<?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?>"
-                      placeholder="Username"
-                    />
-                  </div>
-                </div>
-
-                <!-- Email -->
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="bi bi-envelope"></i>
-                    </span>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value="<?php echo htmlspecialchars($userEmail); ?>"
-                      placeholder="Email"
-                    />
-                  </div>
-                </div>
-
-                <!-- Nomor telepon -->
-                <div class="form-group profile-form-full">
-                  <label for="phone">Nomor Telepon</label>
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="bi bi-telephone"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="phone"
-                      name="phone"
-                      value="<?php echo htmlspecialchars($userPhone); ?>"
-                      placeholder="08xx-xxxx-xxxx"
-                    />
-                  </div>
-                </div>
-
-                <!-- Alamat -->
-                <div class="form-group profile-form-full">
-                  <label for="address">Alamat Lengkap</label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    class="profile-textarea"
-                    placeholder="Alamat lengkap..."
-                  ></textarea>
-                </div>
-
-                <!-- Foto profil -->
-                <div class="form-group profile-form-full">
-                  <label for="photo">Foto Profil</label>
-                  <div class="profile-photo-row">
-                    <div class="profile-photo-preview">
-                      <img src="images/avatar-demo.jpg" alt="Foto profil" />
+                <div class="profile-form-grid">
+                    <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                        <i class="bi bi-person"></i>
+                        </span>
+                        <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Username"
+                        />
+                    </div>
                     </div>
 
-                    <div class="profile-upload-info">
-                      <input
-                        type="file"
-                        id="photo"
-                        name="photo"
-                        accept="image/*"
-                      />
+                    <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                        <i class="bi bi-envelope"></i>
+                        </span>
+                        <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Email"
+                        />
                     </div>
-                  </div>
-                </div>
-              </div>
+                    </div>
 
-              <!-- tombol bawah -->
-              <div class="profile-actions">
-                <button type="button" class="btn-profile-ghost">
-                  Batalkan Perubahan
-                </button>
-                <button type="submit" class="btn-profile-save">
-                  Simpan Perubahan
-                </button>
-              </div>
-            </form>
+                    <div class="form-group profile-form-full">
+                    <label for="phone">Nomor Telepon</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                        <i class="bi bi-telephone"></i>
+                        </span>
+                        <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        placeholder="08xx-xxxx-xxxx"
+                        />
+                    </div>
+                    </div>
+
+                    <div class="form-group profile-form-full">
+                    <label for="address">Alamat Lengkap</label>
+                    <textarea
+                        id="address"
+                        name="address"
+                        class="profile-textarea"
+                        placeholder="Alamat lengkap..."
+                    ></textarea>
+                    </div>
+
+                    <div class="form-group profile-form-full">
+                    <label for="photo">Foto Profil</label>
+                    <div class="profile-photo-row">
+                        <div class="profile-photo-preview">
+                        <img src="assets/images/profiles/default.png" alt="Foto profil" />
+                        </div>
+
+                        <div class="profile-upload-info">
+                        <input
+                            type="file"
+                            id="photo"
+                            name="profile_photo" 
+                            accept="image/*"
+                        />
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- tombol bawah -->
+                <div class="profile-actions">
+                    <button type="button" class="btn-profile-ghost" onclick="window.location.href='index.php'">
+                    Batalkan Perubahan
+                    </button>
+                    <button type="submit" class="btn-profile-save">
+                    Simpan Perubahan
+                    </button>
+                </div>
+                </form>
+            </div>
+
+            <!-- TAB: PASSWORD -->
+            <div id="tab-password" class="profile-tab-content" style="display: none;">
+                <form action="#" method="post" class="password-form">
+                    <div class="profile-form-grid">
+                        <div class="form-group profile-form-full">
+                            <label for="old_password">Password Lama</label>
+                            <div class="input-group">
+                                <span class="input-icon"><i class="bi bi-lock"></i></span>
+                                <input type="password" id="old_password" name="old_password" placeholder="Masukkan password lama" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group profile-form-full">
+                            <label for="new_password">Password Baru</label>
+                            <div class="input-group">
+                                <span class="input-icon"><i class="bi bi-key"></i></span>
+                                <input type="password" id="new_password" name="new_password" placeholder="Minimal 6 karakter" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group profile-form-full">
+                            <label for="confirm_password">Konfirmasi Password Baru</label>
+                            <div class="input-group">
+                                <span class="input-icon"><i class="bi bi-check-circle"></i></span>
+                                <input type="password" id="confirm_password" name="confirm_password" placeholder="Ulangi password baru" required />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button type="submit" class="btn-profile-save">
+                            Ubah Password
+                        </button>
+                    </div>
+                </form>
+            </div>
           </section>
         </div>
       </section>
@@ -295,21 +318,7 @@ $success = flash('success');
       </div>
     </footer>
 
-    <script>
-      // Auto-remove alert after 5 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert-message');
-        alerts.forEach(function(alert) {
-          setTimeout(function() {
-            if (alert.parentElement) {
-              alert.style.opacity = '0';
-              setTimeout(function() {
-                alert.remove();
-              }, 300);
-            }
-          }, 5000);
-        });
-      });
-    </script>
+    <!-- Custom JS -->
+    <script src="js/profile.js"></script>
   </body>
 </html>
