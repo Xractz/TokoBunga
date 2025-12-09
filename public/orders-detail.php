@@ -242,7 +242,24 @@ require_once __DIR__ . '/../config/db.php';
       </div>
     </footer>
     
+    
     <script src="assets/js/script.js"></script>
+    
+    <!-- Inject environment variables for payment -->
+    <script>
+      const APP_URL = "<?php 
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+        echo $protocol . '://' . $host;
+      ?>";
+      const PAKASIR_SLUG = "<?php 
+        require_once __DIR__ . '/../config/config.php';
+        global $env;
+        echo $env['PAKASIR_SLUG'] ?? '';
+      ?>";
+      const PAKASIR_API_URL = "<?php echo $env['PAKASIR_API_URL'] ?? 'https://app.pakasir.com'; ?>";
+    </script>
+    
     <script src="assets/js/order-detail.js"></script>
   </body>
 </html>

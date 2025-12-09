@@ -137,13 +137,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     setPrice("shippingDisplay", order.shipping_cost);
     setPrice("grandTotalDisplay", order.grand_total);
 
-    // 5. Payment Button
+    // 5. Payment Button - Redirect to Pakasir
     const payBtnContainer = document.getElementById("paymentActionContainer");
     // Show button only if: unpaid AND not cancelled
     if (order.payment_status === "unpaid" && order.status !== "cancelled") {
       payBtnContainer.style.display = "block";
       const payBtn = document.getElementById("payBtn");
-      payBtn.href = `payment_success.php?order_code=${order.order_code}`;
+
+      // Add click handler to redirect to Pakasir
+      payBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const orderCode = order.order_code;
+        const amount = parseInt(order.grand_total);
+        const redirectUrl = `${APP_URL}/payment_success.php?order_code=${orderCode}`;
+        const pakasirUrl = `${PAKASIR_API_URL}/pay/${PAKASIR_SLUG}/${amount}?order_id=${orderCode}&qris_only=1&redirect=${encodeURIComponent(
+          redirectUrl
+        )}`;
+
+        window.location.href = pakasirUrl;
+      });
     } else {
       payBtnContainer.style.display = "none";
     }
