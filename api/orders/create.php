@@ -1,5 +1,9 @@
 <?php
 header("Content-Type: application/json");
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/error_log.txt');
+mysqli_report(MYSQLI_REPORT_OFF); // Disable exceptions, use return values
 
 require_once __DIR__ . "/../../config/db.php";
 require_once __DIR__ . "/../middleware/is_customer.php";
@@ -103,6 +107,46 @@ if (!$exec) {
 
 $order_id = mysqli_insert_id($conn);
 mysqli_stmt_close($stmt);
+
+// --- TRANSFER CART TO ORDER_ITEMS ---
+
+// 1. Ambil item dari cart
+$sqlCart = "SELECT c.product_id, c.quantity, p.price 
+            FROM cart c 
+            JOIN products p ON c.product_id = p.id 
+            WHERE c.user_id = ?";
+$stmtCart = mysqli_prepare($conn, $sqlCart);
+if ($stmtCart) {
+    mysqli_stmt_bind_param($stmtCart, "i", $user_id);
+    mysqli_stmt_execute($stmtCart);
+    $resultCart = mysqli_stmt_get_result($stmtCart);
+
+    $cartItems = [];
+    while ($row = mysqli_fetch_assoc($resultCart)) {
+        $cartItems[] = $row;
+    }
+    mysqli_stmt_close($stmtCart);
+
+    if (!empty($cartItems)) {
+        // 2. Insert ke order_items
+        $sqlItem = "INSERT INTO order_items (order_id, product_id, quantity, price, subtotal) VALUES (?, ?, ?, ?, ?)";
+        $stmtItem = mysqli_prepare($conn, $sqlItem);
+
+        if ($stmtItem) {
+            foreach ($cartItems as $item) {
+                $pId   = $item['product_id'];
+                $qty   = $item['quantity'];
+                $price = $item['price'];
+                $sub   = $qty * $price;
+
+                mysqli_stmt_bind_param($stmtItem, "iiidd", $order_id, $pId, $qty, $price, $sub);
+                mysqli_stmt_execute($stmtItem);
+            }
+            mysqli_stmt_close($stmtItem);
+        }
+    }
+}
+
 
 respondJson(201, true, "Pesanan berhasil dibuat.", [
     "order_id"        => $order_id,

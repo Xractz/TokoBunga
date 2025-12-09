@@ -110,7 +110,7 @@ requireCustomer();
 
           <!-- Tombol aksi -->
           <div class="summary-actions">
-            <button class="checkout-btn" type="button" onclick="window.location.href='checkout.html'">
+            <button class="checkout-btn" type="button" onclick="window.location.href='checkout.php'">
               Proceed to Checkout
             </button>
 

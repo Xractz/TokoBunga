@@ -1,8 +1,5 @@
-const API_CART_LIST = "/api/cart/list.php";
-
 document.addEventListener("DOMContentLoaded", function () {
   fetchCategories().then(() => {
-    updateCartBadge();
     fetchProducts();
   });
 
@@ -195,31 +192,4 @@ function formatRupiah(amount) {
     currency: "IDR",
     minimumFractionDigits: 0,
   }).format(amount);
-}
-
-async function updateCartBadge() {
-  try {
-    const response = await fetch(API_CART_LIST);
-    if (!response.ok) return;
-
-    const result = await response.json();
-    const badge = document.getElementById("cartCount");
-
-    if (result.success && Array.isArray(result.data)) {
-      // Count unique items
-      const totalQty = result.data.length;
-
-      if (badge) {
-        if (totalQty > 0) {
-          badge.textContent = totalQty;
-          badge.classList.remove("hidden");
-        } else {
-          badge.textContent = "0";
-          badge.classList.add("hidden");
-        }
-      }
-    }
-  } catch (error) {
-    console.warn("Failed to update cart badge:", error);
-  }
 }
