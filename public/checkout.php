@@ -348,7 +348,8 @@ requireCustomer();
         $appUrl = getenv('APP_URL') ?: $fallbackDynamicUrl;
       ?>
       const APP_URL = "<?php echo rtrim($appUrl, '/'); ?>";
-      const PAKASIR_SLUG = "toko-bunga-pwd";
+      const PAKASIR_SLUG = "<?php echo getenv('PAKASIR_SLUG') ?: 'toko-bunga-pwd'; ?>";
+      const PAKASIR_API_URL = "<?php echo getenv('PAKASIR_API') ?: 'https://app.pakasir.com'; ?>";
     </script>
     <!-- Checkout Logic -->
     <script src="assets/js/checkout.js"></script>

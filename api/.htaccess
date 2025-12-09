@@ -1,0 +1,11 @@
+Options -Indexes
+
+<FilesMatch "\.(log|txt|env|ini)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "\.php$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>

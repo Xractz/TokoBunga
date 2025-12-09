@@ -257,13 +257,10 @@ function setupDateTime() {
     const selectedDateTime = new Date(`${selectedDate}T${selectedTime}`);
     const currentDateTime = new Date();
 
-    // Clear previous custom validity
     dateInput.setCustomValidity("");
     timeInput.setCustomValidity("");
 
     if (selectedDate === todayStr) {
-      // If today, time must be in future (or very close)
-      // Let's allow buffer of 1 minute just in case of slight delays
       if (selectedDateTime < currentDateTime) {
         timeInput.setCustomValidity(
           "Waktu pengiriman tidak boleh kurang dari waktu sekarang."
@@ -295,14 +292,12 @@ async function submitOrder() {
   const city = document.getElementById("city").value.trim();
   const province = document.getElementById("province").value.trim();
   const postal = document.getElementById("postal").value.trim();
-  // Combine address details
   const fullAddress = `${address}, ${city}, ${province}, ${postal}`;
 
   const deliveryDate = document.getElementById("deliveryDate").value;
   const deliveryTime = document.getElementById("deliveryTime").value;
   const cardMessage = document.getElementById("notes").value.trim();
 
-  // Payment is fixed to QRIS
   const paymentMethod = "qris";
 
   const lat = document.getElementById("inputLat").value;
@@ -329,7 +324,6 @@ async function submitOrder() {
     return;
   }
 
-  // Prepare FormData
   const formData = new FormData();
   formData.append("payment_method", paymentMethod);
   formData.append("recipient_name", recipientName);
@@ -344,8 +338,6 @@ async function submitOrder() {
   formData.append("latitude", lat);
   formData.append("longitude", lng);
 
-  // Email logic not in Create Order API yet, ignoring for now or sent as part of user profile if needed
-
   try {
     const btn = document.getElementById("btnPlaceOrder");
     btn.disabled = true;
@@ -359,18 +351,14 @@ async function submitOrder() {
     const result = await response.json();
 
     if (result.success) {
-      // Order created successfully
       const orderCode = result.data.order_code;
       const amount = parseInt(result.data.grand_total);
 
-      // Construct Pakasir URL
-      // https://app.pakasir.com/pay/{slug}/{amount}?order_id={order_id}&qris_only=1&redirect={APP_URL}/payment_success.php
       const redirectUrl = `${APP_URL}/payment_success.php?order_code=${orderCode}`;
-      const pakasirUrl = `https://app.pakasir.com/pay/${PAKASIR_SLUG}/${amount}?order_id=${orderCode}&qris_only=1&redirect=${encodeURIComponent(
+      const pakasirUrl = `${PAKASIR_API_URL}/pay/${PAKASIR_SLUG}/${amount}?order_id=${orderCode}&qris_only=1&redirect=${encodeURIComponent(
         redirectUrl
       )}`;
 
-      // Redirect user
       window.location.href = pakasirUrl;
     } else {
       alert("Failed to place order: " + (result.message || "Unknown error"));
