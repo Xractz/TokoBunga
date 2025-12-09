@@ -1,15 +1,51 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // --- TAB SWITCHING LOGIC ---
+  const menuItems = document.querySelectorAll(".profile-menu-item[data-tab]");
+  const tabContents = document.querySelectorAll(".profile-tab-content");
+  const pageTitle = document.getElementById("page-title");
+  const pageDesc = document.getElementById("page-desc");
+
+  menuItems.forEach((item) => {
+    item.addEventListener("click", function (e) {
+      e.preventDefault();
+      const target = this.getAttribute("data-tab");
+
+      // Update Menu Active State
+      menuItems.forEach((i) => i.classList.remove("active"));
+      this.classList.add("active");
+
+      // Update Tab Visibility
+      tabContents.forEach((content) => {
+        content.style.display =
+          content.id === `tab-${target}` ? "block" : "none";
+      });
+
+      // Update Header Text (Optional)
+      if (pageTitle && pageDesc) {
+        if (target === "password") {
+          pageTitle.textContent = "Ganti Password";
+          pageDesc.textContent =
+            "Jaga keamanan akunmu dengan password yang kuat.";
+        } else {
+          pageTitle.textContent = "Informasi Pribadi";
+          pageDesc.textContent =
+            "Perbarui data akunmu untuk pengalaman belanja yang lebih nyaman.";
+        }
+      }
+    });
+  });
+
   const profileForm = document.querySelector(".profile-form");
-  const userIdInput = document.getElementById("userId"); // We'll add this hidden input in profile.php
+  const userIdInput = document.getElementById("userId");
   const userId = userIdInput ? userIdInput.value : null;
 
   if (!userId) {
-    console.error("User ID not found");
-    return;
+    console.error("User ID not found, data fetching might fail.");
   }
 
   // Load Profile Data
   async function loadProfile() {
+    if (!userId) return; // Guard here instead
     try {
       const response = await fetch(`/api/users/list.php?id=${userId}`);
       const result = await response.json();
@@ -99,6 +135,53 @@ document.addEventListener("DOMContentLoaded", function () {
           photoPreview.src = e.target.result;
         };
         reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // --- PASSWORD FORM HANDLER ---
+  const passwordForm = document.querySelector(".password-form");
+  if (passwordForm) {
+    passwordForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const submitBtn = passwordForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.textContent = "Memproses...";
+      submitBtn.disabled = true;
+
+      const oldPass = document.getElementById("old_password").value;
+      const newPass = document.getElementById("new_password").value;
+      const confirmPass = document.getElementById("confirm_password").value;
+
+      if (newPass !== confirmPass) {
+        showAlert("error", "Konfirmasi password tidak cocok.");
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
+        return;
+      }
+
+      try {
+        const formData = new FormData(passwordForm);
+        const response = await fetch("/api/users/change_password.php", {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showAlert("success", result.message || "Password berhasil diubah.");
+          passwordForm.reset();
+        } else {
+          showAlert("error", result.message || "Gagal mengubah password.");
+        }
+      } catch (error) {
+        console.error("Error changing password:", error);
+        showAlert("error", "Terjadi kesalahan sistem.");
+      } finally {
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
       }
     });
   }

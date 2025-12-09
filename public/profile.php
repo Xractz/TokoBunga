@@ -79,9 +79,14 @@ $success = flash('success');
               </div>
 
               <nav class="profile-menu">
-                <a href="#" class="profile-menu-item active">
+                <a href="#" class="profile-menu-item active" data-tab="profile">
                   <i class="bi bi-person-fill"></i>
                   <span>Informasi Pribadi</span>
+                </a>
+
+                <a href="#" class="profile-menu-item" data-tab="password">
+                  <i class="bi bi-key-fill"></i>
+                  <span>Ganti Password</span>
                 </a>
 
                 <a href="/api/auth/logout.php" class="profile-menu-item">
@@ -102,93 +107,134 @@ $success = flash('success');
             </div>
 
 
-            <form action="#" method="post" class="profile-form">
-              <input type="hidden" id="userId" value="<?php echo $userId; ?>" />
+            <!-- TAB: PROFILE -->
+            <div id="tab-profile" class="profile-tab-content">
+                <form action="#" method="post" class="profile-form">
+                <input type="hidden" id="userId" value="<?php echo $userId; ?>" />
 
-              <div class="profile-form-grid">
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="bi bi-person"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="username"
-                      name="username"
-                      placeholder="Username"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="bi bi-envelope"></i>
-                    </span>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="Email"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-group profile-form-full">
-                  <label for="phone">Nomor Telepon</label>
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="bi bi-telephone"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="phone"
-                      name="phone"
-                      placeholder="08xx-xxxx-xxxx"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-group profile-form-full">
-                  <label for="address">Alamat Lengkap</label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    class="profile-textarea"
-                    placeholder="Alamat lengkap..."
-                  ></textarea>
-                </div>
-
-                <div class="form-group profile-form-full">
-                  <label for="photo">Foto Profil</label>
-                  <div class="profile-photo-row">
-                    <div class="profile-photo-preview">
-                      <img src="assets/images/profiles/default.png" alt="Foto profil" />
+                <div class="profile-form-grid">
+                    <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                        <i class="bi bi-person"></i>
+                        </span>
+                        <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Username"
+                        />
+                    </div>
                     </div>
 
-                    <div class="profile-upload-info">
-                      <input
-                        type="file"
-                        id="photo"
-                        name="profile_photo" 
-                        accept="image/*"
-                      />
+                    <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                        <i class="bi bi-envelope"></i>
+                        </span>
+                        <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Email"
+                        />
                     </div>
-                  </div>
-                </div>
-              </div>
+                    </div>
 
-              <div class="profile-actions">
-                <button type="button" class="btn-profile-ghost">
-                  Batalkan Perubahan
-                </button>
-                <button type="submit" class="btn-profile-save">
-                  Simpan Perubahan
-                </button>
-              </div>
-            </form>
+                    <div class="form-group profile-form-full">
+                    <label for="phone">Nomor Telepon</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                        <i class="bi bi-telephone"></i>
+                        </span>
+                        <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        placeholder="08xx-xxxx-xxxx"
+                        />
+                    </div>
+                    </div>
+
+                    <div class="form-group profile-form-full">
+                    <label for="address">Alamat Lengkap</label>
+                    <textarea
+                        id="address"
+                        name="address"
+                        class="profile-textarea"
+                        placeholder="Alamat lengkap..."
+                    ></textarea>
+                    </div>
+
+                    <div class="form-group profile-form-full">
+                    <label for="photo">Foto Profil</label>
+                    <div class="profile-photo-row">
+                        <div class="profile-photo-preview">
+                        <img src="assets/images/profiles/default.png" alt="Foto profil" />
+                        </div>
+
+                        <div class="profile-upload-info">
+                        <input
+                            type="file"
+                            id="photo"
+                            name="profile_photo" 
+                            accept="image/*"
+                        />
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- tombol bawah -->
+                <div class="profile-actions">
+                    <button type="button" class="btn-profile-ghost" onclick="window.location.href='index.php'">
+                    Batalkan Perubahan
+                    </button>
+                    <button type="submit" class="btn-profile-save">
+                    Simpan Perubahan
+                    </button>
+                </div>
+                </form>
+            </div>
+
+            <!-- TAB: PASSWORD -->
+            <div id="tab-password" class="profile-tab-content" style="display: none;">
+                <form action="#" method="post" class="password-form">
+                    <div class="profile-form-grid">
+                        <div class="form-group profile-form-full">
+                            <label for="old_password">Password Lama</label>
+                            <div class="input-group">
+                                <span class="input-icon"><i class="bi bi-lock"></i></span>
+                                <input type="password" id="old_password" name="old_password" placeholder="Masukkan password lama" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group profile-form-full">
+                            <label for="new_password">Password Baru</label>
+                            <div class="input-group">
+                                <span class="input-icon"><i class="bi bi-key"></i></span>
+                                <input type="password" id="new_password" name="new_password" placeholder="Minimal 6 karakter" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group profile-form-full">
+                            <label for="confirm_password">Konfirmasi Password Baru</label>
+                            <div class="input-group">
+                                <span class="input-icon"><i class="bi bi-check-circle"></i></span>
+                                <input type="password" id="confirm_password" name="confirm_password" placeholder="Ulangi password baru" required />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button type="submit" class="btn-profile-save">
+                            Ubah Password
+                        </button>
+                    </div>
+                </form>
+            </div>
           </section>
         </div>
       </section>
