@@ -1,7 +1,6 @@
 const API_CART_ADD = "/api/cart/add.php";
 const API_CART_UPDATE = "/api/cart/update.php";
 const API_CART_DELETE = "/api/cart/delete.php";
-const API_CART_LIST = "/api/cart/list.php";
 
 function formatRupiah(num) {
   return new Intl.NumberFormat("id-ID", {
@@ -9,33 +8,6 @@ function formatRupiah(num) {
     currency: "IDR",
     minimumFractionDigits: 0,
   }).format(num);
-}
-
-async function updateCartBadge() {
-  try {
-    const response = await fetch(API_CART_LIST);
-    if (!response.ok) return;
-
-    const result = await response.json();
-    const badge = document.getElementById("cartCount");
-
-    if (result.success && Array.isArray(result.data)) {
-      // Count unique items
-      const totalQty = result.data.length;
-
-      if (badge) {
-        if (totalQty > 0) {
-          badge.textContent = totalQty;
-          badge.classList.remove("hidden");
-        } else {
-          badge.textContent = "0";
-          badge.classList.add("hidden");
-        }
-      }
-    }
-  } catch (error) {
-    console.warn("Failed to update cart badge:", error);
-  }
 }
 
 async function addToCart(productId, quantity = 1) {
@@ -130,7 +102,3 @@ async function deleteCartItem(cartItemId) {
     return false;
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  updateCartBadge();
-});
