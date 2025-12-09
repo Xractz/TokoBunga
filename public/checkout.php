@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../config/auth.php';
+requireCustomer();
+?>
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -18,9 +22,15 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css" />
     <title>Checkout – Bloomify</title>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   </head>
   <body>
     <!-- =============== HEADER (SAMA SEPERTI PAGE LAIN) =============== -->
@@ -33,8 +43,8 @@
           </div>
 
           <ul class="menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="katalog.html">Katalog Bunga</a></li>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="katalog.php">Katalog Bunga</a></li>
             <li><a href="tentang.html">Tentang Kami</a></li>
           </ul>
 
@@ -42,7 +52,7 @@
             <button
               class="icon-btn"
               aria-label="Cart"
-              onclick="window.location.href='cart.html'"
+              onclick="window.location.href='cart.php'"
             >
               <i class="bi bi-bag"></i>
               <span id="cartCount" class="cart-badge hidden">0</span>
@@ -55,8 +65,13 @@
         </nav>
 
         <div class="mobile-menu" id="mobileMenu">
-          <a href="login.html">Login</a>
-          <a href="register.html">Register</a>
+          <?php if (isLoggedIn()): ?>
+            <a href="profile.php">Profile</a>
+            <a href="/api/auth/logout.php">Logout</a>
+          <?php else: ?>
+            <a href="auth/login.php">Login</a>
+            <a href="auth/register.php">Register</a>
+          <?php endif; ?>
         </div>
       </div>
     </header>
@@ -70,6 +85,13 @@
           <p class="checkout-subtitle">
             Complete your order by filling in the details below
           </p>
+          
+          <!-- Hidden Inputs for Form Data -->
+          <input type="hidden" id="inputSubtotal" name="subtotal" value="0">
+          <input type="hidden" id="inputShipping" name="shipping_cost" value="0">
+          <input type="hidden" id="inputGrandTotal" name="grand_total" value="0">
+          <input type="hidden" id="inputLat" name="latitude" value="">
+          <input type="hidden" id="inputLng" name="longitude" value="">
 
           <!-- Contact information -->
           <div class="checkout-card">
@@ -78,30 +100,17 @@
             <div class="checkout-row-2">
               <div class="checkout-field">
                 <label for="fullName" class="checkout-label"
-                  >Full Name <span>*</span></label
+                  >Example Recipient Name <span>*</span></label
                 >
                 <input
                   id="fullName"
                   type="text"
                   class="checkout-input"
-                  placeholder="Enter your full name"
+                  placeholder="Enter full name"
                 />
               </div>
 
               <div class="checkout-field">
-                <label for="email" class="checkout-label"
-                  >Email address <span>*</span></label
-                >
-                <input
-                  id="email"
-                  type="email"
-                  class="checkout-input"
-                  placeholder="your@email.com"
-                />
-              </div>
-            </div>
-
-            <div class="checkout-field">
               <label for="phone" class="checkout-label"
                 >Phone Number <span>*</span></label
               >
@@ -112,11 +121,12 @@
                 placeholder="08xxxxxxxxxx"
               />
             </div>
+            </div>
           </div>
 
-          <!-- Delivery address -->
+          <!-- Delivery address & Map -->
           <div class="checkout-card">
-            <h2 class="checkout-section-title">Delivery Address</h2>
+            <h2 class="checkout-section-title">Delivery Details</h2>
 
             <div class="checkout-field">
               <label for="address" class="checkout-label"
@@ -126,7 +136,7 @@
                 id="address"
                 type="text"
                 class="checkout-input"
-                placeholder="Enter your complete address"
+                placeholder="Jl. Mawar No. 123"
               />
             </div>
 
@@ -135,38 +145,40 @@
                 <label for="city" class="checkout-label"
                   >City <span>*</span></label
                 >
-                <input
-                  id="city"
-                  type="text"
-                  class="checkout-input"
-                  placeholder="City"
-                />
+                <input id="city" type="text" class="checkout-input" placeholder="City" />
               </div>
 
               <div class="checkout-field">
                 <label for="province" class="checkout-label"
                   >Province <span>*</span></label
                 >
-                <input
-                  id="province"
-                  type="text"
-                  class="checkout-input"
-                  placeholder="Province"
-                />
+                <input id="province" type="text" class="checkout-input" placeholder="Province" />
               </div>
 
               <div class="checkout-field">
                 <label for="postal" class="checkout-label"
-                  >Postal Code <span>*</span></label
+                  >Postal Code</label
                 >
-                <input
-                  id="postal"
-                  type="text"
-                  class="checkout-input"
-                  placeholder="12345"
-                />
+                <input id="postal" type="text" class="checkout-input" placeholder="12345" />
               </div>
             </div>
+            
+            <div class="checkout-row-2" style="margin-top: 1rem;">
+               <div class="checkout-field">
+                  <label for="deliveryDate" class="checkout-label">Delivery Date <span>*</span></label>
+                  <input type="date" id="deliveryDate" class="checkout-input">
+               </div>
+               <div class="checkout-field">
+                  <label for="deliveryTime" class="checkout-label">Delivery Time <span>*</span></label>
+                  <input type="time" id="deliveryTime" class="checkout-input">
+               </div>
+            </div>
+
+            <!-- Map Container -->
+             <div class="checkout-field" style="margin-top: 1rem;">
+                <label class="checkout-label">Pin Location (Click on map) <span>*</span></label>
+                <div id="map" style="height: 300px; width: 100%; border-radius: 10px; border: 1px solid #ccc;"></div>
+             </div>
           </div>
 
           <!-- Payment -->
@@ -175,28 +187,10 @@
 
             <div class="checkout-radio-group">
               <label class="checkout-radio">
-                <input type="radio" name="payment" checked />
+                <input type="radio" name="payment" value="qris" checked />
                 <span class="checkout-radio-body">
-                  <span class="checkout-radio-title">Bank Transfer</span>
-                  <span class="checkout-radio-desc">BCA, Mandiri, BRI</span>
-                </span>
-              </label>
-
-              <label class="checkout-radio">
-                <input type="radio" name="payment" />
-                <span class="checkout-radio-body">
-                  <span class="checkout-radio-title">E-Wallet</span>
-                  <span class="checkout-radio-desc">OVO, Gopay, Dana</span>
-                </span>
-              </label>
-
-              <label class="checkout-radio">
-                <input type="radio" name="payment" />
-                <span class="checkout-radio-body">
-                  <span class="checkout-radio-title">Cash on Delivery</span>
-                  <span class="checkout-radio-desc"
-                    >Pay when the flowers arrive</span
-                  >
+                  <span class="checkout-radio-title">QRIS</span>
+                  <span class="checkout-radio-desc">Pay instantly with GoPay, OVO, Dana, LinkAja, BCA Mobile, dll</span>
                 </span>
               </label>
             </div>
@@ -204,16 +198,16 @@
 
           <!-- Additional notes -->
           <div class="checkout-card">
-            <h2 class="checkout-section-title">Additional Notes</h2>
+            <h2 class="checkout-section-title">Card Message</h2>
             <div class="checkout-field">
               <label for="notes" class="checkout-label"
-                >Optional message for your order</label
+                >Message for the card (Optional)</label
               >
               <textarea
                 id="notes"
                 class="checkout-textarea"
                 rows="3"
-                placeholder="Add delivery instructions or card message here"
+                placeholder="Happy Birthday! Love, ..."
               ></textarea>
             </div>
           </div>
@@ -223,24 +217,12 @@
         <aside class="cart-summary checkout-summary">
           <h2 class="cart-summary-title">Order Summary</h2>
 
-          <div class="checkout-summary-item">
-            <div class="checkout-summary-thumb">
-              <img
-                src="assets/images/gardenmix.jpg"
-                alt="Garden Rose Bouquet"
-              />
-            </div>
-            <div class="checkout-summary-info">
-              <p class="checkout-summary-name" id="checkoutItemName">
-                Garden Rose Bouquet
-              </p>
-              <p class="checkout-summary-meta">
-                <span id="checkoutItemCount">0</span> bouquet(s)
-              </p>
-            </div>
+          <!-- Dynamic Items Container -->
+          <div id="checkoutSummaryItems">
+             <p style="font-size: 0.9rem; color: #666;">Loading items...</p>
           </div>
 
-          <div class="cart-summary-row">
+          <div class="cart-summary-row" style="margin-top: 1rem;">
             <span>Subtotal</span>
             <span id="checkoutSubtotal">Rp 0</span>
           </div>
@@ -258,12 +240,13 @@
           </div>
 
           <div class="summary-actions">
-            <button class="checkout-btn" type="button">Place Order</button>
+            <!-- ID btnPlaceOrder dipake di JS -->
+            <button class="checkout-btn" type="button" id="btnPlaceOrder">Place Order (QRIS)</button>
 
             <button
               class="continue-btn"
               type="button"
-              onclick="window.location.href='cart.html'"
+              onclick="window.location.href='cart.php'"
             >
               Back to Cart
             </button>
@@ -352,5 +335,22 @@
     </footer>
 
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/cart_actions.js"></script>
+    <script>
+      // Inject APP_URL from server-side to client-side
+      <?php
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'];
+        $scriptPath = dirname($_SERVER['SCRIPT_NAME']); 
+        // fallbackDynamicUrl points to the directory of checkout.php (public)
+        $fallbackDynamicUrl = $protocol . $domainName . $scriptPath;
+        
+        $appUrl = getenv('APP_URL') ?: $fallbackDynamicUrl;
+      ?>
+      const APP_URL = "<?php echo rtrim($appUrl, '/'); ?>";
+      const PAKASIR_SLUG = "toko-bunga-pwd";
+    </script>
+    <!-- Checkout Logic -->
+    <script src="assets/js/checkout.js"></script>
   </body>
 </html>
