@@ -15,6 +15,8 @@ function updateUserProfile(mysqli $conn, int $user_id, array $data): array
     $phone    = trim($data['phone']    ?? '');
     $address  = trim($data['address']  ?? '');
     $profile_photo = $data['profile_photo'] ?? null;
+    
+
 
     $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE id = ? LIMIT 1");
     if (!$stmt) {
@@ -37,6 +39,31 @@ function updateUserProfile(mysqli $conn, int $user_id, array $data): array
             "status"  => 404,
             "message" => "User tidak ditemukan."
         ];
+    }
+
+    if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+        $filename = $_FILES['profile_photo']['name'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        
+        if (in_array($ext, $allowed)) {
+            $newFilename = uniqid('profile_', true) . '.' . $ext;
+            $uploadDir = __DIR__ . '/../../public/assets/images/profiles/';
+            
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            if (move_uploaded_file($_FILES['profile_photo']['tmp_name'], $uploadDir . $newFilename)) {
+                if (!empty($user['profile_photo']) && $user['profile_photo'] !== 'default.png') {
+                    $oldPath = $uploadDir . $user['profile_photo'];
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
+                $profile_photo = $newFilename;
+            }
+        }
     }
 
     $name     = $name     !== '' ? $name     : $user['name'];

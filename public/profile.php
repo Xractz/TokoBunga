@@ -72,7 +72,7 @@ $success = flash('success');
             <div class="profile-sidebar-card">
               <div class="profile-avatar-wrapper">
                 <div class="profile-avatar">
-                  <img src="assets/images/profile.jpg" alt="Foto profil" />
+                  <img src="assets/images/profiles/default.png" alt="Foto profil" />
                 </div>
                 <p class="profile-name"><?php echo htmlspecialchars($userName); ?></p>
                 <p class="profile-role"><?php echo ucfirst(htmlspecialchars($userRole)); ?></p>
@@ -101,26 +101,11 @@ $success = flash('success');
               </p>
             </div>
 
-            <?php if ($error): ?>
-              <div class="alert-message alert-error">
-                <i class="bi bi-exclamation-circle"></i>
-                <span><?php echo htmlspecialchars($error); ?></span>
-                <button class="alert-close" onclick="this.remove()">
-                  <i class="bi bi-x"></i>
-                </button>
-              </div>
-            <?php endif; ?>
-
-            <?php if ($success): ?>
-              <div class="alert-message alert-success">
-                <i class="bi bi-check-circle"></i>
-                <span><?php echo htmlspecialchars($success); ?></span>
-              </div>
-            <?php endif; ?>
 
             <form action="#" method="post" class="profile-form">
+              <input type="hidden" id="userId" value="<?php echo $userId; ?>" />
+
               <div class="profile-form-grid">
-                <!-- Username -->
                 <div class="form-group">
                   <label for="username">Username</label>
                   <div class="input-group">
@@ -131,13 +116,11 @@ $success = flash('success');
                       type="text"
                       id="username"
                       name="username"
-                      value="<?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?>"
                       placeholder="Username"
                     />
                   </div>
                 </div>
 
-                <!-- Email -->
                 <div class="form-group">
                   <label for="email">Email</label>
                   <div class="input-group">
@@ -148,13 +131,11 @@ $success = flash('success');
                       type="email"
                       id="email"
                       name="email"
-                      value="<?php echo htmlspecialchars($userEmail); ?>"
                       placeholder="Email"
                     />
                   </div>
                 </div>
 
-                <!-- Nomor telepon -->
                 <div class="form-group profile-form-full">
                   <label for="phone">Nomor Telepon</label>
                   <div class="input-group">
@@ -165,13 +146,11 @@ $success = flash('success');
                       type="text"
                       id="phone"
                       name="phone"
-                      value="<?php echo htmlspecialchars($userPhone); ?>"
                       placeholder="08xx-xxxx-xxxx"
                     />
                   </div>
                 </div>
 
-                <!-- Alamat -->
                 <div class="form-group profile-form-full">
                   <label for="address">Alamat Lengkap</label>
                   <textarea
@@ -182,19 +161,18 @@ $success = flash('success');
                   ></textarea>
                 </div>
 
-                <!-- Foto profil -->
                 <div class="form-group profile-form-full">
                   <label for="photo">Foto Profil</label>
                   <div class="profile-photo-row">
                     <div class="profile-photo-preview">
-                      <img src="images/avatar-demo.jpg" alt="Foto profil" />
+                      <img src="assets/images/profiles/default.png" alt="Foto profil" />
                     </div>
 
                     <div class="profile-upload-info">
                       <input
                         type="file"
                         id="photo"
-                        name="photo"
+                        name="profile_photo" 
                         accept="image/*"
                       />
                     </div>
@@ -202,7 +180,6 @@ $success = flash('success');
                 </div>
               </div>
 
-              <!-- tombol bawah -->
               <div class="profile-actions">
                 <button type="button" class="btn-profile-ghost">
                   Batalkan Perubahan
@@ -295,21 +272,7 @@ $success = flash('success');
       </div>
     </footer>
 
-    <script>
-      // Auto-remove alert after 5 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert-message');
-        alerts.forEach(function(alert) {
-          setTimeout(function() {
-            if (alert.parentElement) {
-              alert.style.opacity = '0';
-              setTimeout(function() {
-                alert.remove();
-              }, 300);
-            }
-          }, 5000);
-        });
-      });
-    </script>
+    <!-- Custom JS -->
+    <script src="js/profile.js"></script>
   </body>
 </html>
