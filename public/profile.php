@@ -321,6 +321,6 @@ $success = flash('success');
     </footer>
 
     <!-- Custom JS -->
-    <script src="js/profile.js"></script>
+    <script src="assets/js/profile.js"></script>
   </body>
 </html>
