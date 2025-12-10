@@ -63,6 +63,13 @@ $success = flash('success');
             <h1>Bloomify</h1>
           </div>
 
+          <ul class="menu">
+            <li><a href="../index.php">Home</a></li>
+            <li><a href="../katalog.php" class="active">Katalog Bunga</a></li>
+            <li><a href="../tentang.html">Tentang Kami</a></li>
+            <li><a href="../admin/index.php">Admin</a></li>
+          </ul>
+
           <!-- Info admin di kanan -->
           <div class="auth-buttons">
             <span style="font-size: 0.9rem; color: var(--text-muted)">
