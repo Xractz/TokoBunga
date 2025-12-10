@@ -606,4 +606,65 @@ $(document).ready(function () {
 
   // Init Transactions
   loadTransactions(1);
+
+  // --- CUSTOMER MANAGEMENT ---
+  let currentCustomerPage = 1;
+
+  window.loadCustomers = function (page) {
+    currentCustomerPage = page;
+    $.ajax({
+      url: "/api/users/list.php",
+      data: { page: page, limit: 10 },
+      success: function (response) {
+        if (response.success && response.data && response.data.users) {
+          $("#totalCustomers").text(
+            "Total: " + (response.data.pagination.total_count || 0)
+          );
+          renderCustomerTable(response.data.users, (page - 1) * 10);
+          renderPagination(
+            response.data.pagination,
+            "customer-pagination-controls",
+            "loadCustomers"
+          );
+        }
+      },
+    });
+  };
+
+  function renderCustomerTable(users, offset) {
+    const tbody = $("#customers-table-body");
+    tbody.empty();
+    if (!users || users.length === 0) {
+      tbody.append(
+        '<tr><td colspan="5" class="text-center">Tidak ada pelanggan.</td></tr>'
+      );
+      return;
+    }
+
+    users.forEach((u, index) => {
+      const no = offset + index + 1;
+      const tr = `
+              <tr>
+                  <td>${u.id}</td>
+                  <td>
+                      <div class="d-flex align-items-center">
+                          <img src="${
+                            u.profile_photo
+                              ? "/assets/images/" + u.profile_photo
+                              : "https://ui-avatars.com/api/?name=" + u.name
+                          }" class="rounded-circle me-2" width="30" height="30">
+                          ${u.name}
+                      </div>
+                  </td>
+                  <td>${u.email}</td>
+                  <td>${u.phone || "-"}</td>
+                  <td>${u.total_transactions}</td>
+              </tr>
+          `;
+      tbody.append(tr);
+    });
+  }
+
+  // Init Customers
+  loadCustomers(1);
 });

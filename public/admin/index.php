@@ -238,13 +238,9 @@ $success = flash('success');
           </div>
 
           <!-- ============== SECTION: CUSTOMER ============== -->
-          <div
-            class="admin-section"
-            id="section-customer"
-            style="display: none"
-          >
+          <div class="admin-section" id="section-customer" style="display: none">
             <div class="section-header-row">
-              <h2 class="mb-0">Customer / Pelanggan</h2>
+              <h2 class="mb-0">Customer / Pelanggan <span id="totalCustomers" class="badge bg-primary ms-2" style="font-size: 0.8rem">Total: 0</span></h2>
             </div>
             <p class="section-description">
               Data pelanggan yang sudah melakukan pendaftaran atau transaksi.
@@ -263,24 +259,16 @@ $success = flash('success');
                     <th>Total Transaksi</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>CUST01</td>
-                    <td>Ani</td>
-                    <td>ani@example.com</td>
-                    <td>0812-3456-7890</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>CUST02</td>
-                    <td>Budi</td>
-                    <td>budi@example.com</td>
-                    <td>0813-9876-5432</td>
-                    <td>1</td>
-                  </tr>
+                <tbody id="customers-table-body">
+                  <!-- JS Populated -->
                 </tbody>
               </table>
             </div>
+            
+            <!-- Pagination -->
+            <nav class="d-flex justify-content-end mt-3">
+                <ul class="pagination" id="customer-pagination-controls"></ul>
+            </nav>
           </div>
         </section>
 
