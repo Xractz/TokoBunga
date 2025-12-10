@@ -177,6 +177,33 @@ $success = flash('success');
 
           <!-- ============== SECTION: LOG TRANSAKSI ============== -->
           <div class="admin-section" id="section-transaksi" style="display: none">
+            <div class="row mb-4">
+                <div class="col-12">
+                     <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="card-title mb-0">Rangkuman Transaksi</h5>
+                                <div class="btn-group" role="group" aria-label="Filter Periode">
+                                    <button type="button" class="btn btn-outline-primary active" onclick="loadStats('week')" id="btn-week">Minggu Ini</button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="loadStats('month')" id="btn-month">Bulan Ini</button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="loadStats('year')" id="btn-year">Tahun Ini</button>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-md-6 mb-3 mb-md-0 border-end">
+                                    <h6 class="text-muted">Total Pendapatan</h6>
+                                    <h3 class="fw-bold text-success" id="stat-revenue">Rp0</h3>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-muted">Total Transaksi</h6>
+                                    <h3 class="fw-bold" id="stat-transactions">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+
             <div class="section-header-row">
               <h2 class="mb-0">Log Transaksi</h2>
             </div>

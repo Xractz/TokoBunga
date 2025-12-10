@@ -108,7 +108,7 @@ $(document).ready(function () {
       const no = offset + index + 1;
       const price = formatCurrency(p.price);
       const imageHtml = p.image
-        ? `<img src="/assets/images/${p.image}" class="rounded me-2" width="40" height="40" style="object-fit:cover">`
+        ? `<img src="/assets/images/products/${p.image}" class="rounded me-2" width="40" height="40" style="object-fit:cover">`
         : `<div class="rounded me-2 d-flex align-items-center justify-content-center bg-light" style="width:40px;height:40px"><i class="bi bi-image text-muted"></i></div>`;
 
       const row = `
@@ -425,6 +425,31 @@ $(document).ready(function () {
   // Initial Loads
   loadProducts(1);
   loadCategories(1);
+
+  // --- STATS MANAGEMENT ---
+  window.loadStats = function (period) {
+    // Update button state
+    $(".btn-group .btn").removeClass("active");
+    $("#btn-" + period).addClass("active");
+
+    $.ajax({
+      url: "/api/admin/stats.php",
+      method: "GET",
+      data: { period: period },
+      success: function (response) {
+        if (response.success && response.data) {
+          $("#stat-transactions").text(response.data.total_transactions);
+          $("#stat-revenue").text(formatCurrency(response.data.total_revenue));
+        }
+      },
+      error: function (xhr) {
+        console.error("Failed to load stats:", xhr);
+      },
+    });
+  };
+
+  // Initial Load Stats
+  loadStats("week");
 
   // --- TRANSACTION MANAGEMENT ---
   let currentTransactionPage = 1;
