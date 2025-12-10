@@ -67,7 +67,7 @@ $success = flash('success');
             <li><a href="../index.php">Home</a></li>
             <li><a href="../katalog.php" class="active">Katalog Bunga</a></li>
             <li><a href="../tentang.html">Tentang Kami</a></li>
-            <li><a href="../admin/index.php">Admin</a></li>
+            <li><a href="../admin/index.php">Admin Panel</a></li>
           </ul>
 
           <!-- Info admin di kanan -->
