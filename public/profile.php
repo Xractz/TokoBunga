@@ -116,6 +116,21 @@ $success = flash('success');
 
                 <div class="profile-form-grid">
                     <div class="form-group">
+                    <label for="name">Nama Lengkap</label>
+                    <div class="input-group">
+                        <span class="input-icon">
+                        <i class="bi bi-person-vcard"></i>
+                        </span>
+                        <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Nama Lengkap"
+                        />
+                    </div>
+                    </div>
+
+                    <div class="form-group">
                     <label for="username">Username</label>
                     <div class="input-group">
                         <span class="input-icon">

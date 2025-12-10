@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 
 require_once __DIR__ . "/../../config/db.php";
-require_once __DIR__ . "/../middleware/is_customer.php";
+require_once __DIR__ . "/../middleware/is_login.php";
 
 global $conn;
 

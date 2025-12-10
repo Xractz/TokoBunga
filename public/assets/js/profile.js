@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const user = result.data[0];
 
         // Populate Form
+        document.getElementById("name").value = user.name || "";
         document.getElementById("username").value = user.username || "";
         document.getElementById("email").value = user.email || "";
         document.getElementById("phone").value = user.phone || "";
