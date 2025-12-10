@@ -142,73 +142,37 @@ $success = flash('success');
           </div>
 
           <!-- ============== SECTION: KATEGORI ============== -->
-          <div
-            class="admin-section"
-            id="section-kategori"
-            style="display: none"
-          >
+          <div class="admin-section" id="section-kategori" style="display: none">
             <div class="section-header-row">
               <h2 class="mb-0">Kategori</h2>
-              <button type="button" class="btn-primary">
+              <button type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal" onclick="prepareAddCategory()">
                 <i class="bi bi-plus-lg"></i> Tambah Kategori
               </button>
             </div>
             <p class="section-description">Kelola kategori produk bunga.</p>
 
             <div class="table-responsive">
-              <table
-                class="table table-hover table-responsive align-middle mb-0"
-              >
+              <table class="table table-hover table-responsive align-middle mb-0">
                 <thead class="table-light">
                   <tr>
-                    <th>ID</th>
+                    <th>No</th>
                     <th>Nama Kategori</th>
-                    <th>Deskripsi</th>
+                    <th>Status</th>
                     <th style="width: 120px">Aksi</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>CAT01</td>
-                    <td>Buket</td>
-                    <td>Rangkaian bunga dalam bentuk buket.</td>
-                    <td>
-                      <button
-                        class="btn btn-sm btn-outline-secondary me-1"
-                        type="button"
-                      >
-                        <i class="bi bi-pencil-square"></i>
-                      </button>
-                      <button
-                        class="btn btn-sm btn-outline-danger"
-                        type="button"
-                      >
-                        <i class="bi bi-trash3"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>CAT02</td>
-                    <td>Box Bunga</td>
-                    <td>Bunga dalam box elegan untuk hadiah.</td>
-                    <td>
-                      <button
-                        class="btn btn-sm btn-outline-secondary me-1"
-                        type="button"
-                      >
-                        <i class="bi bi-pencil-square"></i>
-                      </button>
-                      <button
-                        class="btn btn-sm btn-outline-danger"
-                        type="button"
-                      >
-                        <i class="bi bi-trash3"></i>
-                      </button>
-                    </td>
-                  </tr>
+                <tbody id="categories-table-body">
+                  <!-- JS Populated -->
                 </tbody>
               </table>
             </div>
+
+            <!-- Pagination Container -->
+            <nav class="d-flex justify-content-end mt-3">
+                <ul class="pagination" id="category-pagination-controls">
+                    <!-- Javascript will populate this -->
+                </ul>
+            </nav>
           </div>
 
           <!-- ============== SECTION: LOG TRANSAKSI ============== -->
@@ -435,6 +399,42 @@ $success = flash('success');
         </div>
     </div>
 
+    <!-- MODAL ADD CATEGORY -->
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">Tambah Kategori</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCategoryForm">
+                        <input type="hidden" id="categoryId" name="id">
+                        <div class="mb-3">
+                            <label for="categoryName" class="form-label">Nama Kategori</label>
+                            <input type="text" class="form-control" id="categoryName" name="name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="categoryDesc" class="form-label">Deskripsi</label>
+                            <textarea class="form-control" id="categoryDesc" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="mb-3 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="categoryStatus" name="is_active" value="1" checked>
+                            <label class="form-check-label" for="categoryStatus">Aktif</label>
+                        </div>
+
+                        <div class="modal-footer px-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan Kategori</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -447,286 +447,7 @@ $success = flash('success');
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script>
-      // GANTI KONTEN BERDASARKAN MENU SIDEBAR
-      const links = document.querySelectorAll(".sidebar-link");
-      const sections = document.querySelectorAll(".admin-section");
-
-      links.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          // aktifkan tombol
-          links.forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-
-          // tampilkan section yang dipilih
-          const targetId = btn.getAttribute("data-target");
-          sections.forEach((sec) => {
-            sec.style.display = sec.id === targetId ? "block" : "none";
-          });
-        });
-      });
-
-      // DETAIL TRANSAKSI SEDERHANA
-      const detailBtns = document.querySelectorAll(".btn-detail-transaksi");
-      const detailBox = document.getElementById("detail-transaksi-box");
-      const detailIdSpan = document.getElementById("detail-id");
-
-      detailBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const id = btn.getAttribute("data-id");
-          detailIdSpan.textContent = id;
-          detailBox.style.display = "block";
-        });
-      });
-
-        // --- NEW LOGIC: ADD PRODUCT ---
-        $(document).ready(function() {
-            // Initialize Select2
-            $('#productCategory').select2({
-                dropdownParent: $('#addProductModal'), // Fix Select2 in Bootstrap Modal
-                placeholder: "Pilih Kategori",
-                allowClear: true
-            });
-
-            // Image Preview
-            $('#productImage').change(function() {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        $('#imagePreview').attr('src', e.target.result).removeClass('d-none');
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    $('#imagePreview').addClass('d-none');
-                }
-            });
-
-            // Fetch Categories on Load
-            loadCategories();
-
-            function loadCategories() {
-                $.ajax({
-                    url: '/api/categories/get.php?status=all',
-                    method: 'GET',
-                    success: function(response) {
-                        if(response.success && response.data) {
-                            const select = $('#productCategory');
-                            select.empty();
-                            select.append('<option value="">Pilih Kategori</option>');
-                            response.data.forEach(cat => {
-                                select.append(`<option value="${cat.id}">${cat.name}</option>`);
-                            });
-                        }
-                    },
-                    error: function(err) {
-                        console.error('Gagal memuat kategori', err);
-                    }
-                });
-            }
-
-            // Handle Form Submit
-            $('#addProductForm').on('submit', function(e) {
-                e.preventDefault();
-                
-                const submitBtn = $(this).find('button[type="submit"]');
-                const originalText = submitBtn.text();
-                submitBtn.prop('disabled', true).text('Menyimpan...');
-
-                const formData = new FormData(this);
-                const id = $('#productId').val();
-                
-                let url = '/api/products/create.php';
-                if(id) {
-                    url = '/api/products/update.php';
-                    formData.append('id', id); // Ensure ID is in FormData
-                }
-
-                $.ajax({
-                    url: url,
-                    method: 'POST', // Both use POST
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if(response.success) {
-                            alert('Data berhasil disimpan!');
-                            $('#addProductModal').modal('hide');
-                            loadProducts(currentPage); // Reload current page
-                        } else {
-                            alert('Gagal: ' + response.message);
-                        }
-                    },
-                    error: function(xhr) {
-                        alert('Terjadi kesalahan: ' + (xhr.responseJSON?.message || xhr.statusText));
-                    },
-                    complete: function() {
-                        submitBtn.prop('disabled', false).text(originalText);
-                    }
-                });
-            });
-
-            // --- PRODUCT LIST & PAGINATION ---
-            const limit = 10;
-            let currentPage = 1;
-
-            function loadProducts(page) {
-                currentPage = page;
-                $.ajax({
-                    url: '/api/products/get.php',
-                    method: 'GET',
-                    data: { page: page, limit: limit, sort: 'newest' }, // Sort by newest by default
-                    success: function(response) {
-                        if(response.success && response.data) {
-                            renderTable(response.data.products, (page - 1) * limit);
-                            renderPagination(response.data.pagination);
-                        }
-                    }
-                });
-            }
-
-            function renderTable(products, offset) {
-                const tbody = $('#products-table-body');
-                tbody.empty();
-                if(!products || products.length === 0) {
-                    tbody.append('<tr><td colspan="6" class="text-center">Tidak ada produk.</td></tr>');
-                    return;
-                }
-                
-                products.forEach((p, index) => {
-                    const no = offset + index + 1;
-                    const price = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(p.price);
-                    const imageHtml = p.image 
-                        ? `<img src="/assets/images/${p.image}" class="rounded me-2" width="40" height="40" style="object-fit:cover">` 
-                        : `<div class="rounded me-2 d-flex align-items-center justify-content-center bg-light" style="width:40px;height:40px"><i class="bi bi-image text-muted"></i></div>`;
-
-                    const row = `
-                        <tr>
-                            <td>${no}</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    ${imageHtml}
-                                    <strong>${p.name}</strong>
-                                </div>
-                            </td>
-                            <td>${p.category_name || '-'}</td>
-                            <td>${price}</td>
-                            <td>${p.stock}</td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-secondary me-1" onclick="editProduct(${p.id})">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(${p.id})">
-                                    <i class="bi bi-trash3"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.append(row);
-                });
-            }
-
-            function renderPagination(meta) {
-                const container = $('#pagination-controls');
-                container.empty();
-                
-                if(meta.total_pages <= 1) return;
-
-                // Helper to create item
-                function createItem(label, page, disabled = false, active = false) {
-                    return `
-                        <li class="page-item ${disabled ? 'disabled' : ''} ${active ? 'active' : ''}">
-                            <button class="page-link" onclick="loadProducts(${page})">${label}</button>
-                        </li>
-                    `;
-                }
-
-                // Prev
-                container.append(createItem('Previous', meta.current_page - 1, meta.current_page === 1));
-
-                // Numbers
-                for(let i=1; i<=meta.total_pages; i++) {
-                    container.append(createItem(i, i, false, i === meta.current_page));
-                }
-
-                // Next
-                container.append(createItem('Next', meta.current_page + 1, meta.current_page === meta.total_pages));
-            }
-            
-            // --- ACTIONS ---
-            window.prepareAdd = function() {
-                $('#modalTitle').text('Tambah Produk Baru');
-                $('#addProductForm')[0].reset();
-                $('#productId').val('');
-                $('#productCategory').val(null).trigger('change');
-                $('#imagePreview').addClass('d-none');
-                $('#addProductForm button[type="submit"]').prop('disabled', false).text('Simpan Produk');
-            };
-
-            window.editProduct = function(id) {
-                // Fetch product details
-                $.ajax({
-                    url: '/api/products/get.php',
-                    method: 'GET',
-                    data: { id: id },
-                    success: function(response) {
-                        if(response.success && response.data) {
-                            const p = response.data;
-                            
-                            $('#modalTitle').text('Edit Produk');
-                            $('#productId').val(p.id);
-                            $('#productName').val(p.name);
-                            $('#productCategory').val(p.category_id).trigger('change');
-                            $('#productPrice').val(p.price);
-                            $('#productStock').val(p.stock);
-                            $('#productDesc').val(p.description);
-                            $('#productImage').val(''); // Clear file input (user must re-select to change)
-
-                            if(p.image) {
-                                $('#imagePreview').attr('src', '/assets/images/' + p.image).removeClass('d-none');
-                            } else {
-                                $('#imagePreview').addClass('d-none');
-                            }
-                            
-                            $('#addProductForm button[type="submit"]').prop('disabled', false).text('Simpan Produk');
-                            $('#addProductModal').modal('show');
-                        } else {
-                            alert('Gagal mengambil data produk.');
-                        }
-                    },
-                    error: function() {
-                        alert('Terjadi kesalahan koneksi.');
-                    }
-                });
-            };
-
-            window.deleteProduct = function(id) {
-                if(confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
-                    $.ajax({
-                        url: '/api/products/delete.php',
-                        method: 'POST',
-                        data: { id: id },
-                        success: function(response) {
-                            if(response.success) {
-                                alert('Produk berhasil dihapus.');
-                                loadProducts(currentPage);
-                            } else {
-                                alert('Gagal: ' + response.message);
-                            }
-                        },
-                        error: function(xhr) {
-                            alert('Gagal: ' + (xhr.responseJSON?.message || xhr.statusText));
-                        }
-                    });
-                }
-            };
-
-            // Expose to window for onclick handlers (already done for edit/delete above via window assignment)
-            window.loadProducts = loadProducts;
-            
-            // Initial Load
-            loadProducts(1);
-        });
-    </script>
+    <!-- Custom Admin JS -->
+    <script src="../assets/js/dashboard-admin.js"></script>
   </body>
 </html>
