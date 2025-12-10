@@ -1,4 +1,4 @@
-// Hamburger menu toggle untuk tentang.html
+// Hamburger menu toggle untuk tentang.php
 const hamburgerBtn = document.getElementById("hamburgerBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 
