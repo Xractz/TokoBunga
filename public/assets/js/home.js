@@ -33,13 +33,13 @@ function renderProducts(products, container) {
     const card = document.createElement("article");
     card.className = "product-card";
     const imgSrc = prod.image
-      ? `assets/images/${prod.image}`
+      ? `assets/images/products/${prod.image}`
       : "assets/images/gardenmix.jpg";
 
     card.innerHTML = `
         <div class="product-image">
             <span class="product-badge">Best Seller</span>
-            <img src="${imgSrc}" alt="${prod.name}" onerror="this.src='assets/images/gardenmix.jpg'" />
+            <img src="${imgSrc}" alt="${prod.name}" onerror="this.src='assets/images/products/gardenmix.jpg'" />
         </div>
         <h3 class="product-title">${prod.name}</h3>
         <p class="price">Rp ${priceFormatted}</p>

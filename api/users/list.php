@@ -52,23 +52,42 @@ else {
         respondJson(403, false, "Forbidden. Hanya admin yang bisa melihat semua user.");
     }
 
-    $sql = "SELECT 
-                id,
-                name,
-                email,
-                username,
-                phone,
-                address,
-                profile_photo,
-                role,
-                is_active,
-                activation_token,
-                created_at,
-                updated_at
-            FROM users
-            ORDER BY created_at DESC";
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $limit = isset($_GET['limit']) ? max(1, min(100, intval($_GET['limit']))) : 10;
+    $offset = ($page - 1) * $limit;
 
-    $result = mysqli_query($conn, $sql);
+    $countQuery = "SELECT COUNT(*) as total FROM users WHERE role != 'admin'";
+    $countStmt = mysqli_prepare($conn, $countQuery);
+    mysqli_stmt_execute($countStmt);
+    $countResult = mysqli_stmt_get_result($countStmt);
+    $totalCount = mysqli_fetch_assoc($countResult)['total'];
+    mysqli_stmt_close($countStmt);
+
+    $totalPages = ceil($totalCount / $limit);
+
+    $sql = "SELECT 
+                u.id,
+                u.name,
+                u.email,
+                u.username,
+                u.phone,
+                u.address,
+                u.profile_photo,
+                u.role,
+                u.is_active,
+                u.created_at,
+                COUNT(o.id) as total_transactions
+            FROM users u
+            LEFT JOIN orders o ON u.id = o.user_id
+            WHERE u.role != 'admin'
+            GROUP BY u.id
+            ORDER BY u.created_at DESC
+            LIMIT ? OFFSET ?";
+
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $limit, $offset);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
     
     if (!$result) {
         respondJson(500, false, "Gagal mengambil data users: " . mysqli_error($conn));
@@ -77,7 +96,12 @@ else {
     $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
     
     respondJson(200, true, "Daftar user berhasil diambil.", [
-        "count" => count($users),
-        "data"  => $users
+        "users" => $users,
+        "pagination" => [
+            "current_page" => $page,
+            "total_pages" => $totalPages,
+            "total_count" => $totalCount,
+            "per_page" => $limit
+        ]
     ]);
 }

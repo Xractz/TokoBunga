@@ -38,6 +38,7 @@
           <li><a href="index.php">Home</a></li>
           <li><a href="katalog.php" class="active">Katalog Bunga</a></li>
           <li><a href="tentang.html">Tentang Kami</a></li>
+          <?php if (isAdmin()) echo '<a href="admin/index.php">Admin Panel</a>'; ?>
         </ul>
 
         <!-- Tombol kanan -->
@@ -169,6 +170,13 @@
             <!-- Produk akan dimuat via JS -->
             <p>Loading...</p>
           </div>
+
+          <!-- Pagination -->
+          <nav class="catalog-pagination mt-5">
+            <ul class="pagination justify-content-center" id="catalog-pagination">
+              <!-- Populated by JS -->
+            </ul>
+          </nav>
         </section>
       </section>
     </div>

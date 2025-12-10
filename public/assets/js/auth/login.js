@@ -28,14 +28,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         setTimeout(() => {
           if (data.role === "admin") {
-            window.location.href = "/admin/dashboard.php";
+            window.location.href = "/admin/index.php";
           } else {
             window.location.href = "/";
           }
         }, 1000);
       } else {
         let errorMessage = data.message || "Login gagal. Silakan coba lagi.";
-        
+
         switch (response.status) {
           case 401:
             errorMessage = data.message || "Password salah";
@@ -47,7 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
             errorMessage = data.message || "Email tidak ditemukan";
             break;
           case 500:
-            errorMessage = "Terjadi kesalahan pada server. Silakan coba lagi nanti.";
+            errorMessage =
+              "Terjadi kesalahan pada server. Silakan coba lagi nanti.";
             break;
         }
 
@@ -63,5 +64,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
-

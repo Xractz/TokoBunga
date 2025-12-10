@@ -24,18 +24,47 @@ if ($id > 0) {
   respondJson(200, true, 'Kategori ditemukan.', $category);
 }
 
-$status = $_GET['status'] ?? 1; 
+$status = $_GET['status'] ?? 1;
 
-if ($status === 'all') {
-    $sql = "SELECT * FROM product_categories ORDER BY id DESC";
-    $params = [];
-    $types = "";
-} else {
-    $status = intval($status);
-    $sql = "SELECT * FROM product_categories WHERE is_active = ? ORDER BY id DESC";
-    $params = [$status];
-    $types = "i";
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+$page = max(1, $page);
+$limit = max(1, $limit);
+$offset = ($page - 1) * $limit;
+
+// filter
+$whereClauses = [];
+$params = [];
+$types = "";
+
+if ($status !== 'all') {
+    $whereClauses[] = "is_active = ?";
+    $params[] = intval($status);
+    $types .= "i";
 }
+
+$whereBuf = "";
+if (!empty($whereClauses)) {
+    $whereBuf = "WHERE " . implode(" AND ", $whereClauses);
+}
+
+// get Total Items
+$sqlCount = "SELECT COUNT(*) as total FROM product_categories $whereBuf";
+$stmtCount = mysqli_prepare($conn, $sqlCount);
+if (!empty($params)) {
+    mysqli_stmt_bind_param($stmtCount, $types, ...$params);
+}
+mysqli_stmt_execute($stmtCount);
+$resCount = mysqli_stmt_get_result($stmtCount);
+$rowCount = mysqli_fetch_assoc($resCount);
+$totalItems = $rowCount['total'];
+mysqli_stmt_close($stmtCount);
+
+// get Data
+$sql = "SELECT * FROM product_categories $whereBuf ORDER BY id DESC LIMIT ? OFFSET ?";
+$types .= "ii";
+$params[] = $limit;
+$params[] = $offset;
 
 $stmt = mysqli_prepare($conn, $sql);
 if (!empty($params)) {
@@ -44,7 +73,16 @@ if (!empty($params)) {
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
 mysqli_stmt_close($stmt);
 
-respondJson(200, true, 'Daftar kategori berhasil diambil.', $categories);
+$totalPages = ceil($totalItems / $limit);
+
+respondJson(200, true, 'Daftar kategori berhasil diambil.', [
+    'categories' => $categories,
+    'pagination' => [
+        'total_items' => $totalItems,
+        'total_pages' => $totalPages,
+        'current_page' => $page,
+        'limit' => $limit
+    ]
+]);

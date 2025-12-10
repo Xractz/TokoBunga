@@ -39,8 +39,9 @@ $name        = trim($_POST['name'] ?? $old['name']);
 $description = trim($_POST['description'] ?? $old['description']);
 $price       = $_POST['price'] ?? floatval($old['price']);
 $stock       = $_POST['stock'] ?? intval($old['stock']);
-$image       = trim($_POST['image'] ?? $old['image']);
 $is_active   = intval($_POST['is_active'] ?? $old['is_active']);
+
+$image = $old['image'];
 
 if ($name === "") {
   respondJson(400, false, 'Nama produk tidak boleh kosong.');
@@ -73,6 +74,32 @@ if (mysqli_stmt_num_rows($stmt2) > 0) {
   respondJson(409, false, 'Slug produk sudah digunakan produk lain.');
 }
 mysqli_stmt_close($stmt2);
+
+// Handle Image Upload
+if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    $fileTmpPath = $_FILES['image']['tmp_name'];
+    $fileName    = $_FILES['image']['name'];
+    $fileType    = $_FILES['image']['type'];
+    $fileNameCmps = explode(".", $fileName);
+    $fileExtension = strtolower(end($fileNameCmps));
+
+    $allowedfileExtensions = array('jpg', 'gif', 'png', 'jpeg', 'webp');
+    $allowedMimeTypes = array('image/jpeg', 'image/png', 'image/gif', 'image/webp');
+
+    if (in_array($fileExtension, $allowedfileExtensions) && in_array($fileType, $allowedMimeTypes)) {
+        $uploadFileDir = __DIR__ . '/../../public/assets/images/';
+        $newFileName = $slug . '.' . $fileExtension;
+        $dest_path = $uploadFileDir . $newFileName;
+
+        if(move_uploaded_file($fileTmpPath, $dest_path)) {
+            $image = $newFileName;
+        } else {
+            respondJson(500, false, "Gagal mengupload gambar.");
+        }
+    } else {
+        respondJson(400, false, "Format gambar tidak valid.");
+    }
+}
 
 $stmt3 = mysqli_prepare(
   $conn,

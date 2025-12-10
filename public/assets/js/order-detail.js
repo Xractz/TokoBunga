@@ -118,8 +118,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const row = document.createElement("div");
         row.className = "item-row";
 
-        const imgUrl = item.image_url || "assets/images/placeholder.jpg";
-        const price = new Intl.NumberFormat("id-ID").format(item.price);
+        const imgUrl =
+          `/assets/images/products/${item.image}` ||
+          "assets/images/placeholder.jpg";
+        const price = new Intl.NumberFormat("id-ID").format(item.unit_price);
 
         row.innerHTML = `
                     <img src="${imgUrl}" class="item-thumb" alt="Product">
