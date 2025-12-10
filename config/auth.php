@@ -130,7 +130,7 @@ if (!function_exists('guestOnly')) {
         if (isLoggedIn()) {
             $role = getRole();
             if ($role === 'admin') {
-                header('Location: /admin/admin.php');
+                header('Location: /admin/index.php');
             } else {
                 header("Location: $redirectUrl");
             }
