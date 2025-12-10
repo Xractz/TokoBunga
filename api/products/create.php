@@ -50,7 +50,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     // Validate
     if (in_array($fileExtension, $allowedfileExtensions) && in_array($fileType, $allowedMimeTypes)) {
         // Directory
-        $uploadFileDir = __DIR__ . '/../../public/assets/images/';
+        $uploadFileDir = __DIR__ . '/../../public/assets/images/products/';
         
         // Use slug as filename
         $newFileName = $slug . '.' . $fileExtension;
