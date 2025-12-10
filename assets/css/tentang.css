@@ -1,0 +1,410 @@
+/* =====================================
+   TENTANG PAGE - ABOUT HERO
+===================================== */
+
+.about-hero {
+  margin-top: 2rem;
+}
+
+.about-hero-banner {
+  height: 350px;
+  background-image: url("../images/Toko_Bunga.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.about-hero-overlay {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.about-hero-kicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
+}
+
+.about-hero-title {
+  max-width: 640px;
+  font-family: "Playfair Display SC", serif;
+  font-size: 2rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ========= OUR STORY ========= */
+
+.about-story {
+  background-color: var(--bg-page);
+  padding: 3rem 0 3.5rem;
+}
+
+.about-story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+/* ========= ABOUT STORE CARD (OUR STORY RIGHT SIDE) ========= */
+
+.store-card {
+  background-color: #f9eee4;
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  width: 100%;
+  max-width: 480px;
+  margin-left: auto;
+}
+
+.store-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.store-info {
+  padding: 0.9rem 1.3rem 1.1rem;
+}
+
+.store-address {
+  margin: 0 0 0.2rem;
+  font-size: 0.92rem;
+  color: var(--text-main);
+}
+
+.store-hours {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.about-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  opacity: 0.75;
+  margin-bottom: 0.4rem;
+}
+
+.about-heading {
+  font-family: "Playfair Display SC", serif;
+  font-size: 1.7rem;
+  margin: 0 0 0.85rem;
+  color: var(--text-main);
+}
+
+.about-paragraph {
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  margin: 0 0 0.8rem;
+  line-height: 1.7;
+}
+
+.about-story-media {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.about-story-image-wrapper {
+  position: relative;
+  max-width: 360px;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.about-story-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* QUOTE CARD OVERLAY */
+.about-quote-card {
+  position: absolute;
+  left: 50%;
+  bottom: 1.2rem;
+  transform: translateX(-50%);
+  background-color: #fbe0e5;
+  padding: 0.8rem 1.1rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+.about-quote-text {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #5c3b3c;
+}
+
+.about-quote-author {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #876367;
+}
+
+/* ========= STATS + VALUES ========= */
+
+.about-stats-values {
+  background-color: #f9eee4;
+  padding-bottom: 3.5rem;
+}
+
+/* STATS STRIP */
+.about-stats-strip {
+  background: linear-gradient(to bottom, #f3e0d4, #f9eee4);
+  padding: 1.6rem 0 1.3rem;
+}
+
+.about-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.about-stat-number {
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+  color: var(--text-main);
+}
+
+.about-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* VALUES SECTION */
+.about-values {
+  padding-top: 2.5rem;
+}
+
+.values-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.values-description {
+  max-width: 540px;
+  margin: 0.4rem auto 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+.value-card {
+  background-color: #f1dfc7;
+  border-radius: 22px;
+  padding: 1.4rem 1.2rem;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.value-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.value-card p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+/* ========= OUR TEAM / ABOUT SECTION ========= */
+
+.team-section {
+  padding: 3rem 0 3.5rem;
+  background-color: var(--bg-page);
+}
+
+.team-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.team-subtitle {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+}
+
+.team-title {
+  font-family: "Playfair Display SC", serif;
+  font-size: 1.9rem;
+  margin: 0 0 0.5rem;
+  color: var(--text-main);
+}
+
+.team-description {
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* GRID CARD TIM */
+.team-grid {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+/* WRAPPER UNTUK HOVER + TOOLTIP */
+.team-card-wrapper {
+  position: relative;
+}
+
+/* CARD UTAMA */
+.team-card {
+  background-color: #f7eadb;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.team-img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.team-info {
+  padding: 1rem 1.1rem 1.3rem;
+  text-align: left;
+}
+
+.team-name {
+  font-size: 0.96rem;
+  margin: 0 0 0.25rem;
+}
+
+.team-role {
+  font-size: 0.8rem;
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.team-bio {
+  margin: 0.55rem 0 0;
+  font-size: 0.8rem;
+  color: #b18b65;
+}
+
+/* EFEK HOVER CARD */
+.team-card-wrapper:hover .team-card {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+.team-card-wrapper:hover .team-img {
+  transform: scale(1.06);
+}
+
+/* TOOLTIP KECIL DI ATAS CARD */
+.team-tooltip {
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  transform: translate(-50%, -110%) translateY(10px);
+  opacity: 0;
+  pointer-events: none;
+  background-color: var(--bg-card);
+  border-radius: 18px;
+  padding: 0.75rem 0.9rem;
+  width: 230px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  z-index: 20;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.team-tooltip-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.team-tooltip-info h4 {
+  margin: 0 0 0.1rem;
+  font-size: 0.9rem;
+}
+
+.team-tooltip-info p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ========= TENTANG PAGE RESPONSIVE ========= */
+
+@media (max-width: 1024px) {
+  .team-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-story-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-stats-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-tooltip {
+    display: none;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stats-row {
+    grid-template-columns: 1fr;
+  }
+}
