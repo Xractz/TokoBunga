@@ -61,7 +61,7 @@ function renderOrderSummary(items) {
         <div class="checkout-summary-thumb">
             <img src="assets/images/${item.image || "gardenmix.jpg"}" alt="${
       item.name
-    }" onerror="this.src='assets/images/gardenmix.jpg'">
+    }" onerror="this.src='assets/images/products/gardenmix.jpg'">
         </div>
         <div class="checkout-summary-info">
             <p class="checkout-summary-name">${item.name}</p>

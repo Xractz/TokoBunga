@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         card.innerHTML = `
             <img src="${imgPath}" alt="${
           item.name
-        }" onerror="this.src='assets/images/gardenmix.jpg'"/>
+        }" onerror="this.src='assets/images/products/gardenmix.jpg'"/>
             <div class="detail-recommend-body">
               <h4>${item.name}</h4>
               <p>${item.category_name || "Fresh Flower"}</p>

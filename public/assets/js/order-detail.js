@@ -118,7 +118,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const row = document.createElement("div");
         row.className = "item-row";
 
-        const imgUrl = `/assets/images/${item.image}` || "assets/images/placeholder.jpg";
+        const imgUrl =
+          `/assets/images/products/${item.image}` ||
+          "assets/images/placeholder.jpg";
         const price = new Intl.NumberFormat("id-ID").format(item.unit_price);
 
         row.innerHTML = `

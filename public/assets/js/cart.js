@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <img src="assets/images/${
                       item.image || "gardenmix.jpg"
                     }" alt="${item.name}" 
-                         onerror="this.src='assets/images/gardenmix.jpg'">
+                         onerror="this.src='assets/images/products/gardenmix.jpg'">
                 </div>
 
                 <div class="cart-item-info">

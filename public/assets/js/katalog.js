@@ -88,7 +88,7 @@ async function loadCatalog(page) {
     const result = await response.json();
 
     if (result.success && result.data) {
-      const products = result.data.products || []; // handle new structure
+      const products = result.data.products || [];
       const pagination = result.data.pagination;
 
       renderProducts(products, grid);
@@ -151,8 +151,12 @@ async function fetchCategories() {
     const response = await fetch("/api/categories/get.php?status=1");
     const result = await response.json();
 
-    if (result.success && Array.isArray(result.data)) {
-      renderCategories(result.data);
+    if (
+      result.success &&
+      result.data &&
+      Array.isArray(result.data.categories)
+    ) {
+      renderCategories(result.data.categories);
     }
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -188,8 +192,9 @@ function renderProducts(products, container) {
   }
 
   products.forEach((product) => {
+    console.log(product);
     const imageSrc = product.image
-      ? `assets/images/${product.image}`
+      ? `assets/images/products/${product.image}`
       : "assets/images/gardenmix.jpg";
     const priceDisplay = formatRupiah(product.price);
 
@@ -200,7 +205,7 @@ function renderProducts(products, container) {
       <div class="catalog-card-image">
         <img src="${imageSrc}" alt="${
       product.name
-    }" onerror="this.src='assets/images/gardenmix.jpg'">
+    }" onerror="this.src='assets/images/products/gardenmix.jpg'">
         ${
           product.label
             ? `<span class="catalog-card-badge">${product.label}</span>`
