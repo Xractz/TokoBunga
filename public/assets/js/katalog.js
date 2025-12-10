@@ -1,6 +1,8 @@
+let currentPage = 1;
+
 document.addEventListener("DOMContentLoaded", function () {
   fetchCategories().then(() => {
-    fetchProducts();
+    loadCatalog(1);
   });
 
   const searchInput = document.getElementById("sidebar-search");
@@ -10,25 +12,25 @@ document.addEventListener("DOMContentLoaded", function () {
   if (searchInput) {
     searchInput.addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
-        applyFilters();
+        loadCatalog(1);
       }
     });
   }
 
   if (sortSelect) {
     sortSelect.addEventListener("change", function () {
-      applyFilters();
+      loadCatalog(1);
     });
   }
 
   if (applyBtn) {
     applyBtn.addEventListener("click", function () {
-      applyFilters();
+      loadCatalog(1);
     });
   }
 });
 
-function applyFilters() {
+function getFilterParams() {
   const params = new URLSearchParams();
 
   // 1. Search
@@ -37,29 +39,21 @@ function applyFilters() {
 
   // 2. Sort
   const sort = document.getElementById("sortSelect")?.value;
-
-  // Mapping value select ke param API
   if (sort === "Price: Low to High") params.append("sort", "price_low");
   else if (sort === "Price: High to Low") params.append("sort", "price_high");
   else if (sort === "Newest") params.append("sort", "newest");
   else params.append("sort", "featured");
 
+  // 3. Categories
   const checkedCats = document.querySelectorAll(
     ".catalog-sidebar-list input[type='checkbox']:checked"
   );
-  let selectedIds = [];
-
-  checkedCats.forEach((cb) => {
-    // Value checkbox sudah ID
-    if (cb.value) {
-      selectedIds.push(cb.value);
-    }
-  });
-
+  const selectedIds = Array.from(checkedCats).map((cb) => cb.value);
   if (selectedIds.length > 0) {
     params.append("category", selectedIds.join(","));
   }
 
+  // 4. Price
   const priceRadio = document.querySelector("input[name='price']:checked");
   if (priceRadio) {
     const label = priceRadio.parentElement.textContent.trim();
@@ -73,10 +67,11 @@ function applyFilters() {
     }
   }
 
-  fetchProducts(params);
+  return params;
 }
 
-async function fetchProducts(params = null) {
+async function loadCatalog(page) {
+  currentPage = page;
   const grid = document.querySelector(".catalog-grid");
   const topInfo = document.querySelector(".catalog-topbar-info");
 
@@ -84,20 +79,23 @@ async function fetchProducts(params = null) {
 
   grid.innerHTML = '<p class="loading-text">Memuat produk...</p>';
 
-  let url = "/api/products/get.php";
-  if (params) {
-    url += "?" + params.toString();
-  }
+  const params = getFilterParams();
+  params.append("page", page);
+  params.append("limit", 10);
 
   try {
-    const response = await fetch(url);
+    const response = await fetch("/api/products/get.php?" + params.toString());
     const result = await response.json();
 
-    if (result.success && Array.isArray(result.data)) {
-      renderProducts(result.data, grid);
+    if (result.success && result.data) {
+      const products = result.data.products || []; // handle new structure
+      const pagination = result.data.pagination;
 
-      if (topInfo) {
-        topInfo.textContent = `Showing ${result.data.length} products`;
+      renderProducts(products, grid);
+      renderPagination(pagination);
+
+      if (topInfo && pagination) {
+        topInfo.textContent = `Showing ${products.length} of ${pagination.total_items} products`;
       }
     } else {
       grid.innerHTML = '<p class="error-text">Gagal memuat produk.</p>';
@@ -107,6 +105,45 @@ async function fetchProducts(params = null) {
     grid.innerHTML =
       '<p class="error-text">Terjadi kesalahan saat mengambil data.</p>';
   }
+}
+
+function renderPagination(meta) {
+  const container = document.getElementById("catalog-pagination");
+  if (!container) return;
+  container.innerHTML = "";
+
+  if (!meta || meta.total_pages <= 1) return;
+
+  // Prev
+  const prevLi = document.createElement("li");
+  prevLi.className = `page-item ${meta.current_page === 1 ? "disabled" : ""}`;
+  prevLi.innerHTML = `<button class="page-link">Previous</button>`;
+  if (meta.current_page > 1) {
+    prevLi.querySelector("button").onclick = () =>
+      loadCatalog(meta.current_page - 1);
+  }
+  container.appendChild(prevLi);
+
+  // Numbers
+  for (let i = 1; i <= meta.total_pages; i++) {
+    const li = document.createElement("li");
+    li.className = `page-item ${i === meta.current_page ? "active" : ""}`;
+    li.innerHTML = `<button class="page-link">${i}</button>`;
+    li.querySelector("button").onclick = () => loadCatalog(i);
+    container.appendChild(li);
+  }
+
+  // Next
+  const nextLi = document.createElement("li");
+  nextLi.className = `page-item ${
+    meta.current_page === meta.total_pages ? "disabled" : ""
+  }`;
+  nextLi.innerHTML = `<button class="page-link">Next</button>`;
+  if (meta.current_page < meta.total_pages) {
+    nextLi.querySelector("button").onclick = () =>
+      loadCatalog(meta.current_page + 1);
+  }
+  container.appendChild(nextLi);
 }
 
 async function fetchCategories() {

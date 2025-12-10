@@ -169,6 +169,13 @@
             <!-- Produk akan dimuat via JS -->
             <p>Loading...</p>
           </div>
+
+          <!-- Pagination -->
+          <nav class="catalog-pagination mt-5">
+            <ul class="pagination justify-content-center" id="catalog-pagination">
+              <!-- Populated by JS -->
+            </ul>
+          </nav>
         </section>
       </section>
     </div>
