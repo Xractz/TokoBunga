@@ -46,105 +46,130 @@ if ($subtotal <= 0) {
     respondJson(400, false, "Subtotal pesanan tidak valid.");
 }
 
-$order_code = "ORD-" . date("Ymd-His") . "-" . strtoupper(substr(md5(uniqid((string)$user_id, true)), 0, 4));
+mysqli_begin_transaction($conn);
 
-
-$sql = "INSERT INTO orders (
-            user_id,
-            order_code,
-            status,
-            payment_status,
-            payment_method,
-            recipient_name,
-            recipient_phone,
-            shipping_address,
-            delivery_date,
-            delivery_time,
-            card_message,
-            subtotal,
-            shipping_cost,
-            grand_total,
-            latitude,
-            longitude
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-        )";
-
-$stmt = mysqli_prepare($conn, $sql);
-
-if (!$stmt) {
-    respondJson(500, false, "Gagal mempersiapkan query: " . mysqli_error($conn));
-}
-
-mysqli_stmt_bind_param(
-    $stmt,
-    "issssssssssddddd",
-    $user_id,
-    $order_code,
-    $status,
-    $payment_status,
-    $payment_method,
-    $recipient_name,
-    $recipient_phone,
-    $shipping_address,
-    $delivery_date,
-    $delivery_time,
-    $card_message,
-    $subtotal,
-    $shipping_cost,
-    $grand_total,
-    $latitude,
-    $longitude
-);
-
-$exec = mysqli_stmt_execute($stmt);
-
-if (!$exec) {
-    $error = mysqli_error($conn);
-    mysqli_stmt_close($stmt);
-    respondJson(500, false, "Gagal membuat pesanan: " . $error);
-}
-
-$order_id = mysqli_insert_id($conn);
-mysqli_stmt_close($stmt);
-
-// --- TRANSFER CART TO ORDER_ITEMS ---
-
-// 1. Ambil item dari cart
-$sqlCart = "SELECT c.product_id, c.quantity, p.price 
-            FROM cart c 
-            JOIN products p ON c.product_id = p.id 
-            WHERE c.user_id = ?";
-$stmtCart = mysqli_prepare($conn, $sqlCart);
-if ($stmtCart) {
-    mysqli_stmt_bind_param($stmtCart, "i", $user_id);
-    mysqli_stmt_execute($stmtCart);
-    $resultCart = mysqli_stmt_get_result($stmtCart);
-
+try {
+    $sqlCart = "SELECT c.product_id, c.quantity, p.price, p.name as product_name 
+                FROM cart_items c 
+                JOIN products p ON c.product_id = p.id 
+                WHERE c.user_id = ?";
+    $stmtCart = mysqli_prepare($conn, $sqlCart);
     $cartItems = [];
-    while ($row = mysqli_fetch_assoc($resultCart)) {
-        $cartItems[] = $row;
+
+    if ($stmtCart) {
+        mysqli_stmt_bind_param($stmtCart, "i", $user_id);
+        mysqli_stmt_execute($stmtCart);
+        $resultCart = mysqli_stmt_get_result($stmtCart);
+
+        while ($row = mysqli_fetch_assoc($resultCart)) {
+            $cartItems[] = $row;
+        }
+        mysqli_stmt_close($stmtCart);
     }
-    mysqli_stmt_close($stmtCart);
 
-    if (!empty($cartItems)) {
-        // 2. Insert ke order_items
-        $sqlItem = "INSERT INTO order_items (order_id, product_id, quantity, price, subtotal) VALUES (?, ?, ?, ?, ?)";
-        $stmtItem = mysqli_prepare($conn, $sqlItem);
+    if (empty($cartItems)) {
+        throw new Exception("Keranjang belanja Anda kosong. Silakan belanja terlebih dahulu. (400)");
+    }
 
-        if ($stmtItem) {
-            foreach ($cartItems as $item) {
-                $pId   = $item['product_id'];
-                $qty   = $item['quantity'];
-                $price = $item['price'];
-                $sub   = $qty * $price;
+    $order_code = "ORD-" . date("Ymd-His") . "-" . strtoupper(substr(md5(uniqid((string)$user_id, true)), 0, 4));
 
-                mysqli_stmt_bind_param($stmtItem, "iiidd", $order_id, $pId, $qty, $price, $sub);
-                mysqli_stmt_execute($stmtItem);
-            }
-            mysqli_stmt_close($stmtItem);
+    $sql = "INSERT INTO orders (
+                user_id,
+                order_code,
+                status,
+                payment_status,
+                payment_method,
+                recipient_name,
+                recipient_phone,
+                shipping_address,
+                delivery_date,
+                delivery_time,
+                card_message,
+                subtotal,
+                shipping_cost,
+                grand_total,
+                latitude,
+                longitude
+            ) VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            )";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if (!$stmt) {
+        throw new Exception("Gagal mempersiapkan query order: " . mysqli_error($conn));
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "issssssssssddddd",
+        $user_id,
+        $order_code,
+        $status,
+        $payment_status,
+        $payment_method,
+        $recipient_name,
+        $recipient_phone,
+        $shipping_address,
+        $delivery_date,
+        $delivery_time,
+        $card_message,
+        $subtotal,
+        $shipping_cost,
+        $grand_total,
+        $latitude,
+        $longitude
+    );
+
+    if (!mysqli_stmt_execute($stmt)) {
+        throw new Exception("Gagal membuat pesanan: " . mysqli_error($conn));
+    }
+
+    $order_id = mysqli_insert_id($conn);
+    mysqli_stmt_close($stmt);
+
+    // 2. Insert ke order_items
+    $sqlItem = "INSERT INTO order_items (order_id, product_id, product_name, unit_price, quantity, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmtItem = mysqli_prepare($conn, $sqlItem);
+
+    if (!$stmtItem) {
+        throw new Exception("Gagal mempersiapkan query items: " . mysqli_error($conn));
+    }
+
+    foreach ($cartItems as $item) {
+        $pId   = $item['product_id'];
+        $pName = $item['product_name'];
+        $qty   = $item['quantity'];
+        $price = $item['price'];
+        $sub   = $qty * $price;
+
+        mysqli_stmt_bind_param($stmtItem, "issdid", $order_id, $pId, $pName, $price, $qty, $sub);
+        if (!mysqli_stmt_execute($stmtItem)) {
+            throw new Exception("Gagal menyimpan item pesanan (Product ID: $pId): " . mysqli_error($conn));
         }
     }
+    mysqli_stmt_close($stmtItem);
+
+    // 3. Clear Cart
+    $sqlClear = "DELETE FROM cart_items WHERE user_id = ?";
+    $stmtClear = mysqli_prepare($conn, $sqlClear);
+    mysqli_stmt_bind_param($stmtClear, "i", $user_id);
+    if (!mysqli_stmt_execute($stmtClear)) {
+         throw new Exception("Gagal menghapus keranjang: " . mysqli_error($conn));
+    }
+    mysqli_stmt_close($stmtClear);
+
+    // Commit
+    mysqli_commit($conn);
+
+} catch (Exception $e) {
+    mysqli_rollback($conn);
+    
+    $msg = $e->getMessage();
+    if (strpos($msg, "(400)") !== false) {
+        respondJson(400, false, str_replace(" (400)", "", $msg));
+    }
+    respondJson(500, false, "Terjadi kesalahan: " . $msg);
 }
 
 

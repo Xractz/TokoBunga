@@ -1,10 +1,12 @@
 // Helper for Currency
 function formatCurrency(amount) {
+  const num = Number(amount);
+  if (isNaN(num)) return "Rp0";
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
-  }).format(amount);
+  }).format(num);
 }
 
 // Global state
@@ -424,15 +426,159 @@ $(document).ready(function () {
   loadProducts(1);
   loadCategories(1);
 
-  // Transaction Details - Keep existing logic
-  const detailBtns = document.querySelectorAll(".btn-detail-transaksi");
-  const detailBox = document.getElementById("detail-transaksi-box");
-  const detailIdSpan = document.getElementById("detail-id");
+  // --- TRANSACTION MANAGEMENT ---
+  let currentTransactionPage = 1;
 
-  // We might need delegation if transactions are dynamic later
-  $(document).on("click", ".btn-detail-transaksi", function () {
-    const id = $(this).data("id");
-    $("#detail-id").text(id);
-    $("#detail-transaksi-box").show();
+  window.loadTransactions = function (page) {
+    currentTransactionPage = page;
+    $.ajax({
+      url: "/api/orders/list.php",
+      data: { page: page, limit: 10 },
+      success: function (response) {
+        if (response.success && response.data) {
+          renderTransactionTable(response.data.orders, (page - 1) * 10);
+          renderPagination(
+            response.data.pagination,
+            "transaction-pagination-controls",
+            "loadTransactions"
+          );
+        }
+      },
+    });
+  };
+
+  function renderTransactionTable(orders, offset) {
+    const tbody = $("#transactions-table-body");
+    tbody.empty();
+    if (!orders || orders.length === 0) {
+      tbody.append(
+        '<tr><td colspan="6" class="text-center">Tidak ada transaksi.</td></tr>'
+      );
+      return;
+    }
+
+    orders.forEach((order, index) => {
+      let badgeClass = "bg-secondary";
+      if (order.status === "completed") badgeClass = "bg-success";
+      else if (order.status === "cancelled") badgeClass = "bg-danger";
+      else if (order.status === "pending") badgeClass = "bg-warning text-dark";
+      else badgeClass = "bg-info text-dark";
+
+      const row = `
+                <tr>
+                    <td>${order.order_code}</td>
+                    <td>${order.created_at}</td>
+                    <td>${order.customer_name || order.recipient_name}</td>
+                    <td>${formatCurrency(order.grand_total)}</td>
+                    <td><span class="badge ${badgeClass}">${
+        order.status
+      }</span></td>
+                    <td>
+                         <button class="btn btn-sm btn-outline-primary me-1" onclick="viewTransactionDetail('${
+                           order.order_code
+                         }')" title="Lihat Detail">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="editTransactionStatus(${
+                          order.id
+                        }, '${order.status}')" title="Update Status">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+      tbody.append(row);
+    });
+  }
+
+  window.viewTransactionDetail = function (orderCode) {
+    $.ajax({
+      url: "/api/orders/detail.php",
+      data: { order_code: orderCode },
+      success: function (response) {
+        if (response.success && response.data) {
+          const o = response.data;
+          console.log(o);
+          $("#detailOrderCode").text(o.order_code);
+          $("#detailRecipientName").text(o.recipient_name);
+          $("#detailRecipientPhone").text(o.recipient_phone);
+          $("#detailAddress").text(o.shipping_address);
+          $("#detailDeliveryTime").text(
+            (o.delivery_date || "-") + " " + (o.delivery_time || "")
+          );
+          $("#detailStatus").text(o.status);
+          $("#detailPaymentStatus").text(
+            o.payment_status + " (" + (o.payment_method || "-") + ")"
+          );
+          $("#detailCardMessage").text(o.card_message || "-");
+          $("#detailGrandTotal").text(formatCurrency(o.grand_total));
+
+          // Items
+          const tbody = $("#detailItemsTable");
+          tbody.empty();
+          if (o.items && o.items.length > 0) {
+            o.items.forEach((item) => {
+              tbody.append(`
+                                <tr>
+                                    <td>${
+                                      item.product_name ||
+                                      "Produk Tidak Ditemukan (Dihapus)"
+                                    }</td>
+                                    <td>${formatCurrency(item.unit_price)}</td>
+                                    <td>${item.quantity}</td>
+                                    <td>${formatCurrency(item.subtotal)}</td>
+                                </tr>
+                            `);
+            });
+          } else {
+            tbody.append(
+              '<tr><td colspan="4" class="text-center text-muted">Tidak ada item dalam pesanan ini.</td></tr>'
+            );
+          }
+
+          $("#transactionDetailModal").modal("show");
+        } else {
+          alert(
+            "Gagal memuat detail: " + (response.message || "Unknown error")
+          );
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("AJAX Error:", xhr.responseText);
+        alert(
+          "Terjadi kesalahan koneksi: " + (xhr.responseJSON?.message || error)
+        );
+      },
+    });
+  };
+
+  window.editTransactionStatus = function (id, status) {
+    $("#statusOrderId").val(id);
+    $("#statusSelect").val(status);
+    $("#updateStatusModal").modal("show");
+  };
+
+  $("#updateStatusForm").on("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    $.ajax({
+      url: "/api/orders/update-status.php",
+      method: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        if (response.success) {
+          alert("Status berhasil diperbarui.");
+          $("#updateStatusModal").modal("hide");
+          loadTransactions(currentTransactionPage);
+        } else {
+          alert("Gagal: " + response.message);
+        }
+      },
+    });
   });
+
+  // Init Transactions
+  loadTransactions(1);
 });

@@ -176,17 +176,12 @@ $success = flash('success');
           </div>
 
           <!-- ============== SECTION: LOG TRANSAKSI ============== -->
-          <div
-            class="admin-section"
-            id="section-transaksi"
-            style="display: none"
-          >
+          <div class="admin-section" id="section-transaksi" style="display: none">
             <div class="section-header-row">
               <h2 class="mb-0">Log Transaksi</h2>
             </div>
             <p class="section-description">
-              Riwayat pesanan pelanggan. Klik tombol detail untuk melihat
-              rincian pesanan.
+              Riwayat pesanan pelanggan. Klik tombol detail untuk melihat rincian pesanan.
             </p>
 
             <div class="table-responsive">
@@ -200,62 +195,19 @@ $success = flash('success');
                     <th>Pelanggan</th>
                     <th>Total</th>
                     <th>Status</th>
-                    <th style="width: 100px">Aksi</th>
+                    <th style="width: 120px">Aksi</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>TRX001</td>
-                    <td>03-12-2025</td>
-                    <td>Ani</td>
-                    <td>Rp350.000</td>
-                    <td>
-                      <span class="badge text-bg-success">Selesai</span>
-                    </td>
-                    <td>
-                      <button
-                        class="btn btn-sm btn-outline-primary btn-detail-transaksi"
-                        type="button"
-                        data-id="TRX001"
-                      >
-                        <i class="bi bi-eye"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>TRX002</td>
-                    <td>02-12-2025</td>
-                    <td>Budi</td>
-                    <td>Rp250.000</td>
-                    <td>
-                      <span class="badge text-bg-warning">Diproses</span>
-                    </td>
-                    <td>
-                      <button
-                        class="btn btn-sm btn-outline-primary btn-detail-transaksi"
-                        type="button"
-                        data-id="TRX002"
-                      >
-                        <i class="bi bi-eye"></i>
-                      </button>
-                    </td>
-                  </tr>
+                <tbody id="transactions-table-body">
+                  <!-- JS Populated -->
                 </tbody>
               </table>
             </div>
 
-            <!-- Detail transaksi sederhana -->
-            <div
-              id="detail-transaksi-box"
-              class="detail-box"
-              style="display: none"
-            >
-              <h3>Detail Transaksi</h3>
-              <p><strong>ID:</strong> <span id="detail-id">TRX001</span></p>
-              <p><strong>Pelanggan:</strong> Ani</p>
-              <p><strong>Item:</strong> Buket Mawar Manis (1x)</p>
-              <p><strong>Total:</strong> Rp350.000</p>
-            </div>
+            <!-- Pagination -->
+            <nav class="d-flex justify-content-end mt-3">
+                <ul class="pagination" id="transaction-pagination-controls"></ul>
+            </nav>
           </div>
 
           <!-- ============== SECTION: CUSTOMER ============== -->
@@ -435,15 +387,87 @@ $success = flash('success');
         </div>
     </div>
 
+    <!-- MODAL DETAIL TRANSAKSI -->
+    <div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Transaksi <span id="detailOrderCode"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Informasi Penerima</h6>
+                            <p class="mb-1"><strong>Nama:</strong> <span id="detailRecipientName"></span></p>
+                            <p class="mb-1"><strong>Telepon:</strong> <span id="detailRecipientPhone"></span></p>
+                            <p class="mb-1"><strong>Alamat:</strong> <span id="detailAddress"></span></p>
+                            <p class="mb-1"><strong>Waktu Kirim:</strong> <span id="detailDeliveryTime"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                             <h6>Informasi Pesanan</h6>
+                             <p class="mb-1"><strong>Status:</strong> <span id="detailStatus"></span></p>
+                             <p class="mb-1"><strong>Pembayaran:</strong> <span id="detailPaymentStatus"></span></p>
+                             <p class="mb-1"><strong>Pesan Kartu:</strong> <span id="detailCardMessage"></span></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Item Pesanan</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead><tr><th>Produk</th><th>Harga</th><th>Qty</th><th>Total</th></tr></thead>
+                            <tbody id="detailItemsTable"></tbody>
+                        </table>
+                    </div>
+                     <div class="d-flex justify-content-end">
+                        <strong>Grand Total: <span id="detailGrandTotal"></span></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL UPDATE STATUS -->
+    <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Status Transaksi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateStatusForm">
+                        <input type="hidden" id="statusOrderId" name="id">
+                        <div class="mb-3">
+                            <label for="statusSelect" class="form-label">Status Baru</label>
+                            <select class="form-select" id="statusSelect" name="status" required>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer px-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan Status</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
     <!-- Bootstrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
