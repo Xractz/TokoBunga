@@ -22,7 +22,7 @@ if ($status === '') {
     respondJson(400, false, "Status baru wajib diisi.");
 }
 
-$allowed_status = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'];
+$allowed_status = ['pending', 'confirmed', 'processing', 'shipped', 'completed', 'cancelled'];
 
 if (!in_array($status, $allowed_status, true)) {
     respondJson(
