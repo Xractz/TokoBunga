@@ -1,3 +1,4 @@
+<?php require_once '../config/auth.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,7 @@
 
   <!-- CSS MAIN KAMU -->
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/tentang.css" />
 </head>
 
 <body>
@@ -33,10 +35,11 @@
 
           <!-- Menu utama (desktop) -->
           <ul class="menu">
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="katalog.html">Katalog Bunga</a></li>
-            <li><a href="tentang.html">Tentang Kami</a></li>
-          </ul>
+          <li><a href="index.php" class="active">Home</a></li>
+          <li><a href="katalog.php">Katalog Bunga</a></li>
+          <li><a href="tentang.php">Tentang Kami</a></li>
+          <?php if (isAdmin()) echo '<a href="admin/index.php">Admin Panel</a>'; ?>
+        </ul>
 
           <!-- Tombol kanan -->
           <div class="auth-buttons">
@@ -61,12 +64,15 @@
 
         <!-- MENU AUTH + NAV MOBILE (muncul saat hamburger diklik) -->
         <div class="mobile-menu" id="mobileMenu">
-          <a href="auth/login.php">Login</a>
-          <a href="auth/register.php">Register</a>
-          <a href="profile.php">Profile</a>
-          <a href="orders-history.php">Riwayat Pesanan</a>
-          <!-- <a href="logout.php">Logout</a> -->
-        </div>
+        <?php if (isLoggedIn()): ?>
+           <a href="profile.php">Profile</a>
+           <a href="orders-history.php">Riwayat Pesanan</a>
+           <a href="/api/auth/logout.php">Logout</a>
+        <?php else: ?>
+           <a href="auth/login.php">Login</a>
+           <a href="auth/register.php">Register</a>
+        <?php endif; ?>
+      </div>
     </header>
 
         <!-- ========== ABOUT HERO ========== -->
@@ -395,5 +401,6 @@
     </footer>
 
     <script src="assets/js/style.js"></script>
+    <script src="assets/js/tentang.js"></script>
   </body>
 </html>

@@ -37,7 +37,7 @@
         <ul class="menu">
           <li><a href="index.php">Home</a></li>
           <li><a href="katalog.php" class="active">Katalog Bunga</a></li>
-          <li><a href="tentang.html">Tentang Kami</a></li>
+          <li><a href="tentang.php">Tentang Kami</a></li>
           <?php if (isAdmin()) echo '<a href="admin/index.php">Admin Panel</a>'; ?>
         </ul>
 
