@@ -26,23 +26,6 @@ if ($id > 0) {
   respondJson(200, true, 'Produk ditemukan.', $product);
 }
 
-if (!empty($slug)) {
-    $stmt = mysqli_prepare($conn, "SELECT * FROM products WHERE slug = ?");
-    mysqli_stmt_bind_param($stmt, "s", $slug);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-  
-    $product = mysqli_fetch_assoc($result);
-  
-    mysqli_stmt_close($stmt);
-    
-    if (!$product) {
-      respondJson(404, false, 'Produk tidak ditemukan.');
-    }
-  
-    respondJson(200, true, 'Produk ditemukan.', $product);
-  }
-
 $search = $_GET['search'] ?? '';
 $minPrice = isset($_GET['min_price']) ? intval($_GET['min_price']) : 0;
 $maxPrice = isset($_GET['max_price']) ? intval($_GET['max_price']) : 0;
@@ -60,6 +43,12 @@ $offset = ($page - 1) * $limit;
 $whereClauses = ["p.is_active = 1"];
 $params = [];
 $types = "";
+
+if (!empty($slug)) {
+    $whereClauses[] = "p.slug = ?";
+    $types .= "s";
+    $params[] = $slug;
+}
 
 if (!empty($search)) {
     $whereClauses[] = "(p.name LIKE ? OR p.description LIKE ?)";
