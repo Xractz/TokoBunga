@@ -35,11 +35,11 @@
 
           <!-- Menu utama (desktop) -->
           <ul class="menu">
-          <li><a href="index.php" class="active">Home</a></li>
-          <li><a href="katalog.php">Katalog Bunga</a></li>
-          <li><a href="tentang.php">Tentang Kami</a></li>
-          <?php if (isAdmin()) echo '<a href="admin/index.php">Admin Panel</a>'; ?>
-        </ul>
+            <li><a href="index.php" class="active">Home</a></li>
+            <li><a href="katalog.php">Katalog Bunga</a></li>
+            <li><a href="tentang.php">Tentang Kami</a></li>
+            <?php if (isAdmin()) echo '<a href="admin/index.php">Admin Panel</a>'; ?>
+          </ul>
 
           <!-- Tombol kanan -->
           <div class="auth-buttons">
@@ -47,7 +47,7 @@
             <button
               class="icon-btn"
               aria-label="Cart"
-              onclick="window.location.href='cart.html'"
+              onclick="window.location.href='cart.php'"
             >
               <i class="bi bi-bag"></i>
 

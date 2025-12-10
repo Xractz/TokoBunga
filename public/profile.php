@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../api/middleware/is_login.php';
 require_once __DIR__ . '/../api/helpers/flash.php';
+require_once '../config/auth.php';
 
 // Get user data from session
 $userId = getUserId();
@@ -49,9 +50,10 @@ $success = flash('success');
           </div>
 
           <ul class="menu">
-            <li><a href="index.php">Home</a></li>
+            <li><a href="index.php" class="active">Home</a></li>
             <li><a href="katalog.php">Katalog Bunga</a></li>
-            <li><a href="about.html">Tentang Kami</a></li>
+            <li><a href="tentang.php">Tentang Kami</a></li>
+            <?php if (isAdmin()) echo '<a href="admin/index.php">Admin Panel</a>'; ?>
           </ul>
 
           <div class="auth-buttons">
