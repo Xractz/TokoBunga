@@ -8,6 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondJson(405, false, "Method Not Allowed");
 }
 
+if (!isset($_GET['signature']) || $_GET['signature'] !== ($env['PAKASIR_WEBHOOK_SECRET'] ?? '')) {
+    respondJson(401, false, "Unauthorized");
+}
+
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
