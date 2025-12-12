@@ -132,27 +132,6 @@ requireCustomer();
               <li>• Stok: <span id="detail-stock">Tersedia</span></li>
             </ul>
 
-            <!-- opsi -->
-            <div class="product-detail-options">
-              <div class="product-detail-options-row">
-                <label for="sizeSelect">Size</label>
-                <select id="sizeSelect">
-                  <option value="standard">Standard (12 tangkai)</option>
-                  <option value="medium">Medium (18 tangkai)</option>
-                  <option value="large">Large (24 tangkai)</option>
-                </select>
-              </div>
-
-              <div class="product-detail-options-row">
-                <label for="colorSelect">Wrapping color</label>
-                <select id="colorSelect">
-                  <option value="nude">Nude beige</option>
-                  <option value="white">Soft white</option>
-                  <option value="pink">Blush pink</option>
-                </select>
-              </div>
-            </div>
-
             <!-- aksi -->
             <div class="product-detail-actions">
               <!-- Qty selector -->
