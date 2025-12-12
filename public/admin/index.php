@@ -72,9 +72,9 @@ $success = flash('success');
 
           <!-- Info admin di kanan -->
           <div class="auth-buttons">
-            <span style="font-size: 0.9rem; color: var(--text-muted)">
+            <button type="button" class="icon-btn" title="Profil Admin" onclick="window.location.href='/profile.php'">
               <i class="bi bi-person-gear"></i> <?php echo htmlspecialchars($adminName); ?>
-            </span>
+            </button>
             <a href="/api/auth/logout.php" class="icon-btn" title="Logout">
               <i class="bi bi-box-arrow-right"></i>
             </a>
