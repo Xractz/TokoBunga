@@ -114,12 +114,14 @@ $success = flash('success');
           <div class="admin-section" id="section-produk">
             <div class="section-header-row">
               <h2 class="mb-0">Produk</h2>
-              <button type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal" onclick="prepareAdd()">
-                <i class="bi bi-plus-lg"></i> Tambah Produk
-              </button>
-              <a href="/api/admin/export_products.php" class="btn btn-outline-danger ms-2" target="_blank">
-                <i class="bi bi-file-earmark-pdf"></i> Export PDF
-              </a>
+              <div class="d-flex">
+                  <button type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal" onclick="prepareAdd()">
+                    <i class="bi bi-plus-lg"></i> Tambah Produk
+                  </button>
+                  <a href="/api/admin/export_products.php" class="btn btn-outline-danger ms-2" target="_blank">
+                    <i class="bi bi-file-earmark-pdf"></i> Export PDF
+                  </a>
+              </div>
             </div>
             <p class="section-description">
               Daftar produk yang tersedia di toko.
@@ -216,9 +218,11 @@ $success = flash('success');
 
             <div class="section-header-row">
               <h2 class="mb-0">Log Transaksi</h2>
-              <a href="/api/admin/export_transactions.php" class="btn btn-outline-danger" target="_blank">
-                <i class="bi bi-file-earmark-pdf"></i> Export Report
-              </a>
+              <div class="d-flex">
+                  <a href="/api/admin/export_transactions.php" class="btn btn-outline-danger" target="_blank">
+                    <i class="bi bi-file-earmark-pdf"></i> Export Report
+                  </a>
+              </div>
             </div>
             <p class="section-description">
               Riwayat pesanan pelanggan. Klik tombol detail untuk melihat rincian pesanan.
@@ -254,9 +258,11 @@ $success = flash('success');
           <div class="admin-section" id="section-customer" style="display: none">
             <div class="section-header-row">
               <h2 class="mb-0">Customer / Pelanggan <span id="totalCustomers" class="badge bg-primary ms-2" style="font-size: 0.8rem">Total: 0</span></h2>
-              <a href="/api/admin/export_customers.php" class="btn btn-outline-danger" target="_blank">
-                <i class="bi bi-file-earmark-pdf"></i> Export Data
-              </a>
+              <div class="d-flex">
+                  <a href="/api/admin/export_customers.php" class="btn btn-outline-danger" target="_blank">
+                    <i class="bi bi-file-earmark-pdf"></i> Export Data
+                  </a>
+              </div>
             </div>
             <p class="section-description">
               Data pelanggan yang sudah melakukan pendaftaran atau transaksi.
