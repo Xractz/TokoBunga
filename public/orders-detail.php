@@ -228,7 +228,12 @@ require_once __DIR__ . '/../config/db.php';
             <span id="grandTotalDisplay">Rp 0</span>
           </div>
         
-          <div class="summary-actions" id="paymentActionContainer" style="margin-top: 1.5rem; display: none;">
+
+          <div class="summary-actions" style="margin-top: 1.5rem;">
+             <a href="#" id="exportInvoiceBtn" class="checkout-btn" style="text-align: center; background-color: #6c757d; display: none;">Export Invoice (PDF)</a>
+          </div>
+
+          <div class="summary-actions" id="paymentActionContainer" style="margin-top: 0.5rem; display: none;">
              <a href="#" id="payBtn" class="checkout-btn" style="text-align: center;">Lanjutkan Pembayaran</a>
           </div>
 
