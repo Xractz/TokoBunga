@@ -160,24 +160,6 @@ requireCustomer();
     </style>
 
     <!-- JS HAMBURGER -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const hamburger = document.getElementById("hamburgerBtn");
-        const mobileMenu = document.getElementById("mobileMenu");
-
-        if (hamburger && mobileMenu) {
-          hamburger.addEventListener("click", function () {
-            mobileMenu.classList.toggle("open");
-
-            const icon = this.querySelector("i");
-            if (icon) {
-              icon.classList.toggle("bi-list");
-              icon.classList.toggle("bi-x");
-            }
-          });
-        }
-      });
-    </script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/orders-history.js"></script>
   </body>

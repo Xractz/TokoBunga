@@ -118,9 +118,9 @@ require_once __DIR__ . '/../config/db.php';
               <i class="bi bi-list"></i>
             </button>
           </div>
-        </nav>
-        
-        <div class="mobile-menu" id="mobileMenu">
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu">
         <?php if (isLoggedIn()): ?>
            <a href="profile.php">Profile</a>
            <?php if (isCustomer()) echo '<a href="orders-history.php">Riwayat Pesanan</a>'; ?>
@@ -129,7 +129,7 @@ require_once __DIR__ . '/../config/db.php';
            <a href="auth/login.php">Login</a>
            <a href="auth/register.php">Register</a>
         <?php endif; ?>
-        </div>
+      </div>
       </div>
     </header>
 
