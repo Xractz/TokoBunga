@@ -54,11 +54,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       if (elImgMain) {
         elImgMain.src = p.image
-          ? `assets/images/${p.image}`
-          : "assets/images/gardenmix.jpg";
+          ? `assets/images/products/${p.image}`
+          : "assets/images/products/gardenmix.jpg";
         elImgMain.alt = p.name;
         elImgMain.onerror = function () {
-          this.src = "assets/images/gardenmix.jpg";
+          this.src = "assets/images/products/gardenmix.jpg";
         };
       }
 
@@ -124,8 +124,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         card.className = "detail-recommend-card";
 
         const imgPath = item.image
-          ? `assets/images/${item.image}`
-          : "assets/images/gardenmix.jpg";
+          ? `assets/images/products/${item.image}`
+          : "assets/images/products/gardenmix.jpg";
 
         const price = new Intl.NumberFormat("id-ID", {
           style: "currency",
