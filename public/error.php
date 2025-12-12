@@ -29,6 +29,7 @@ $msg = $messages[$code] ?? $messages[404];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png">
     <title><?php echo $code; ?> - <?php echo $msg['title']; ?></title>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=Playfair:wght@300;400;500;600;700&display=swap" rel="stylesheet" />

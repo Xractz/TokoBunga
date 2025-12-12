@@ -24,7 +24,8 @@ requireCustomer();
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css" />
-    <title>Garden Rose Bouquet – Bloomify</title>
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
+    <title>Detail Produk</title>
   </head>
   <body>
     <!-- ================= HEADER (SAMA SEPERTI INDEX & KATALOG) ================= -->
@@ -105,7 +106,7 @@ requireCustomer();
           <div class="product-detail-media">
             <div class="product-detail-image-main">
               <img
-                src="assets/images/gardenmix.jpg"
+                src="assets/images/products/gardenmix.jpg"
                 alt="Garden Rose Bouquet"
               />
             </div>

@@ -27,6 +27,7 @@ requireCustomer();
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
     <title>Checkout – Bloomify</title>
     
     <!-- Leaflet JS -->

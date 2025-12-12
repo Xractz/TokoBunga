@@ -10,6 +10,7 @@ $success = flash('success');
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../assets/images/favicon.png" type="image/png">
     <title>Register – Bloomora Floral</title>
 
     <!-- Google Fonts -->

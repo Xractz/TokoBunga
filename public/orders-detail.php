@@ -9,6 +9,7 @@ require_once __DIR__ . '/../config/db.php';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
     <!-- Placeholder title, will be updated by JS if needed, or kept generic -->
     <title>Detail Pesanan - Bloomify</title>
 

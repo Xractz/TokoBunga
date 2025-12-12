@@ -19,6 +19,7 @@ $success = flash('success');
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
     <title>Profil – Bloomify</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 

@@ -22,7 +22,8 @@ requireCustomer();
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
-  <title>Shopping Cart – Bloomify</title>
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <title>Keranjang Belanja – Bloomify</title>
 </head>
 
 <body>
