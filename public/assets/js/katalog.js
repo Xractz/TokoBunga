@@ -195,7 +195,7 @@ function renderProducts(products, container) {
     console.log(product);
     const imageSrc = product.image
       ? `assets/images/products/${product.image}`
-      : "assets/images/gardenmix.jpg";
+      : "assets/images/products/gardenmix.jpg";
     const priceDisplay = formatRupiah(product.price);
 
     const card = document.createElement("article");

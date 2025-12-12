@@ -18,6 +18,7 @@
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
   <title>Toko Bunga</title>
 </head>
 
@@ -229,12 +230,20 @@
           </div>
 
           <!-- Stay Connected -->
-          <div class="footer-column footer-newsletter">
-            <h4>Stay Connected</h4>
-            <p>
-              Subscribe to get special offers, free giveaways, and floral
-              inspiration.
-            </p>
+          <!-- Map Location -->
+          <div class="footer-column" style="position: relative;">
+            <h4>Visit Our Store</h4>
+            <div style="position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <a href="https://maps.app.goo.gl/hiUnazLaaeVSnYhG7" target="_blank" style="position: absolute; inset: 0; z-index: 10;" title="Open in Google Maps"></a>
+                <iframe 
+                    src="https://maps.google.com/maps?q=-7.788563203049172,110.36921160082893&hl=en&z=14&output=embed" 
+                    width="100%" 
+                    height="160" 
+                    style="border:0; display: block;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
           </div>
         </div>
 

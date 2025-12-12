@@ -93,6 +93,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       badgeEl.style.padding = "0.5rem 1rem";
     }
 
+    // Setup Export Invoice Button
+    const exportBtn = document.getElementById("exportInvoiceBtn");
+    if (exportBtn) {
+      exportBtn.href = `/api/orders/export_invoice.php?order_code=${order.order_code}`;
+      exportBtn.target = "_blank";
+      exportBtn.style.display = "inline-block";
+    }
+
     // Card Message
     const msgContainer = document.getElementById("cardMessageContainer");
     if (order.card_message) {
