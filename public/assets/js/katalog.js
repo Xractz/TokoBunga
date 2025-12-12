@@ -1,8 +1,11 @@
 let currentPage = 1;
+let isLoading = false;
+let hasMore = true;
+const LIMIT = 8;
 
 document.addEventListener("DOMContentLoaded", function () {
   fetchCategories().then(() => {
-    loadCatalog(1);
+    loadCatalog(1, false);
   });
 
   const searchInput = document.getElementById("sidebar-search");
@@ -12,23 +15,43 @@ document.addEventListener("DOMContentLoaded", function () {
   if (searchInput) {
     searchInput.addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
-        loadCatalog(1);
+        resetAndLoad();
       }
     });
   }
 
   if (sortSelect) {
     sortSelect.addEventListener("change", function () {
-      loadCatalog(1);
+      resetAndLoad();
     });
   }
 
   if (applyBtn) {
     applyBtn.addEventListener("click", function () {
-      loadCatalog(1);
+      resetAndLoad();
     });
   }
+
+  // Infinite Scroll Event
+  window.addEventListener("scroll", handleScroll);
 });
+
+function handleScroll() {
+  if (isLoading || !hasMore) return;
+
+  const scrollPosition = window.innerHeight + window.scrollY;
+  const bottomPosition = document.documentElement.offsetHeight - 100; // Buffer 100px before bottom
+
+  if (scrollPosition >= bottomPosition) {
+    loadCatalog(currentPage + 1, true);
+  }
+}
+
+function resetAndLoad() {
+  currentPage = 1;
+  hasMore = true;
+  loadCatalog(1, false);
+}
 
 function getFilterParams() {
   const params = new URLSearchParams();
@@ -39,10 +62,16 @@ function getFilterParams() {
 
   // 2. Sort
   const sort = document.getElementById("sortSelect")?.value;
-  if (sort === "Price: Low to High") params.append("sort", "price_low");
-  else if (sort === "Price: High to Low") params.append("sort", "price_high");
-  else if (sort === "Newest") params.append("sort", "newest");
-  else params.append("sort", "featured");
+  params.append(
+    "sort",
+    sort === "Price: Low to High"
+      ? "price_low"
+      : sort === "Price: High to Low"
+      ? "price_high"
+      : sort === "Newest"
+      ? "newest"
+      : "featured"
+  );
 
   // 3. Categories
   const checkedCats = document.querySelectorAll(
@@ -70,80 +99,79 @@ function getFilterParams() {
   return params;
 }
 
-async function loadCatalog(page) {
+async function loadCatalog(page, append = false) {
+  if (isLoading) return;
+  isLoading = true;
   currentPage = page;
+
   const grid = document.querySelector(".catalog-grid");
   const topInfo = document.querySelector(".catalog-topbar-info");
 
   if (!grid) return;
 
-  grid.innerHTML = '<p class="loading-text">Memuat produk...</p>';
+  // Show loading indicator if appending, or initial load placeholder
+  if (!append) {
+    grid.innerHTML = '<p class="loading-text">Memuat produk...</p>';
+  } else {
+    // Optional: Add a small loading spinner at bottom if desired
+    // For now we rely on the user just waiting a moment or seeing the scrollbar stop
+    // Or we can append a loader element
+    const loader = document.createElement("div");
+    loader.id = "infinite-loader";
+    loader.className = "col-span-full text-center py-4";
+    loader.innerHTML = '<p class="loading-text">Memuat lebih banyak...</p>';
+    grid.appendChild(loader);
+  }
 
   const params = getFilterParams();
   params.append("page", page);
-  params.append("limit", 10);
+  params.append("limit", LIMIT);
 
   try {
     const response = await fetch("/api/products/get.php?" + params.toString());
     const result = await response.json();
 
+    // Remove temp loader if exists
+    const tempLoader = document.getElementById("infinite-loader");
+    if (tempLoader) tempLoader.remove();
+
     if (result.success && result.data) {
       const products = result.data.products || [];
       const pagination = result.data.pagination;
 
-      renderProducts(products, grid);
-      renderPagination(pagination);
+      // Update state
+      hasMore = pagination.current_page < pagination.total_pages;
+
+      if (!append) {
+        // Replace content
+        renderProducts(products, grid, false);
+      } else {
+        // Append content
+        renderProducts(products, grid, true);
+      }
 
       if (topInfo && pagination) {
-        topInfo.textContent = `Showing ${products.length} of ${pagination.total_items} products`;
+        // Calculate total showing
+        const showing = Math.min(
+          pagination.total_items,
+          pagination.current_page * pagination.limit
+        );
+        topInfo.textContent = `Showing ${showing} of ${pagination.total_items} products`;
       }
     } else {
-      grid.innerHTML = '<p class="error-text">Gagal memuat produk.</p>';
+      if (!append) {
+        grid.innerHTML = '<p class="error-text">Gagal memuat produk.</p>';
+      }
     }
   } catch (error) {
     console.error("Error fetching products:", error);
-    grid.innerHTML =
-      '<p class="error-text">Terjadi kesalahan saat mengambil data.</p>';
+    if (!append) {
+      grid.innerHTML =
+        '<p class="error-text">Terjadi kesalahan saat mengambil data.</p>';
+    }
+  } finally {
+    isLoading = false;
   }
-}
-
-function renderPagination(meta) {
-  const container = document.getElementById("catalog-pagination");
-  if (!container) return;
-  container.innerHTML = "";
-
-  if (!meta || meta.total_pages <= 1) return;
-
-  // Prev
-  const prevLi = document.createElement("li");
-  prevLi.className = `page-item ${meta.current_page === 1 ? "disabled" : ""}`;
-  prevLi.innerHTML = `<button class="page-link">Previous</button>`;
-  if (meta.current_page > 1) {
-    prevLi.querySelector("button").onclick = () =>
-      loadCatalog(meta.current_page - 1);
-  }
-  container.appendChild(prevLi);
-
-  // Numbers
-  for (let i = 1; i <= meta.total_pages; i++) {
-    const li = document.createElement("li");
-    li.className = `page-item ${i === meta.current_page ? "active" : ""}`;
-    li.innerHTML = `<button class="page-link">${i}</button>`;
-    li.querySelector("button").onclick = () => loadCatalog(i);
-    container.appendChild(li);
-  }
-
-  // Next
-  const nextLi = document.createElement("li");
-  nextLi.className = `page-item ${
-    meta.current_page === meta.total_pages ? "disabled" : ""
-  }`;
-  nextLi.innerHTML = `<button class="page-link">Next</button>`;
-  if (meta.current_page < meta.total_pages) {
-    nextLi.querySelector("button").onclick = () =>
-      loadCatalog(meta.current_page + 1);
-  }
-  container.appendChild(nextLi);
 }
 
 async function fetchCategories() {
@@ -183,16 +211,17 @@ function renderCategories(categories) {
   });
 }
 
-function renderProducts(products, container) {
-  container.innerHTML = "";
+function renderProducts(products, container, append) {
+  if (!append) {
+    container.innerHTML = "";
+  }
 
-  if (products.length === 0) {
+  if (!append && products.length === 0) {
     container.innerHTML = '<p class="empty-text">Belum ada produk.</p>';
     return;
   }
 
   products.forEach((product) => {
-    console.log(product);
     const imageSrc = product.image
       ? `assets/images/products/${product.image}`
       : "assets/images/products/gardenmix.jpg";
