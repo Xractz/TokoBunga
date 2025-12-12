@@ -83,19 +83,32 @@ require_once __DIR__ . '/../config/db.php';
           </div>
           <ul class="menu">
             <li><a href="index.php">Home</a></li>
-            <li><a href="katalog.php">Katalog Bunga</a></li>
-          </ul>
+            <li><a href="katalog.php" class="active">Katalog Bunga</a></li>
+            <li><a href="tentang.php">Tentang Kami</a></li>
+            <?php if (isAdmin()) echo '<a href="admin/index.php">Admin Panel</a>'; ?>
+            </ul>
+
            <div class="auth-buttons">
-            <button
-              class="icon-btn"
-              aria-label="Cart"
-              onclick="window.location.href='cart.php'"
-            >
-              <i class="bi bi-bag"></i>
-              <span id="cartCount" class="cart-badge hidden">0</span>
+            <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.php'">
+                <i class="bi bi-bag"></i>
+                <span id="cartCount" class="cart-badge hidden">0</span>
             </button>
-          </div>
+            <button class="hamburger-menu" id="hamburgerBtn">
+                <i class="bi bi-list"></i>
+            </button>
+            </div>
         </nav>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <?php if (isLoggedIn()): ?>
+            <a href="profile.php">Profile</a>
+            <?php if (isCustomer()) echo '<a href="orders-history.php">Riwayat Pesanan</a>'; ?>
+            <a href="/api/auth/logout.php">Logout</a>
+            <?php else: ?>
+            <a href="auth/login.php">Login</a>
+            <a href="auth/register.php">Register</a>
+            <?php endif; ?>
+        </div>
       </div>
     </header>
 
