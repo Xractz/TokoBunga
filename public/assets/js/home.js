@@ -34,7 +34,7 @@ function renderProducts(products, container) {
     card.className = "product-card";
     const imgSrc = prod.image
       ? `assets/images/products/${prod.image}`
-      : "assets/images/gardenmix.jpg";
+      : "assets/images/products/gardenmix.jpg";
 
     card.innerHTML = `
         <div class="product-image">
