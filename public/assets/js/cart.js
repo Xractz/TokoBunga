@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       card.innerHTML = `
                 <div class="cart-item-image" style="cursor: pointer;">
-                    <img src="assets/images/${
+                    <img src="assets/images/products/${
                       item.image || "gardenmix.jpg"
                     }" alt="${item.name}" 
                          onerror="this.src='assets/images/products/gardenmix.jpg'">
