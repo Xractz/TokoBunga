@@ -19,7 +19,7 @@
   <!-- Main CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
-  <title>Toko Bunga</title>
+  <title>Home - Bloomify</title>
 </head>
 
 <body>

@@ -54,6 +54,7 @@ if ($token !== '') {
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
 
   <title>Aktivasi Akun - Bloomify</title>
 </head>
