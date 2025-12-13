@@ -97,13 +97,13 @@ function sendActivationEmail($email, $token)
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = $env['SMTP_PORT'];
 
-    $mail->setFrom($env['SMTP_USER'], 'Toko Bunga');
+    $mail->setFrom($env['SMTP_USER'], 'Toko Bunga Bloomify');
     $mail->addAddress($email);
 
     $mail->isHTML(true);
-    $mail->Subject = "Aktivasi Akun Toko Bunga (no reply)";
+    $mail->Subject = "Aktivasi Akun Toko Bunga Bloomify (no reply)";
 
-    $activationLink = $env['APP_URL'] . "/api/auth/activate.php?token=" . urlencode($token);
+    $activationLink = $env['APP_URL'] . "/activate.php?token=" . urlencode($token);
 
     $content = "<p>Terima kasih telah mendaftar di Bloomify! Untuk memulai pengalaman berbelanja bunga terbaik, silakan aktifkan akun Anda terlebih dahulu.</p>";
     
@@ -130,13 +130,13 @@ function sendResetPasswordEmail($email, $token)
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = $env['SMTP_PORT'];
 
-    $mail->setFrom($env['SMTP_USER'], 'Toko Bunga');
+    $mail->setFrom($env['SMTP_USER'], 'Toko Bunga Bloomify');
     $mail->addAddress($email);
 
     $mail->isHTML(true);
-    $mail->Subject = "Reset Password Toko Bunga (no reply)";
+    $mail->Subject = "Reset Password Toko Bunga Bloomify (no reply)";
 
-    $resetLink = $env['APP_URL'] . "/public/auth/reset-password.html?token=" . urlencode($token);
+    $resetLink = $env['APP_URL'] . "/reset-password.php?token=" . urlencode($token);
 
     $content = "
         <p>Kami menerima permintaan untuk mereset password akun Anda. Jangan khawatir, akun Anda aman.</p>

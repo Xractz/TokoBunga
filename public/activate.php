@@ -1,8 +1,37 @@
 <?php
-session_start();
-$status = $_SESSION['activation_status'] ?? 'invalid';
+require_once "../config/db.php";
+global $conn;
 
-unset($_SESSION['activation_status']);
+$token = $_GET['token'] ?? '';
+$status = 'invalid';
+
+if ($token !== '') {
+  // Check user by token
+  $stmt = mysqli_prepare(
+    $conn,
+    "SELECT id, is_active FROM users WHERE activation_token = ?"
+  );
+  mysqli_stmt_bind_param($stmt, "s", $token);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $user = mysqli_fetch_assoc($result);
+
+  if ($user) {
+    if ($user['is_active'] == 1) {
+      $status = 'already_active';
+    } else {
+      // Activate user and clear token
+      $stmt = mysqli_prepare(
+        $conn,
+        "UPDATE users SET is_active = 1, activation_token = NULL WHERE id = ?"
+      );
+      mysqli_stmt_bind_param($stmt, "i", $user['id']);
+      mysqli_stmt_execute($stmt);
+
+      $status = 'success';
+    }
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -24,7 +53,7 @@ unset($_SESSION['activation_status']);
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
   <!-- Main CSS -->
-  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
 
   <title>Aktivasi Akun - Bloomify</title>
 </head>
@@ -45,7 +74,7 @@ unset($_SESSION['activation_status']);
       <button class="btn-auth-primary" id="actionButton"></button>
 
       <div class="auth-footer-text">
-        atau <a href="../index.php">kembali ke beranda</a>
+        atau <a href="index.php">kembali ke beranda</a>
       </div>
     </section>
 
@@ -62,7 +91,7 @@ unset($_SESSION['activation_status']);
         title: "Akun Berhasil Diaktivasi",
         message: "Akun kamu sekarang sudah aktif!",
         button: "Masuk ke Akun",
-        action: "login.php",
+        action: "auth/login.php",
         footer: "Jika kamu merasa tidak membuat akun, abaikan email aktivasi ini."
       },
       already_active: {
@@ -71,7 +100,7 @@ unset($_SESSION['activation_status']);
         title: "Akun Sudah Aktif",
         message: "Akun kamu sudah pernah diaktifkan sebelumnya.",
         button: "Masuk ke Akun",
-        action: "login.php",
+        action: "auth/login.php",
         footer: "Link aktivasi hanya bisa dipakai satu kali."
       },
       invalid: {
@@ -80,7 +109,7 @@ unset($_SESSION['activation_status']);
         title: "Link Tidak Valid",
         message: "Link aktivasi tidak valid atau sudah kadaluarsa.",
         button: "Daftar Ulang",
-        action: "registrasi.php",
+        action: "auth/register.php",
         footer: "Silakan daftar ulang atau hubungi admin."
       }
     };
