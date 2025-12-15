@@ -208,7 +208,7 @@ $(document).ready(function () {
           $("#productImage").val("");
           if (p.image) {
             $("#imagePreview")
-              .attr("src", "/assets/images/" + p.image)
+              .attr("src", "/assets/images/products/" + p.image)
               .removeClass("d-none");
           } else {
             $("#imagePreview").addClass("d-none");
@@ -650,7 +650,7 @@ $(document).ready(function () {
                       <div class="d-flex align-items-center">
                           <img src="${
                             u.profile_photo
-                              ? "/assets/images/" + u.profile_photo
+                              ? "/assets/images/profiles/" + u.profile_photo
                               : "https://ui-avatars.com/api/?name=" + u.name
                           }" class="rounded-circle me-2" width="30" height="30">
                           ${u.name}
