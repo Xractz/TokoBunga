@@ -50,7 +50,7 @@ img {
 }
 
 .header .container {
-  position: relative; /* supaya .mobile-menu nempel ke navbar */
+  position: relative;
 }
 
 .navbar {
@@ -84,7 +84,6 @@ img {
   margin-right: 0.4rem;
 }
 
-/* menu utama (desktop) */
 .menu {
   list-style: none;
   display: inline-flex;
@@ -104,7 +103,6 @@ img {
   color: var(--text-main);
 }
 
-/* icon di kanan (cart dll) */
 .auth-buttons {
   display: flex;
   align-items: center;
@@ -113,14 +111,14 @@ img {
 
 /* ===== CART BADGE DI HEADER ===== */
 .icon-btn {
-  position: relative; /* penting untuk posisi badge */
+  position: relative;
 }
 
 .cart-badge {
   position: absolute;
   top: -6px;
   right: -6px;
-  background-color: #e9cbc3; /* warna pink lembut */
+  background-color: #e9cbc3;
   color: white;
   font-size: 0.7rem;
   min-width: 18px;
@@ -139,7 +137,7 @@ img {
 }
 
 .icon-btn {
-  position: relative; /* penting supaya badge bisa muncul di pojok */
+  position: relative;
 }
 
 .icon-btn {
@@ -160,7 +158,7 @@ img {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* HAMBURGER – SELALU MUNCUL (desktop & mobile) */
+/* HAMBURGER */
 .hamburger-menu {
   display: inline-flex;
   align-items: center;
@@ -189,7 +187,7 @@ img {
   display: none;
   position: absolute;
   right: 1.5rem;
-  top: 5rem; /* turun sedikit dari navbar */
+  top: 5rem;
   background-color: #ffffff;
   border-radius: 18px;
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.16);
@@ -215,8 +213,6 @@ img {
   background-color: #f7efe0;
 }
 
-/* class .open dipakai dari JS */
-/* TEST SAJA */
 .mobile-menu.open {
   display: block;
 }
@@ -506,7 +502,6 @@ img {
   font-size: 0.9rem;
 }
 
-/* Icon circles */
 .why-icon-premium,
 .why-icon-delivery,
 .why-icon-expert {
@@ -566,7 +561,6 @@ img {
   align-items: flex-start;
 }
 
-/* Brand */
 .footer-logo {
   display: flex;
   align-items: center;
@@ -601,7 +595,6 @@ img {
   max-width: 260px;
 }
 
-/* Social */
 .footer-social {
   display: flex;
   gap: 0.6rem;
@@ -631,7 +624,6 @@ img {
   background-color: #f3e2cf;
 }
 
-/* Columns */
 .footer-column h4 {
   margin: 0 0 0.6rem;
   font-size: 0.95rem;
@@ -664,7 +656,6 @@ img {
   color: #44332b;
 }
 
-/* Newsletter */
 .footer-newsletter {
   max-width: 260px;
 }
@@ -715,7 +706,6 @@ img {
   transform: translateY(-1px);
 }
 
-/* Bottom */
 .footer-divider {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.35);
@@ -813,7 +803,6 @@ img {
   text-align: center;
 }
 
-/* Form */
 .auth-form {
   text-align: left;
 }
@@ -867,7 +856,6 @@ img {
   color: #b6a799;
 }
 
-/* Checkbox + links */
 .form-check {
   display: flex;
   align-items: flex-start;
@@ -897,7 +885,6 @@ img {
   text-decoration: underline;
 }
 
-/* Main auth buttons */
 .btn-auth-primary,
 .btn-auth-reset {
   width: 100%;
@@ -924,7 +911,6 @@ img {
   transform: translateY(-1px);
 }
 
-/* Footer text inside card */
 .auth-footer-text {
   margin-top: 0.8rem;
   text-align: center;
@@ -932,7 +918,6 @@ img {
   color: #8c7a6e;
 }
 
-/* Small note under card */
 .auth-terms-note {
   margin-top: 1rem;
   font-size: 0.75rem;
@@ -944,7 +929,6 @@ img {
   padding-bottom: 1rem;
 }
 
-/* Remember + forgot row (login) */
 .auth-row {
   display: flex;
   align-items: center;
@@ -969,7 +953,6 @@ img {
   font-size: 0.82rem;
 }
 
-/* Password toggle */
 .password-wrapper {
   position: relative;
 }
@@ -999,12 +982,10 @@ img {
   margin-bottom: 3rem;
 }
 
-/* Konten kiri */
 .admin-content {
   flex: 1;
 }
 
-/* Judul & subjudul */
 .admin-content h1 {
   font-family: "Playfair Display", serif;
   font-size: 1.8rem;
@@ -1016,7 +997,6 @@ img {
   color: var(--text-muted);
 }
 
-/* Card section utama */
 .admin-section {
   background-color: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -1039,7 +1019,6 @@ img {
   color: var(--text-muted);
 }
 
-/* Header bar di tiap section (judul + tombol kanan) */
 .section-header-row {
   display: flex;
   align-items: center;
@@ -1052,7 +1031,6 @@ img {
   margin-bottom: 0;
 }
 
-/* Tombol utama admin (pakai style mirip view-all-btn) */
 .btn-primary {
   border: none;
   border-radius: 999px;
@@ -1078,7 +1056,6 @@ img {
   transform: translateY(-1px);
 }
 
-/* Tombol icon kecil di tabel */
 .btn-icon {
   background: none;
   border: none;
@@ -1104,7 +1081,6 @@ img {
   color: #d46b6b;
 }
 
-/* TABEl ADMIN */
 .admin-table {
   width: 100%;
   border-collapse: collapse;
@@ -1135,12 +1111,10 @@ img {
   background-color: #f8efe4;
 }
 
-/* Kolom aksi di kanan */
 .table-actions {
   white-space: nowrap;
 }
 
-/* Badge status */
 .badge {
   display: inline-block;
   padding: 0.15rem 0.7rem;
@@ -1159,7 +1133,6 @@ img {
   color: #9a3b3b;
 }
 
-/* Box detail transaksi */
 .detail-box {
   margin-top: 1rem;
   padding: 1rem 1.1rem;
@@ -1173,7 +1146,6 @@ img {
   margin-bottom: 0.5rem;
 }
 
-/* SIDEBAR KANAN */
 .admin-sidebar {
   width: 260px;
   background-color: var(--bg-card);
@@ -1190,7 +1162,6 @@ img {
   font-family: "Playfair Display", serif;
 }
 
-/* Tombol menu sidebar */
 .sidebar-link {
   width: 100%;
   text-align: left;
@@ -1230,7 +1201,6 @@ img {
   padding: 2rem 0 3rem;
 }
 
-/* wrapper kiri–kanan */
 .profile-layout {
   display: flex;
   gap: 2rem;
@@ -1250,7 +1220,6 @@ img {
   box-shadow: var(--shadow-soft);
 }
 
-/* avatar + nama */
 .profile-avatar-wrapper {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -1282,7 +1251,6 @@ img {
   color: var(--text-muted);
 }
 
-/* menu sidebar */
 .profile-menu {
   margin-top: 1.2rem;
 }
@@ -1343,20 +1311,16 @@ img {
   color: var(--text-muted);
 }
 
-/* grid form 2 kolom */
 .profile-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.1rem 1.5rem;
 }
 
-/* pakai ulang .form-group, .input-group dari auth */
-
 .profile-form-full {
   grid-column: 1 / -1;
 }
 
-/* textarea alamat */
 .profile-textarea {
   width: 100%;
   border: none;
@@ -1374,7 +1338,6 @@ img {
   color: #b6a799;
 }
 
-/* upload foto profil */
 .profile-photo-row {
   display: flex;
   align-items: center;
@@ -1403,7 +1366,6 @@ img {
   font-size: 0.82rem;
 }
 
-/* actions bawah */
 .profile-actions {
   margin-top: 2rem;
   display: flex;
@@ -1456,7 +1418,6 @@ img {
   content: "";
 }
 
-/* Tablet / small desktop */
 @media (max-width: 900px) {
   .navbar {
     flex-wrap: wrap;
@@ -1576,13 +1537,7 @@ img {
   font-size: 1.25rem;
 }
 
-/* Mobile */
 @media (max-width: 640px) {
-  /* sembunyiin menu utama, pindah ke hamburger dropdown */
-  /* .menu {
-      display: none;
-    } */
-
   .hero-image {
     height: 260px;
   }
@@ -1638,7 +1593,6 @@ img {
   padding: 2.5rem 0 3.5rem;
 }
 
-/* judul & deskripsi atas (tengah) */
 .catalog-hero {
   text-align: center;
   margin-bottom: 1.8rem;
@@ -1667,7 +1621,6 @@ img {
   color: var(--text-muted);
 }
 
-/* layout utama: sidebar kiri, konten kanan */
 .catalog-layout {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
@@ -1704,7 +1657,6 @@ img {
   margin-bottom: 0.4rem;
 }
 
-/* input search di sidebar */
 .catalog-sidebar-search input {
   width: 100%;
   padding: 0.55rem 0.8rem;
@@ -1720,7 +1672,6 @@ img {
   box-shadow: 0 0 0 2px rgba(233, 203, 195, 0.4);
 }
 
-/* list checkbox / radio */
 .catalog-sidebar-list {
   list-style: none;
   padding: 0;
@@ -1744,7 +1695,6 @@ img {
   accent-color: #e9cbc3;
 }
 
-/* tombol apply */
 .catalog-sidebar-apply {
   margin-top: 1.2rem;
   width: 100%;
@@ -1774,7 +1724,6 @@ img {
   gap: 0.85rem;
 }
 
-/* bar atas: info + sort */
 .catalog-topbar {
   padding: 0.7rem 0.9rem;
   border-radius: 999px;
@@ -1813,7 +1762,6 @@ img {
   outline: none;
 }
 
-/* grid 3 kolom, pakai card yang mirip .product-card */
 .catalog-grid {
   margin-top: 0.75rem;
   display: grid;
@@ -1829,10 +1777,9 @@ img {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%; /* Fix height consistency */
+  height: 100%;
 }
 
-/* gambar */
 .catalog-card-image {
   position: relative;
   overflow: hidden;
@@ -1852,7 +1799,6 @@ img {
   transform: scale(1.08);
 }
 
-/* badge & heart di atas gambar */
 .catalog-card-badge {
   position: absolute;
   left: 0.9rem;
@@ -1867,7 +1813,6 @@ img {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
 }
 
-/* isi card */
 .catalog-card-body {
   padding: 0.65rem 0.85rem 0.8rem;
   display: flex;
@@ -1878,7 +1823,6 @@ img {
 .catalog-card-title {
   font-family: "Playfair Display", serif;
   font-size: 0.9rem;
-  /* Truncate Title */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -1888,7 +1832,6 @@ img {
 .catalog-card-meta {
   font-size: 0.8rem;
   color: var(--text-muted);
-  /* Truncate Description */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -1896,7 +1839,6 @@ img {
   flex-grow: 1;
 }
 
-/* bagian bawah: harga + tombol */
 .catalog-card-footer {
   margin-top: 0.45rem;
   display: flex;
@@ -1926,8 +1868,6 @@ img {
 .catalog-card-link:hover {
   background-color: #f7efe0;
 }
-
-/* RESPONSIVE CATALOG */
 
 @media (max-width: 900px) {
   .catalog-layout {
@@ -1966,7 +1906,6 @@ img {
   margin-bottom: 1.5rem;
 }
 
-/* breadcrumb kecil di atas judul */
 .breadcrumb {
   font-size: 0.82rem;
   color: var(--text-muted);
@@ -1986,7 +1925,6 @@ img {
   margin: 0 0.25rem;
 }
 
-/* judul + info singkat di bawah breadcrumb (opsional) */
 .product-detail-header h1 {
   font-family: "Playfair Display", serif;
   font-size: 1.9rem;
@@ -1999,7 +1937,6 @@ img {
   color: var(--text-muted);
 }
 
-/* layout 2 kolom: gambar kiri, info kanan */
 .product-detail-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
@@ -2007,7 +1944,6 @@ img {
   align-items: flex-start;
 }
 
-/* kiri: gambar & thumbnail */
 .product-detail-media {
   background-color: #f7efe0;
   border-radius: 24px;
@@ -2027,7 +1963,6 @@ img {
   display: block;
 }
 
-/* optional thumbnail strip */
 .product-detail-thumbs {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2053,7 +1988,6 @@ img {
   border-color: #e9cbc3;
 }
 
-/* kanan: info produk */
 .product-detail-info {
   background-color: #ffffff;
   border-radius: 24px;
@@ -2081,7 +2015,6 @@ img {
   margin-bottom: 0.8rem;
 }
 
-/* price + badge */
 .product-detail-price-row {
   display: flex;
   align-items: center;
@@ -2103,7 +2036,6 @@ img {
   color: #fff;
 }
 
-/* list meta (stok, kategori, pengiriman) */
 .product-detail-meta {
   list-style: none;
   padding: 0;
@@ -2116,7 +2048,6 @@ img {
   margin-top: 0.25rem;
 }
 
-/* opsi (size, warna) */
 .product-detail-options {
   display: flex;
   flex-direction: column;
@@ -2145,7 +2076,6 @@ img {
   background-color: #f7efe0;
 }
 
-/* qty + tombol */
 .product-detail-actions {
   display: flex;
   align-items: center;
@@ -2181,7 +2111,6 @@ img {
   outline: none;
 }
 
-/* tombol utama */
 .product-detail-btn-primary {
   border: none;
   border-radius: 999px;
@@ -2200,7 +2129,6 @@ img {
   transform: translateY(-1px);
 }
 
-/* tombol sekunder */
 .product-detail-btn-secondary {
   margin-top: 0.3rem;
   border: none;
@@ -2211,7 +2139,6 @@ img {
   padding: 0;
 }
 
-/* deskripsi panjang dan info perawatan */
 .product-detail-description {
   font-size: 0.9rem;
   color: var(--text-main);
@@ -2229,7 +2156,6 @@ img {
   color: var(--text-muted);
 }
 
-/* bagian rekomendasi di bawah detail */
 .detail-recommend {
   margin-top: 2.4rem;
 }
@@ -2246,7 +2172,6 @@ img {
   gap: 1.2rem;
 }
 
-/* card kecil rekomendasi – pakai gaya mirip product-card */
 .detail-recommend-card {
   background-color: #ffffff;
   border-radius: 18px;
@@ -2281,8 +2206,6 @@ img {
   font-size: 0.9rem;
   color: #b7685d;
 }
-
-/* RESPONSIVE DETAIL */
 
 @media (max-width: 900px) {
   .product-detail-layout {
@@ -2346,14 +2269,12 @@ img {
   font-size: 0.95rem;
 }
 
-/* daftar card */
 .cart-items {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
 
-/* card item */
 .cart-item-card {
   display: grid;
   grid-template-columns: 80px minmax(0, 1.5fr) minmax(0, 1fr);
@@ -2398,7 +2319,6 @@ img {
   font-size: 1.05rem;
 }
 
-/* kanan: qty + harga */
 .cart-item-qty-price {
   display: flex;
   flex-direction: row;
@@ -2438,7 +2358,6 @@ img {
   pointer-events: none;
 }
 
-/* harga */
 .cart-item-price {
   text-align: right;
 }
@@ -2458,7 +2377,6 @@ img {
   opacity: 0.8;
 }
 
-/* remove */
 .cart-item-remove {
   margin-top: 0.2rem;
   border: none;
@@ -2481,13 +2399,11 @@ img {
 .cart-summary {
   background-color: #d5b687;
   border-radius: 26px;
-  /* kecilkan padding biar nggak terlalu tinggi */
   padding: 1.4rem 1.6rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 
-  /* PENTING: supaya tidak ikut memanjang setinggi kolom kiri */
   align-self: flex-start;
   height: auto;
 }
@@ -2560,7 +2476,6 @@ img {
   cursor: pointer;
 }
 
-/* responsive singkat */
 @media (max-width: 900px) {
   .cart-layout {
     grid-template-columns: 1fr;
@@ -2600,7 +2515,6 @@ img {
   transition: 0.2s ease;
 }
 
-/* tombol utama: pink */
 .checkout-btn {
   background-color: #e9cbc3;
   color: #ffffff;
@@ -2612,7 +2526,6 @@ img {
   transform: translateY(-1px);
 }
 
-/* tombol sekunder: outline / krem */
 .continue-btn {
   background-color: transparent;
   color: #4a3528;
@@ -2726,7 +2639,6 @@ img {
   gap: 1rem;
 }
 
-/* Payment method radio style */
 .checkout-radio-group {
   display: flex;
   flex-direction: column;
@@ -2763,7 +2675,6 @@ img {
   color: #6b4e32;
 }
 
-/* Order summary on checkout */
 .checkout-summary {
   max-width: 360px;
   margin-top: 5.4rem;
@@ -2815,7 +2726,6 @@ img {
   margin: 0 auto;
 }
 
-/* header */
 .orders-header h2 {
   font-family: "Playfair Display", serif;
   font-size: 2rem;
@@ -2828,7 +2738,6 @@ img {
   margin-bottom: 25px;
 }
 
-/* empty state */
 .orders-empty {
   text-align: center;
   padding: 40px 20px;
@@ -2852,7 +2761,6 @@ img {
   color: #6d5550;
 }
 
-/* button */
 .btn-primary {
   display: inline-block;
   padding: 10px 18px;
@@ -2864,7 +2772,6 @@ img {
   font-weight: 500;
 }
 
-/* table wrapper */
 .orders-table-wrapper {
   margin-top: 10px;
   background: #fff;
@@ -2886,7 +2793,6 @@ img {
   color: #443230;
 }
 
-/* table */
 .orders-table-scroll {
   width: 100%;
   overflow-x: auto;
@@ -2919,7 +2825,6 @@ img {
   background: #fff7fa;
 }
 
-/* badge status */
 .badge {
   display: inline-block;
   padding: 4px 10px;
@@ -2943,7 +2848,6 @@ img {
   color: #b73434;
 }
 
-/* link detail */
 .btn-link {
   display: inline-flex;
   align-items: center;
@@ -2957,7 +2861,6 @@ img {
   text-decoration: underline;
 }
 
-/* card layout (mobile) */
 .orders-cards {
   display: none;
   margin-top: 20px;
@@ -3003,7 +2906,6 @@ img {
   text-decoration: none;
 }
 
-/* Responsive: di layar kecil pakai card, di layar besar pakai table */
 @media (max-width: 600px) {
   .orders-table-wrapper {
     display: none;
@@ -3013,7 +2915,6 @@ img {
   }
 }
 
-/* Responsive */
 @media (max-width: 880px) {
   .checkout-layout {
     grid-template-columns: 1fr;
@@ -3021,7 +2922,7 @@ img {
 
   .checkout-summary {
     max-width: 100%;
-    margin-top: 1.4rem; /* di HP jangan terlalu jauh */
+    margin-top: 1.4rem;
   }
 
   .checkout-row-2,
@@ -3048,7 +2949,7 @@ img {
 
 .orders-empty i {
   font-size: 3.5rem;
-  color: var(--accent-dark); /* e08aa4 */
+  color: var(--accent-dark);
   margin-bottom: 1rem;
   background-color: #fceef2;
   width: 100px;
@@ -3077,7 +2978,7 @@ img {
 
 .orders-empty .btn {
   display: inline-block;
-  background-color: var(--accent); /* f3b5c4 */
+  background-color: var(--accent);
   color: #fff;
   padding: 0.8rem 2.5rem;
   border-radius: 50px;

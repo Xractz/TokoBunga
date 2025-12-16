@@ -129,7 +129,6 @@
   object-fit: cover;
 }
 
-/* QUOTE CARD OVERLAY */
 .about-quote-card {
   position: absolute;
   left: 50%;
@@ -161,7 +160,6 @@
   padding-bottom: 3.5rem;
 }
 
-/* STATS STRIP */
 .about-stats-strip {
   background: linear-gradient(to bottom, #f3e0d4, #f9eee4);
   padding: 1.6rem 0 1.3rem;
@@ -186,7 +184,6 @@
   color: var(--text-muted);
 }
 
-/* VALUES SECTION */
 .about-values {
   padding-top: 2.5rem;
 }
@@ -264,7 +261,6 @@
   color: var(--text-muted);
 }
 
-/* GRID CARD TIM */
 .team-grid {
   margin-top: 2rem;
   display: grid;
@@ -272,12 +268,10 @@
   gap: 1.4rem;
 }
 
-/* WRAPPER UNTUK HOVER + TOOLTIP */
 .team-card-wrapper {
   position: relative;
 }
 
-/* CARD UTAMA */
 .team-card {
   background-color: #f7eadb;
   border-radius: 22px;
@@ -317,7 +311,6 @@
   color: #b18b65;
 }
 
-/* EFEK HOVER CARD */
 .team-card-wrapper:hover .team-card {
   transform: translateY(-8px);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
@@ -327,7 +320,6 @@
   transform: scale(1.06);
 }
 
-/* TOOLTIP KECIL DI ATAS CARD */
 .team-tooltip {
   position: absolute;
   left: 50%;
