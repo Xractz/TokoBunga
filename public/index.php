@@ -5,18 +5,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap"
     rel="stylesheet" />
-
-  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-
-  <!-- Main CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
   <title>Home - Bloomify</title>
@@ -25,52 +19,37 @@
 <body>
   <header class="header">
     <div class="container">
-      <!-- NAVBAR -->
       <nav class="navbar">
-        <!-- Logo -->
         <div class="logo">
           <i class="bi bi-flower1"></i>
           <h1>Bloomify</h1>
         </div>
-
-        <!-- Menu utama (desktop) -->
         <ul class="menu">
           <li><a href="index.php" class="active">Home</a></li>
           <li><a href="katalog.php">Katalog Bunga</a></li>
           <li><a href="tentang.php">Tentang Kami</a></li>
           <?php if (isAdmin()) echo '<a href="admin/index.php">Admin Panel</a>'; ?>
         </ul>
-
-        <!-- Tombol kanan -->
         <div class="auth-buttons">
-          <!-- Keranjang -->
           <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.php'">
             <i class="bi bi-bag"></i>
-
-            <!-- Badge pink kecil -->
             <span id="cartCount" class="cart-badge hidden">0</span>
           </button>
-
-          <!-- Hamburger (untuk auth: login / register / logout) -->
           <button class="hamburger-menu" id="hamburgerBtn">
             <i class="bi bi-list"></i>
           </button>
         </div>
       </nav>
-
-      <!-- MENU AUTH + NAV MOBILE (muncul saat hamburger diklik) -->
-     <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu" id="mobileMenu">
         <?php if (isLoggedIn()): ?>
-           <a href="profile.php">Profile</a>
-           <?php if (isCustomer()) echo '<a href="orders-history.php">Riwayat Pesanan</a>'; ?>
-           <a href="/api/auth/logout.php">Logout</a>
+          <a href="profile.php">Profile</a>
+          <?php if (isCustomer()) echo '<a href="orders-history.php">Riwayat Pesanan</a>'; ?>
+          <a href="/api/auth/logout.php">Logout</a>
         <?php else: ?>
-           <a href="auth/login.php">Login</a>
-           <a href="auth/register.php">Register</a>
+          <a href="auth/login.php">Login</a>
+          <a href="auth/register.php">Register</a>
         <?php endif; ?>
       </div>
-
-      <!-- HERO -->
       <section class="hero">
         <div class="hero-card">
           <div class="hero-image"></div>
@@ -90,7 +69,6 @@
   </header>
 
   <main>
-    <!-- FEATURES -->
     <section class="features">
       <div class="container">
         <h2 class="section-title">Shop by occasion</h2>
@@ -118,8 +96,6 @@
         </div>
       </div>
     </section>
-
-    <!-- KOLEKSI -->
     <section class="collection">
       <div class="container">
         <h2 class="section-title">Koleksi Terlaris</h2>
@@ -133,8 +109,6 @@
       </div>
     </section>
   </main>
-
-  <!-- WHY -->
   <section class="why">
     <div class="container">
       <div class="why-box">
@@ -173,13 +147,10 @@
       </div>
     </div>
   </section>
-
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer-top">
         <div class="footer-grid">
-          <!-- Brand + text + sosmed -->
           <div class="footer-brand">
             <div class="footer-logo">
               <span class="footer-logo-icon">
@@ -204,8 +175,6 @@
               </a>
             </div>
           </div>
-
-          <!-- Shop -->
           <div class="footer-column">
             <h4>Shop</h4>
             <ul>
@@ -216,8 +185,6 @@
               <li><a href="#">Gift Sets</a></li>
             </ul>
           </div>
-
-          <!-- Customer Care -->
           <div class="footer-column">
             <h4>Customer Care</h4>
             <ul>
@@ -228,21 +195,18 @@
               <li><a href="#">Contact Us</a></li>
             </ul>
           </div>
-
-          <!-- Stay Connected -->
-          <!-- Map Location -->
           <div class="footer-column" style="position: relative;">
             <h4>Visit Our Store</h4>
             <div style="position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <a href="https://maps.app.goo.gl/hiUnazLaaeVSnYhG7" target="_blank" style="position: absolute; inset: 0; z-index: 10;" title="Open in Google Maps"></a>
-                <iframe 
-                    src="https://maps.google.com/maps?q=-7.788563203049172,110.36921160082893&hl=en&z=14&output=embed" 
-                    width="100%" 
-                    height="160" 
-                    style="border:0; display: block;" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
+              <a href="https://maps.app.goo.gl/hiUnazLaaeVSnYhG7" target="_blank" style="position: absolute; inset: 0; z-index: 10;" title="Open in Google Maps"></a>
+              <iframe
+                src="https://maps.google.com/maps?q=-7.788563203049172,110.36921160082893&hl=en&z=14&output=embed"
+                width="100%"
+                height="160"
+                style="border:0; display: block;"
+                allowfullscreen=""
+                loading="lazy">
+              </iframe>
             </div>
           </div>
         </div>
@@ -260,8 +224,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- JS -->
   <script src="assets/js/script.js"></script>
   <script src="assets/js/home.js"></script>
 </body>

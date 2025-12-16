@@ -10,24 +10,20 @@ requireCustomer();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap"
     rel="stylesheet" />
 
-  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
-  <!-- Main CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
   <title>Keranjang Belanja – Bloomify</title>
 </head>
 
 <body>
-  <!-- ================= HEADER (SAMA DENGAN HALAMAN LAIN) ================= -->
   <header class="header">
     <div class="container">
       <nav class="navbar">
@@ -47,7 +43,6 @@ requireCustomer();
           <button class="icon-btn" aria-label="Cart" onclick="window.location.href='cart.php'">
             <i class="bi bi-bag"></i>
 
-            <!-- Badge pink kecil -->
             <span id="cartCount" class="cart-badge hidden">0</span>
           </button>
 
@@ -59,21 +54,19 @@ requireCustomer();
 
       <div class="mobile-menu" id="mobileMenu">
         <?php if (isLoggedIn()): ?>
-           <a href="profile.php">Profile</a>
-           <?php if (isCustomer()) echo '<a href="orders-history.php">Riwayat Pesanan</a>'; ?>
-           <a href="/api/auth/logout.php">Logout</a>
+          <a href="profile.php">Profile</a>
+          <?php if (isCustomer()) echo '<a href="orders-history.php">Riwayat Pesanan</a>'; ?>
+          <a href="/api/auth/logout.php">Logout</a>
         <?php else: ?>
-           <a href="auth/login.php">Login</a>
-           <a href="auth/register.php">Register</a>
+          <a href="auth/login.php">Login</a>
+          <a href="auth/register.php">Register</a>
         <?php endif; ?>
       </div>
     </div>
   </header>
 
-  <!-- ================= MAIN CART ================= -->
   <main class="cart-main">
     <div class="container">
-      <!-- Judul halaman -->
       <header class="cart-header">
         <h1 class="cart-title">Shopping Cart</h1>
         <p class="cart-subtitle">
@@ -81,16 +74,12 @@ requireCustomer();
         </p>
       </header>
 
-      <!-- Layout 2 kolom: kiri list item, kanan ringkasan -->
       <div class="cart-layout">
-        <!-- Kiri: daftar item -->
         <section class="cart-left">
           <div class="cart-items" id="cartItemsContainer">
-            <!-- Card cart akan digenerate oleh JS -->
           </div>
         </section>
 
-        <!-- Kanan: ringkasan pesanan -->
         <aside class="cart-summary">
           <h2 class="cart-summary-title">Order Summary</h2>
 
@@ -111,7 +100,6 @@ requireCustomer();
             <span id="cartTotal">Rp 0</span>
           </div>
 
-          <!-- Tombol aksi -->
           <div class="summary-actions">
             <button class="checkout-btn" type="button" onclick="window.location.href='checkout.php'">
               Proceed to Checkout
@@ -126,7 +114,6 @@ requireCustomer();
     </div>
   </main>
 
-  <!-- ================= FOOTER (SAMA DENGAN HALAMAN LAIN) ================= -->
   <footer class="footer">
     <div class="container">
       <div class="footer-top">
@@ -177,19 +164,18 @@ requireCustomer();
             </ul>
           </div>
 
-          <!-- Map Location -->
           <div class="footer-column" style="position: relative;">
             <h4>Visit Our Store</h4>
             <div style="position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <a href="https://maps.app.goo.gl/hiUnazLaaeVSnYhG7" target="_blank" style="position: absolute; inset: 0; z-index: 10;" title="Open in Google Maps"></a>
-                <iframe 
-                    src="https://maps.google.com/maps?q=-7.788563203049172,110.36921160082893&hl=en&z=14&output=embed" 
-                    width="100%" 
-                    height="160" 
-                    style="border:0; display: block;" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
+              <a href="https://maps.app.goo.gl/hiUnazLaaeVSnYhG7" target="_blank" style="position: absolute; inset: 0; z-index: 10;" title="Open in Google Maps"></a>
+              <iframe
+                src="https://maps.google.com/maps?q=-7.788563203049172,110.36921160082893&hl=en&z=14&output=embed"
+                width="100%"
+                height="160"
+                style="border:0; display: block;"
+                allowfullscreen=""
+                loading="lazy">
+              </iframe>
             </div>
           </div>
         </div>
@@ -208,9 +194,9 @@ requireCustomer();
     </div>
   </footer>
 
-  <!-- JS -->
   <script src="assets/js/script.js"></script>
   <script src="assets/js/cart_actions.js"></script>
   <script src="assets/js/cart.js"></script>
 </body>
+
 </html>

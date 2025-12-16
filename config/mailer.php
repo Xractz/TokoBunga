@@ -54,12 +54,9 @@ function getEmailTemplate($title, $content, $ctaText = null, $ctaUrl = null) {
     <body style='margin: 0; padding: 0; font-family: Georgia, serif; background-color: {$bgPage}; color: {$textMain};'>
         <div class='container' style='max-width: 600px; margin: 0 auto; padding: 40px 20px;'>
             <div class='card' style='background-color: {$bgCard}; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.05);'>
-                <!-- Header -->
                 <div class='header' style='background-color: {$bgCard}; padding: 30px; text-align: center; border-bottom: 2px solid #f9efe9;'>
                    <h1 style='margin: 0; color: {$textMain}; font-family: Georgia, serif; font-size: 28px;'>Bloomify</h1>
                 </div>
-                
-                <!-- Content -->
                 <div class='content' style='padding: 40px 30px; line-height: 1.6;'>
                     <h2 style='margin-top: 0; margin-bottom: 20px; font-size: 22px; color: {$textMain};'>{$title}</h2>
                     {$content}
@@ -70,8 +67,6 @@ function getEmailTemplate($title, $content, $ctaText = null, $ctaUrl = null) {
                     </p>
                 </div>
             </div>
-            
-            <!-- Footer -->
             <div class='footer' style='text-align: center; padding: 20px; font-size: 12px; color: #998a83;'>
                 <p>&copy; " . date('Y') . " Bloomify. All rights reserved.</p>
                 <p>Jalan Kaliurang KM 5, Yogyakarta</p>
