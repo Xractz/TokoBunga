@@ -1,4 +1,3 @@
-// Helper for Currency
 function formatCurrency(amount) {
   const num = Number(amount);
   if (isNaN(num)) return "Rp0";
@@ -9,13 +8,11 @@ function formatCurrency(amount) {
   }).format(num);
 }
 
-// Global state
 let currentProductPage = 1;
 let currentCategoryPage = 1;
 const limit = 10;
 
 $(document).ready(function () {
-  // --- SIDEBAR NAVIGATION ---
   const links = document.querySelectorAll(".sidebar-link");
   const sections = document.querySelectorAll(".admin-section");
 
@@ -31,16 +28,12 @@ $(document).ready(function () {
     });
   });
 
-  // --- PRODUCT MANAGEMENT ---
-
-  // Init Select2 for Product Modal
   $("#productCategory").select2({
     dropdownParent: $("#addProductModal"),
     placeholder: "Pilih Kategori",
     allowClear: true,
   });
 
-  // Image Preview
   $("#productImage").change(function () {
     const file = this.files[0];
     if (file) {
@@ -54,12 +47,11 @@ $(document).ready(function () {
     }
   });
 
-  // Fetch Categories for Dropdown
   loadCategoryDropdown();
 
   function loadCategoryDropdown() {
     $.ajax({
-      url: "/api/categories/get.php?status=1", // Only active
+      url: "/api/categories/get.php?status=1",
       method: "GET",
       success: function (response) {
         if (response.success && response.data && response.data.categories) {
@@ -74,7 +66,6 @@ $(document).ready(function () {
     });
   }
 
-  // Load Products
   window.loadProducts = function (page) {
     currentProductPage = page;
     $.ajax({
@@ -141,7 +132,6 @@ $(document).ready(function () {
     });
   }
 
-  // Product Form Submit
   $("#addProductForm").on("submit", function (e) {
     e.preventDefault();
     const submitBtn = $(this).find('button[type="submit"]');
@@ -236,9 +226,6 @@ $(document).ready(function () {
     }
   };
 
-  // --- CATEGORY MANAGEMENT ---
-
-  // Load Categories
   window.loadCategories = function (page) {
     currentCategoryPage = page;
     $.ajax({
@@ -293,14 +280,10 @@ $(document).ready(function () {
     });
   }
 
-  // Category Form Submit
   $("#addCategoryForm").on("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(this);
 
-    // Fix: Explicitly handle checkbox state for is_active
-    // Standard FormData only sends value if checked, missing if unchecked.
-    // For update, API uses fallback if missing, so we MUST send 0 if unchecked.
     formData.set("is_active", $("#categoryStatus").is(":checked") ? 1 : 0);
 
     const id = $("#categoryId").val();
@@ -321,7 +304,7 @@ $(document).ready(function () {
           alert("Kategori berhasil disimpan!");
           $("#addCategoryModal").modal("hide");
           loadCategories(currentCategoryPage);
-          loadCategoryDropdown(); // Refresh dropdown in product modal
+          loadCategoryDropdown();
         } else {
           alert("Gagal: " + response.message);
         }
@@ -339,7 +322,7 @@ $(document).ready(function () {
     $("#addCategoryForm")[0].reset();
     $("#categoryId").val("");
     $("#categoryDesc").val("");
-    $("#categoryStatus").prop("checked", false); // Default inactive
+    $("#categoryStatus").prop("checked", false);
   };
 
   window.editCategory = function (id) {
@@ -379,7 +362,6 @@ $(document).ready(function () {
     }
   };
 
-  // Generic Pagination Render
   function renderPagination(meta, containerId, funcName) {
     const container = $("#" + containerId);
     container.empty();
@@ -396,7 +378,6 @@ $(document).ready(function () {
             `;
     }
 
-    // Prev
     container.append(
       createItem(
         "Previous",
@@ -406,12 +387,10 @@ $(document).ready(function () {
       )
     );
 
-    // Numbers
     for (let i = 1; i <= meta.total_pages; i++) {
       container.append(createItem(i, i, false, i === meta.current_page));
     }
 
-    // Next
     container.append(
       createItem(
         "Next",
@@ -422,13 +401,10 @@ $(document).ready(function () {
     );
   }
 
-  // Initial Loads
   loadProducts(1);
   loadCategories(1);
 
-  // --- STATS MANAGEMENT ---
   window.loadStats = function (period) {
-    // Update button state
     $(".btn-group .btn").removeClass("active");
     $("#btn-" + period).addClass("active");
 
@@ -448,10 +424,8 @@ $(document).ready(function () {
     });
   };
 
-  // Initial Load Stats
   loadStats("week");
 
-  // --- TRANSACTION MANAGEMENT ---
   let currentTransactionPage = 1;
 
   window.loadTransactions = function (page) {
@@ -538,7 +512,6 @@ $(document).ready(function () {
           $("#detailCardMessage").text(o.card_message || "-");
           $("#detailGrandTotal").text(formatCurrency(o.grand_total));
 
-          // Items
           const tbody = $("#detailItemsTable");
           tbody.empty();
           if (o.items && o.items.length > 0) {
@@ -604,10 +577,8 @@ $(document).ready(function () {
     });
   });
 
-  // Init Transactions
   loadTransactions(1);
 
-  // --- CUSTOMER MANAGEMENT ---
   let currentCustomerPage = 1;
 
   window.loadCustomers = function (page) {
@@ -665,6 +636,5 @@ $(document).ready(function () {
     });
   }
 
-  // Init Customers
   loadCustomers(1);
 });

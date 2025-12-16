@@ -138,7 +138,7 @@
   <section class="why">
     <div class="container">
       <div class="why-box">
-        <h2 class="section-title">Why Choose Bloomora</h2>
+        <h2 class="section-title">Why Choose Bloomify</h2>
         <p class="section-subtitle">
           We're committed to excellence in every bloom
         </p>

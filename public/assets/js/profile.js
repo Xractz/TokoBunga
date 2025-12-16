@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // --- TAB SWITCHING LOGIC ---
   const menuItems = document.querySelectorAll(".profile-menu-item[data-tab]");
   const tabContents = document.querySelectorAll(".profile-tab-content");
   const pageTitle = document.getElementById("page-title");
@@ -10,17 +9,14 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       const target = this.getAttribute("data-tab");
 
-      // Update Menu Active State
       menuItems.forEach((i) => i.classList.remove("active"));
       this.classList.add("active");
 
-      // Update Tab Visibility
       tabContents.forEach((content) => {
         content.style.display =
           content.id === `tab-${target}` ? "block" : "none";
       });
 
-      // Update Header Text (Optional)
       if (pageTitle && pageDesc) {
         if (target === "password") {
           pageTitle.textContent = "Ganti Password";
@@ -43,9 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("User ID not found, data fetching might fail.");
   }
 
-  // Load Profile Data
   async function loadProfile() {
-    if (!userId) return; // Guard here instead
+    if (!userId) return;
     try {
       const response = await fetch(`/api/users/list.php?id=${userId}`);
       const result = await response.json();
@@ -53,14 +48,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (result.success && result.data && result.data.length > 0) {
         const user = result.data[0];
 
-        // Populate Form
         document.getElementById("name").value = user.name || "";
         document.getElementById("username").value = user.username || "";
         document.getElementById("email").value = user.email || "";
         document.getElementById("phone").value = user.phone || "";
         document.getElementById("address").value = user.address || "";
 
-        // Update sidebar info if elements exist
         const sideName = document.querySelector(".profile-name");
         const sideRole = document.querySelector(".profile-role");
         if (sideName) sideName.textContent = user.name || user.username;
@@ -86,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Handle Form Submit
   if (profileForm) {
     profileForm.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -98,7 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         const formData = new FormData(profileForm);
-        // API expects POST
         const response = await fetch("/api/users/update.php", {
           method: "POST",
           body: formData,
@@ -108,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (result.success) {
           showAlert("success", result.message || "Profil berhasil diperbarui.");
-          // Reload to refresh potential photo changes or sidebar updates
           loadProfile();
         } else {
           showAlert("error", result.message || "Gagal memperbarui profil.");
@@ -123,7 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Image Preview Handler
   const photoInput = document.getElementById("photo");
   const photoPreview = document.querySelector(".profile-photo-preview img");
 
@@ -140,7 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // --- PASSWORD FORM HANDLER ---
   const passwordForm = document.querySelector(".password-form");
   if (passwordForm) {
     passwordForm.addEventListener("submit", async function (e) {
@@ -187,9 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Alert Helper
   function showAlert(type, message) {
-    // Remove existing alerts
     const existingAlerts = document.querySelectorAll(".alert-message");
     existingAlerts.forEach((el) => el.remove());
 
@@ -212,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
       container.after(alertDiv);
     }
 
-    // Auto hide
     setTimeout(() => {
       if (alertDiv.parentElement) {
         alertDiv.style.opacity = "0";
@@ -221,6 +206,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 5000);
   }
 
-  // Initial Load
   loadProfile();
 });

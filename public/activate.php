@@ -6,7 +6,6 @@ $token = $_GET['token'] ?? '';
 $status = 'invalid';
 
 if ($token !== '') {
-  // Check user by token
   $stmt = mysqli_prepare(
     $conn,
     "SELECT id, is_active FROM users WHERE activation_token = ?"
@@ -20,7 +19,6 @@ if ($token !== '') {
     if ($user['is_active'] == 1) {
       $status = 'already_active';
     } else {
-      // Activate user and clear token
       $stmt = mysqli_prepare(
         $conn,
         "UPDATE users SET is_active = 1, activation_token = NULL WHERE id = ?"

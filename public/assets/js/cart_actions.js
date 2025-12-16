@@ -60,7 +60,6 @@ async function updateCartItem(cartItemId, quantity) {
     const result = await response.json();
 
     if (result.success) {
-      // Valid update, no need to toast usually (silent)
       updateCartBadge();
     } else {
       alert(result.message || "Gagal update keranjang.");

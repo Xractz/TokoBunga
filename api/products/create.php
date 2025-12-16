@@ -35,7 +35,6 @@ if (mysqli_stmt_num_rows($stmtCheck) > 0) {
 }
 mysqli_stmt_close($stmtCheck);
 
-// Handle File Upload
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['image']['tmp_name'];
     $fileName    = $_FILES['image']['name'];
@@ -49,10 +48,8 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
 
     // Validate
     if (in_array($fileExtension, $allowedfileExtensions) && in_array($fileType, $allowedMimeTypes)) {
-        // Directory
         $uploadFileDir = __DIR__ . '/../../public/assets/images/products/';
         
-        // Use slug as filename
         $newFileName = $slug . '.' . $fileExtension;
         $dest_path = $uploadFileDir . $newFileName;
 
@@ -66,7 +63,6 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-// ... rest of the insert logic matches
 $sql = "INSERT INTO products (category_id, name, slug, description, price, stock, image)
         VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt = mysqli_prepare($conn, $sql);

@@ -1,4 +1,3 @@
-// order-detail.js
 document.addEventListener("DOMContentLoaded", async () => {
   const STATUS_MAP = {
     unpaid: { color: "status-pending", label: "Menunggu Pembayaran" },
@@ -47,13 +46,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function renderOrderDetail(order) {
-    // 1. Text Fields
     setText("orderCodeDisplay", `#${order.order_code}`);
     setText("recipientName", order.recipient_name);
     setText("recipientPhone", order.recipient_phone);
     setText("shippingAddress", order.shipping_address);
 
-    // Format Date Time
     const dateObj = new Date(order.delivery_date);
     setText(
       "deliveryDate",
@@ -65,11 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     setText("deliveryTime", order.delivery_time);
 
-    // Status - Match database enum values exactly
-    // Status: pending, confirmed, processing, shipped, completed, cancelled
-    // Payment: unpaid, paid, refunded
-
-    let statusKey = "pending"; // Default
+    let statusKey = "pending";
 
     if (order.status === "cancelled") {
       statusKey = "cancelled";
@@ -78,8 +71,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else if (order.payment_status === "unpaid") {
       statusKey = "unpaid";
     } else {
-      // Paid & Active (not cancelled/refunded)
-      // Use the main status
       statusKey = order.status;
     }
 
@@ -93,7 +84,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       badgeEl.style.padding = "0.5rem 1rem";
     }
 
-    // Setup Export Invoice Button
     const exportBtn = document.getElementById("exportInvoiceBtn");
     if (exportBtn) {
       exportBtn.href = `/api/orders/export_invoice.php?order_code=${order.order_code}`;
@@ -101,7 +91,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       exportBtn.style.display = "inline-block";
     }
 
-    // Card Message
     const msgContainer = document.getElementById("cardMessageContainer");
     if (order.card_message) {
       setText("cardMessage", order.card_message);
@@ -110,14 +99,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       msgContainer.style.display = "none";
     }
 
-    // 2. Map
     if (order.latitude && order.longitude) {
       initMap(parseFloat(order.latitude), parseFloat(order.longitude));
     } else {
       document.getElementById("mapContainer").style.display = "none";
     }
 
-    // 3. Items
     const itemsList = document.getElementById("itemsList");
     itemsList.innerHTML = "";
 
@@ -142,19 +129,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-    // 4. Totals
     setPrice("subtotalDisplay", order.subtotal);
     setPrice("shippingDisplay", order.shipping_cost);
     setPrice("grandTotalDisplay", order.grand_total);
 
-    // 5. Payment Button - Redirect to Pakasir
     const payBtnContainer = document.getElementById("paymentActionContainer");
-    // Show button only if: unpaid AND not cancelled
     if (order.payment_status === "unpaid" && order.status !== "cancelled") {
       payBtnContainer.style.display = "block";
       const payBtn = document.getElementById("payBtn");
 
-      // Add click handler to redirect to Pakasir
       payBtn.addEventListener("click", function (e) {
         e.preventDefault();
 

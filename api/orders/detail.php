@@ -2,7 +2,6 @@
 header("Content-Type: application/json");
 
 require_once __DIR__ . "/../../config/db.php";
-// Check login (Admin or Customer)
 require_once __DIR__ . "/../middleware/is_login.php";
 
 global $conn;
@@ -27,7 +26,6 @@ if (empty($order_code)) {
     respondJson(400, false, "Kode pesanan harus disediakan.");
 }
 
-// Prepare Query
 $sql = "SELECT * FROM orders WHERE order_code = ?";
 $params = [$order_code];
 $types = "s";
@@ -55,7 +53,6 @@ if (!$order) {
     respondJson(404, false, "Pesanan tidak ditemukan.");
 }
 
-// Fetch Items with LEFT JOIN
 $sqlItems = "SELECT oi.*, p.name AS product_name, p.image 
              FROM order_items oi 
              LEFT JOIN products p ON oi.product_id = p.id 

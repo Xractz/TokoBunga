@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondJson(405, false, "Method not allowed. Gunakan POST.");
 }
 
-$user_id = $_SESSION['user_id']; // Middleware ensures this exists
+$user_id = $_SESSION['user_id'];
 
 if (!$conn) {
     respondJson(500, false, "Database connection failed");

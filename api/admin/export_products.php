@@ -20,7 +20,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     $products[] = $row;
 }
 
-// Generate HTML
 $html = '
 <!DOCTYPE html>
 <html>

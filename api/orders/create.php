@@ -128,7 +128,7 @@ try {
     $order_id = mysqli_insert_id($conn);
     mysqli_stmt_close($stmt);
 
-    // 2. Insert ke order_items
+    // masukkan item ke order_items
     $sqlItem = "INSERT INTO order_items (order_id, product_id, product_name, unit_price, quantity, subtotal) VALUES (?, ?, ?, ?, ?, ?)";
     $stmtItem = mysqli_prepare($conn, $sqlItem);
 
@@ -136,7 +136,7 @@ try {
         throw new Exception("Gagal mempersiapkan query items: " . mysqli_error($conn));
     }
 
-    // Prepare statement for stock update
+    // update stock
     $sqlStock = "UPDATE products SET stock = stock - ? WHERE id = ?";
     $stmtStock = mysqli_prepare($conn, $sqlStock);
 
@@ -151,13 +151,13 @@ try {
         $price = $item['price'];
         $sub   = $qty * $price;
 
-        // Insert order item
+        // masukkan order item
         mysqli_stmt_bind_param($stmtItem, "issdid", $order_id, $pId, $pName, $price, $qty, $sub);
         if (!mysqli_stmt_execute($stmtItem)) {
             throw new Exception("Gagal menyimpan item pesanan (Product ID: $pId): " . mysqli_error($conn));
         }
 
-        // Update stock
+        // update stock
         mysqli_stmt_bind_param($stmtStock, "ii", $qty, $pId);
         if (!mysqli_stmt_execute($stmtStock)) {
             throw new Exception("Gagal mengupdate stok produk (Product ID: $pId): " . mysqli_error($conn));
@@ -166,7 +166,7 @@ try {
     mysqli_stmt_close($stmtItem);
     mysqli_stmt_close($stmtStock);
 
-    // 3. Clear Cart
+    // kosongkan keranjang
     $sqlClear = "DELETE FROM cart_items WHERE user_id = ?";
     $stmtClear = mysqli_prepare($conn, $sqlClear);
     mysqli_stmt_bind_param($stmtClear, "i", $user_id);
@@ -175,7 +175,6 @@ try {
     }
     mysqli_stmt_close($stmtClear);
 
-    // Commit
     mysqli_commit($conn);
 
 } catch (Exception $e) {

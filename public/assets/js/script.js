@@ -85,9 +85,6 @@ async function updateCartBadge() {
   }
 }
 
-// ==============================
-// UTILITIES
-// ==============================
 function showError(message, formId = null) {
   const existingAlert = document.querySelector(".alert-message");
   if (existingAlert) {
@@ -104,12 +101,9 @@ function showError(message, formId = null) {
     </button>
   `;
 
-  // Find form to insert alert before
   const form = formId ? document.getElementById(formId) : document.querySelector("form");
   if (form) {
     form.parentElement.insertBefore(alert, form);
-
-    // Auto remove after 5 seconds
     setTimeout(() => {
       if (alert.parentElement) {
         alert.remove();
@@ -131,7 +125,6 @@ function showSuccess(message, formId = null) {
     <span>${message}</span>
   `;
 
-  // Find form to insert alert before
   const form = formId ? document.getElementById(formId) : document.querySelector("form");
   if (form) {
     form.parentElement.insertBefore(alert, form);

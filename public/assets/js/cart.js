@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const totalEl = document.getElementById("cartTotal");
   const itemCountEl = document.getElementById("cartItemCount");
 
-  // Only run if we are on the cart page
   if (!itemsContainer) return;
 
   const SHIPPING_FEE = 25000;
@@ -95,12 +94,10 @@ document.addEventListener("DOMContentLoaded", function () {
       itemsContainer.appendChild(card);
     });
 
-    // Update Text Counts
     if (itemCountEl) itemCountEl.textContent = totalCount;
 
     updateSummary(subtotal, SHIPPING_FEE);
 
-    // Setup Events (Minus, Plus, Remove)
     setupCartEvents();
   }
 

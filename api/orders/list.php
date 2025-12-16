@@ -11,12 +11,10 @@ $user_id = $_SESSION['user_id'];
 $role = $_SESSION['role'] ?? 'customer';
 $isAdmin = ($role === 'admin');
 
-// Pagination parameters
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $limit = isset($_GET['limit']) ? max(1, min(100, intval($_GET['limit']))) : 10;
 $offset = ($page - 1) * $limit;
 
-// Get total count
 if ($isAdmin) {
     $countQuery = "SELECT COUNT(*) as total FROM orders";
     $countStmt = mysqli_prepare($conn, $countQuery);
@@ -38,7 +36,6 @@ mysqli_stmt_close($countStmt);
 
 $totalPages = ceil($totalCount / $limit);
 
-// Get paginated orders
 if ($isAdmin) {
     $query = "SELECT o.id, o.order_code, o.created_at, o.status, o.payment_status, o.grand_total, o.recipient_name, u.name as customer_name 
              FROM orders o
@@ -71,8 +68,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 mysqli_stmt_close($stmt);
 
 respondJson(200, true, "Orders retrieved", [
-    'orders' => $orders, // Standardize on 'orders' (old list.php used 'items', but admin-list used 'orders'. 'orders' is clearer)
-    'items' => $orders, // Keep 'items' for backward compatibility with customer frontend if it uses it.
+    'orders' => $orders,
+    'items' => $orders,
     'pagination' => [
         'current_page' => $page,
         'total_pages' => $totalPages,

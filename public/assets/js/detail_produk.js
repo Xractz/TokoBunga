@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       if (elName) elName.textContent = p.name;
       if (elDesc) elDesc.textContent = p.description;
-      if (elCat) elCat.textContent = p.category_name || "Fresh Flower"; // Updated field
+      if (elCat) elCat.textContent = p.category_name || "Fresh Flower";
       if (elStock) elStock.textContent = p.stock > 0 ? "Tersedia" : "Habis";
 
       if (elPrice) {
@@ -85,7 +85,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function loadRecommendations(categoryId, currentId) {
     try {
-      // Limit 4 to increase chance of getting 3 distinct items (excluding self)
       const response = await fetch(
         `/api/products/get.php?category=${categoryId}&limit=4`
       );
@@ -101,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
 
       const recommendations = products
-        .filter((item) => item.id != currentId) // Loose equality just in case
+        .filter((item) => item.id != currentId)
         .slice(0, 3);
 
       const container = document.querySelector(".detail-recommend-grid");
@@ -114,7 +113,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
       }
 
-      // Ensure section is visible if we have data
       section.style.display = "block";
       container.innerHTML = "";
 
@@ -148,7 +146,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     } catch (err) {
       console.error("Error loading recommendations:", err);
-      // Simplify error handling: hide section
       const section = document.querySelector(".detail-recommend");
       if (section) section.style.display = "none";
     }

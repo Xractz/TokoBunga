@@ -1,15 +1,10 @@
-/**
- * checkout.js
- * Logic for Checkout Page
- */
-
 const API_ORDER_CREATE = "/api/orders/create.php";
 
 let map;
 let marker;
 let cartItems = [];
 let cartSubtotal = 0;
-const SHIPPING_FEE = 25000; // Fixed shipping for now
+const SHIPPING_FEE = 25000; // harga ongkir
 
 document.addEventListener("DOMContentLoaded", function () {
   checkCartAccess();
@@ -17,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
   setupForm();
 });
 
-// 1. Check Cart Access & Load Summary
 async function checkCartAccess() {
   try {
     const response = await fetch(`${API_CART_LIST}?t=${new Date().getTime()}`);
@@ -33,7 +27,6 @@ async function checkCartAccess() {
     renderOrderSummary(cartItems);
   } catch (error) {
     console.error("Error checking cart:", error);
-    // On error, stay or redirect? safety: redirect
     window.location.href = "katalog.php";
   }
 }
@@ -44,7 +37,6 @@ function renderOrderSummary(items) {
   const shippingEl = document.getElementById("checkoutShipping");
   const totalEl = document.getElementById("checkoutTotal");
   const itemCountEl = document.getElementById("checkoutItemCount");
-  // Note: checkoutItemCount might act as total items count
 
   if (!container) return;
 
@@ -76,24 +68,18 @@ function renderOrderSummary(items) {
     container.appendChild(div);
   });
 
-  // Calculate totals
   const grandTotal = cartSubtotal + SHIPPING_FEE;
 
-  // Update DOM
   if (subtotalEl) subtotalEl.textContent = formatRupiah(cartSubtotal);
   if (shippingEl) shippingEl.textContent = formatRupiah(SHIPPING_FEE);
   if (totalEl) totalEl.textContent = formatRupiah(grandTotal);
-  if (itemCountEl) itemCountEl.textContent = items.length; // Count unique items or total qty
-
-  // Update Hidden Inputs
+  if (itemCountEl) itemCountEl.textContent = items.length;
   document.getElementById("inputSubtotal").value = cartSubtotal;
   document.getElementById("inputShipping").value = SHIPPING_FEE;
   document.getElementById("inputGrandTotal").value = grandTotal;
 }
 
-// 2. Map Initialization (Leaflet)
 function initMap() {
-  // Default: Yogyakarta
   const defaultLat = -7.788563203049172;
   const defaultLng = 110.36921160082893;
 
@@ -104,12 +90,9 @@ function initMap() {
     attribution: "© OpenStreetMap",
   }).addTo(map);
 
-  // Add click listener
   map.on("click", function (e) {
     updateMarker(e.latlng.lat, e.latlng.lng);
   });
-
-  // Try to get user location
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -144,7 +127,6 @@ function updateMarker(lat, lng) {
   document.getElementById("inputLng").value = lng;
 }
 
-// 3. Address Auto-Update Map
 function setupAddressAutoUpdate() {
   const inputs = ["city", "province", "postal"];
   const debouncedSearch = debounce(searchLocation, 1000);
@@ -172,7 +154,6 @@ async function searchLocation() {
   const province = document.getElementById("province").value.trim();
   const postal = document.getElementById("postal").value.trim();
 
-  // Need at least city or province to search effectively
   if (!city && !province) return;
 
   const query = `${city}, ${province}, ${postal}, Indonesia`.replace(
@@ -201,17 +182,11 @@ async function searchLocation() {
   }
 }
 
-// 4. Form Submission
 function setupForm() {
   const btn = document.getElementById("btnPlaceOrder");
   if (!btn) return;
-
-  // Initialize address listeners
   setupAddressAutoUpdate();
-
-  // Initialize Date/Time defaults and validation
   setupDateTime();
-
   btn.addEventListener("click", submitOrder);
 }
 
@@ -222,32 +197,20 @@ function setupDateTime() {
   if (!dateInput || !timeInput) return;
 
   const now = new Date();
-
-  // Format Date: YYYY-MM-DD
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
   const todayStr = `${year}-${month}-${day}`;
-
-  // Set min date to today
   dateInput.min = todayStr;
-
-  // Set default value to today if empty
   if (!dateInput.value) {
     dateInput.value = todayStr;
   }
-
-  // Format Time: HH:MM
   const hours = String(now.getHours()).padStart(2, "0");
   const minutes = String(now.getMinutes()).padStart(2, "0");
   const timeStr = `${hours}:${minutes}`;
-
-  // Set default time to now if empty
   if (!timeInput.value) {
     timeInput.value = timeStr;
   }
-
-  // Live Validation
   function validateDateTime() {
     const selectedDate = dateInput.value;
     const selectedTime = timeInput.value;

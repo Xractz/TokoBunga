@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Infinite Scroll Event
+  // Infinite Scroll
   window.addEventListener("scroll", handleScroll);
 });
 
@@ -40,7 +40,7 @@ function handleScroll() {
   if (isLoading || !hasMore) return;
 
   const scrollPosition = window.innerHeight + window.scrollY;
-  const bottomPosition = document.documentElement.offsetHeight - 100; // Buffer 100px before bottom
+  const bottomPosition = document.documentElement.offsetHeight - 100;
 
   if (scrollPosition >= bottomPosition) {
     loadCatalog(currentPage + 1, true);
@@ -56,11 +56,9 @@ function resetAndLoad() {
 function getFilterParams() {
   const params = new URLSearchParams();
 
-  // 1. Search
   const search = document.getElementById("sidebar-search")?.value.trim();
   if (search) params.append("search", search);
 
-  // 2. Sort
   const sort = document.getElementById("sortSelect")?.value;
   params.append(
     "sort",
@@ -73,7 +71,6 @@ function getFilterParams() {
       : "featured"
   );
 
-  // 3. Categories
   const checkedCats = document.querySelectorAll(
     ".catalog-sidebar-list input[type='checkbox']:checked"
   );
@@ -82,7 +79,6 @@ function getFilterParams() {
     params.append("category", selectedIds.join(","));
   }
 
-  // 4. Price
   const priceRadio = document.querySelector("input[name='price']:checked");
   if (priceRadio) {
     const label = priceRadio.parentElement.textContent.trim();
@@ -109,13 +105,9 @@ async function loadCatalog(page, append = false) {
 
   if (!grid) return;
 
-  // Show loading indicator if appending, or initial load placeholder
   if (!append) {
     grid.innerHTML = '<p class="loading-text">Memuat produk...</p>';
   } else {
-    // Optional: Add a small loading spinner at bottom if desired
-    // For now we rely on the user just waiting a moment or seeing the scrollbar stop
-    // Or we can append a loader element
     const loader = document.createElement("div");
     loader.id = "infinite-loader";
     loader.className = "col-span-full text-center py-4";
@@ -131,7 +123,6 @@ async function loadCatalog(page, append = false) {
     const response = await fetch("/api/products/get.php?" + params.toString());
     const result = await response.json();
 
-    // Remove temp loader if exists
     const tempLoader = document.getElementById("infinite-loader");
     if (tempLoader) tempLoader.remove();
 
@@ -139,19 +130,15 @@ async function loadCatalog(page, append = false) {
       const products = result.data.products || [];
       const pagination = result.data.pagination;
 
-      // Update state
       hasMore = pagination.current_page < pagination.total_pages;
 
       if (!append) {
-        // Replace content
         renderProducts(products, grid, false);
       } else {
-        // Append content
         renderProducts(products, grid, true);
       }
 
       if (topInfo && pagination) {
-        // Calculate total showing
         const showing = Math.min(
           pagination.total_items,
           pagination.current_page * pagination.limit

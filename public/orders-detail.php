@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/auth.php';
 requireCustomer();
-// Data fetching moved to client-side (assets/js/order-detail.js)
 require_once __DIR__ . '/../config/db.php';
 ?>
 <!DOCTYPE html>

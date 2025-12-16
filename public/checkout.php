@@ -348,12 +348,10 @@ requireCustomer();
     <script src="assets/js/script.js"></script>
     <script src="assets/js/cart_actions.js"></script>
     <script>
-      // Inject APP_URL from server-side to client-side
       <?php
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'];
         $scriptPath = dirname($_SERVER['SCRIPT_NAME']); 
-        // fallbackDynamicUrl points to the directory of checkout.php (public)
         $fallbackDynamicUrl = $protocol . $domainName . $scriptPath;
         
         $appUrl = getenv('APP_URL') ?: $fallbackDynamicUrl;
@@ -362,7 +360,6 @@ requireCustomer();
       const PAKASIR_SLUG = "<?php echo getenv('PAKASIR_SLUG') ?: 'bloomify'; ?>";
       const PAKASIR_API_URL = "<?php echo getenv('PAKASIR_API') ?: 'https://app.pakasir.com'; ?>";
     </script>
-    <!-- Checkout Logic -->
     <script src="assets/js/checkout.js"></script>
   </body>
 </html>

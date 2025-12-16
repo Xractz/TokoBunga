@@ -32,14 +32,12 @@ $maxPrice = isset($_GET['max_price']) ? intval($_GET['max_price']) : 0;
 $category = $_GET['category'] ?? '';
 $sort = $_GET['sort'] ?? 'newest';
 
-// Pagination Params
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 $page = max(1, $page);
 $limit = max(1, $limit);
 $offset = ($page - 1) * $limit;
 
-// Base Conditions
 $whereClauses = ["p.is_active = 1"];
 $params = [];
 $types = "";
@@ -83,7 +81,6 @@ if ($maxPrice > 0) {
 
 $whereBuf = implode(" AND ", $whereClauses);
 
-// 1. Count Total
 $sqlCount = "SELECT COUNT(*) as total FROM products p WHERE $whereBuf";
 $stmtCount = mysqli_prepare($conn, $sqlCount);
 if (!empty($params)) {
@@ -95,7 +92,6 @@ $rowCount = mysqli_fetch_assoc($resCount);
 $totalItems = $rowCount['total'];
 mysqli_stmt_close($stmtCount);
 
-// 2. Select Data
 $sql = "SELECT p.*, c.name as category_name 
         FROM products p 
         LEFT JOIN product_categories c ON p.category_id = c.id 

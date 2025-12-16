@@ -10,7 +10,6 @@ $showForm = false;
 if ($token === '') {
     $error = 'Token tidak valid.';
 } else {
-    // 1. Verify Token on Load (and before Post)
     $stmt = mysqli_prepare($conn, "SELECT id, reset_token_expires FROM users WHERE reset_token = ?");
     mysqli_stmt_bind_param($stmt, "s", $token);
     mysqli_stmt_execute($stmt);

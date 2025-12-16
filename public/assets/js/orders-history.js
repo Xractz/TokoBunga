@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentPage = 1;
   const perPage = 10;
 
-  // Initial load
   fetchOrders(currentPage);
 
   async function fetchOrders(page) {
@@ -46,7 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     cardsContainer.innerHTML = "";
 
     orders.forEach((order) => {
-      // Separate status maps
       const ORDER_STATUS_MAP = {
         pending: { color: "status-pending", label: "Menunggu Konfirmasi" },
         confirmed: { color: "status-success", label: "Dikonfirmasi" },
@@ -76,7 +74,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const totalStr = new Intl.NumberFormat("id-ID").format(order.grand_total);
       const detailUrl = `orders-detail.php?order_code=${order.order_code}`;
 
-      // 1. Table Row
       const tr = document.createElement("tr");
       tr.innerHTML = `
                 <td>#${escapeHtml(order.order_code)}</td>
@@ -96,7 +93,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
       listContainer.appendChild(tr);
 
-      // 2. Mobile Card
       const card = document.createElement("article");
       card.className = "order-card";
       card.innerHTML = `
@@ -143,7 +139,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // Previous button
     const prevBtn = document.createElement("button");
     prevBtn.className = "btn btn-secondary";
     prevBtn.innerHTML = '<i class="bi bi-chevron-left"></i> Previous';
@@ -151,7 +146,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     prevBtn.onclick = () => goToPage(current_page - 1);
     paginationContainer.appendChild(prevBtn);
 
-    // Page numbers
     const pageNumbers = document.createElement("div");
     pageNumbers.className = "pagination-numbers";
 
@@ -184,7 +178,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     paginationContainer.appendChild(pageNumbers);
 
-    // Next button
     const nextBtn = document.createElement("button");
     nextBtn.className = "btn btn-secondary";
     nextBtn.innerHTML = 'Next <i class="bi bi-chevron-right"></i>';

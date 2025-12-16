@@ -2,10 +2,8 @@
 require_once __DIR__ . '/../../api/middleware/is_admin.php';
 require_once __DIR__ . '/../../api/helpers/flash.php';
 
-// Get admin data
 $adminName = $_SESSION['name'] ?? 'Admin';
 
-// Get flash messages
 $error = flash('error');
 $success = flash('success');
 ?>

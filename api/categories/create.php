@@ -7,7 +7,6 @@ require_once __DIR__ . "/../helpers/slug.php";
 
 global $conn;
 
-// Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondJson(405, false, 'Method not allowed. Use POST.');
 }

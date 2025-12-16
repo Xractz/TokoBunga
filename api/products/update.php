@@ -75,7 +75,6 @@ if (mysqli_stmt_num_rows($stmt2) > 0) {
 }
 mysqli_stmt_close($stmt2);
 
-// Handle Image Upload
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['image']['tmp_name'];
     $fileName    = $_FILES['image']['name'];
